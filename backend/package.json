@@ -1,0 +1,47 @@
+{
+  "name": "flashcards-app-backend",
+  "version": "1.0.0",
+  "description": "Backend for the flashcard-app. Basic server with Rest API for the resources User, Deck, Card and Label.",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc-watch --outDir ./dist --onSuccess \"node ./dist/index.js\"",
+    "build": "tsc -b .",
+    "lint": "eslint \"src/**/*.{js,jsx,ts,tsx,json}\" --parser-options={tsconfigRootDir:null}",
+    "lint-fix": "eslint --fix \"src/**/*.{js,jsx,ts,tsx,json}\" --parser-options={tsconfigRootDir:null}",
+    "prettier": "prettier --check \"src/**/*.{js,jsx,ts,tsx,json}\"",
+    "prettier-fix": "prettier --write \"src/**/*.{js,jsx,ts,tsx,json}\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alvarosutter/flashcards-app.git"
+  },
+  "author": "Alvaro Sutter",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/alvarosutter/flashcards-app/issues"
+  },
+  "homepage": "https://github.com/alvarosutter/flashcards-app#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2",
+    "morgan": "^1.10.0",
+    "reflect-metadata": "^0.1.13",
+    "typescript": "^4.9.5"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/morgan": "^1.9.4",
+    "@types/node": "^18.13.0",
+    "@typescript-eslint/eslint-plugin": "^5.51.0",
+    "@typescript-eslint/parser": "^5.51.0",
+    "eslint": "^8.33.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.0.0",
+    "eslint-config-prettier": "^8.6.0",
+    "eslint-plugin-import": "^2.27.5",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.4",
+    "tsc-watch": "^6.0.0"
+  }
+}
