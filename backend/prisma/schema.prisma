@@ -1,0 +1,72 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Card {
+  cardId       String          @id @default(uuid()) @db.Uuid
+  createdAt    DateTime        @default(now()) @db.Timestamp(6)
+  updatedAt    DateTime        @updatedAt @db.Timestamp(6)
+  cardName     String          @db.VarChar(255)
+  content      String
+  deckId       String          @db.Uuid
+  userId       String          @db.Uuid
+  deck         Deck            @relation(fields: [deckId], references: [deckId], onDelete: Cascade, onUpdate: NoAction)
+  user         User            @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction)
+  labels       LabelsOnCards[]
+
+  @@unique(fields: [userId, cardId], name: "userId_cardId")
+  @@unique(fields: [userId, cardName], name: "card_name")
+}
+
+model Deck {
+  deckId    String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @updatedAt @db.Timestamp(6)
+  deckName  String   @db.VarChar(255)
+  archived  Boolean  @default(false)
+  userId    String   @db.Uuid
+  user      User     @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction)
+  cards     Card[]
+
+  @@unique(fields: [userId, deckId], name: "userId_deckId")
+  @@unique(fields: [userId, deckName], name: "deck_name")
+}
+
+model Label {
+  labelId   String          @id @default(uuid()) @db.Uuid
+  createdAt DateTime        @default(now()) @db.Timestamp(6)
+  updatedAt DateTime        @updatedAt @db.Timestamp(6)
+  labelName String          @db.VarChar(255)
+  userId    String          @db.Uuid
+  user      User            @relation(fields: [userId], references: [userId], onDelete: Cascade, onUpdate: NoAction)
+  cards     LabelsOnCards[]
+
+  @@unique(fields: [userId, labelId], name: "userId_labelId")
+  @@unique(fields: [userId, labelName], name: "label_name")
+}
+
+model User {
+  userId    String   @id @default(uuid()) @db.Uuid
+  createdAt DateTime @default(now()) @db.Timestamp(6)
+  updatedAt DateTime @updatedAt @db.Timestamp(6)
+  userName  String   @db.VarChar(255)
+  email     String   @unique @db.VarChar(255)
+  password  String
+  cards     Card[]
+  decks     Deck[]
+  labels    Label[]
+}
+
+model LabelsOnCards {
+  card    Card   @relation(fields: [cardId], references: [cardId], onDelete: Cascade)
+  cardId  String @db.Uuid
+  label   Label  @relation(fields: [labelId], references: [labelId], onDelete: Cascade)
+  labelId String @db.Uuid
+
+  @@id([cardId, labelId])
+}

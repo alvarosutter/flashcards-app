@@ -23,7 +23,7 @@ services:
       - DB_NAME=flashcards
       - DB_HOST=db
       - PORT=4000
-      - DATABASE_URL="postgresql://prisma:prisma@backend:5432/flashcards"
+      - DATABASE_URL="postgresql://admin:pass@localhost:5432/flashcards?schema=public"
     working_dir: /var/app/backend
     ports:
       - '4000:4000'

@@ -63,5 +63,5 @@
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
   "include": ["./src/**/*", ".eslintrc.json"],
-  "exclude": ["dist", "node_modules"]
+  "exclude": ["dist", "prisma", "node_modules"]
 }
