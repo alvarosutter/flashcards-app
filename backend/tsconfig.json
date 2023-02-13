@@ -62,6 +62,6 @@
     /* Completeness */
     "skipLibCheck": true /* Skip type checking all .d.ts files. */
   },
-  "include": ["./src/**/*", ".eslintrc.json"],
+  "include": ["./src/**/*", ".eslintrc.js"],
   "exclude": ["dist", "prisma", "node_modules"]
 }
