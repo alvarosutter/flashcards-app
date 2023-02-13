@@ -9,6 +9,7 @@ const startServer = async () => {
     origin: '*',
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type', 'authorization'],
+    credentials: true,
   };
 
   try {
