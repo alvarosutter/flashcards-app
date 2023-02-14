@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.9'
 services:
   db:
     container_name: db
@@ -23,7 +23,6 @@ services:
       - DB_NAME=flashcards
       - DB_HOST=db
       - PORT=4000
-      - DATABASE_URL="postgresql://admin:pass@localhost:5432/flashcards?schema=public"
     working_dir: /var/app/backend
     ports:
       - '4000:4000'
