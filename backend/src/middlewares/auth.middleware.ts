@@ -43,15 +43,15 @@ export const verifyToken = async (token: string): Promise<string | jwt.Jwt | jwt
 };
 
 /**
- * Checks if the user exist and is authorized.
+ * Checks if the user exist and if his authentication is valid.
  */
 export const authentication = async (req: Request, res: Response, next: NextFunction) => {
   try {
-    const token = req.get('Authorization')?.replace('Bearer ', '');
+    const token: string | undefined = req.headers.cookie?.slice(10);
     if (!token) {
-      return res.status(401).send({
+      return res.status(403).send({
         status: 'failure',
-        message: 'invalid token',
+        message: 'a token is required',
       });
     }
 

@@ -1,0 +1,105 @@
+{
+	"info": {
+		"_postman_id": "636be3e4-441e-4fae-aad7-4ed46f06c098",
+		"name": "Flashcards",
+		"description": "**Flashcards-App: Test for all API routes.**\n\n- Tests for the User Route: Register, Login.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "17265695"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userName\": \"guest\",\r\n    \"email\": \"guest@email.com\",\r\n    \"password\": \"pass\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/v1/users/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"guest@email.com\",\r\n    \"password\": \"pass\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/v1/users/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"users",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Test User Auth (Add Header with Cookie)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "sessionId=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0ODg1NWFhYS1jZWNjLTQyNWQtYjJiNy1iZWMyZTI5Y2QyYTMiLCJpYXQiOjE2NzYzNjkyMTEsImV4cCI6MTY3Njk3NDAxMX0.CfriCgi1dSxKYLVe9JtAzWSt-HcK8pJuIcSPe3Mzu3s_L2v6te66JCsWKJD9ml2Vg_5xC-iEovG9pmYZIPOAIezHfmNRyYqJsxStqrm3ZJ9AcAJ_KsWobp47-8K_LMKqqqhXtJkm2P-4bci_AR5-k6No6C9zPHeV675RNOic7ZZuzmlsefs6YBJUu37zTacqmp9D3LxSxoS-zg2TTKpPooP3_DKcOxIz8lsM3zBqfHo1X9jsX335VzjffXSWYq88T0x-fHlceLajOVKB2ie3p1oMf2G7TiIo5PsS_tZlCKarUaWJhAFxWpZGOYwMGbt3MUzIf86FgqxvMhlWkNsSPQ",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:4000/api/v1/test",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"test"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
