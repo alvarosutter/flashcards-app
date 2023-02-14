@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "636be3e4-441e-4fae-aad7-4ed46f06c098",
 		"name": "Flashcards",
-		"description": "**Flashcards-App: Test for all API routes.**\n\n- Tests for the User Route: Register, Login.",
+		"description": "# Flashcards-App\n\nTests for all API routes of the Flashcards-App backend.\n\n## Setup\n\n1. Before Testing, register a new user or login with an existent one.\n2. Copy the cookie and paste as the value in the Authorization section in the project folder.\n    \n\n## Test List\n\n- User:\n    - StartFragmentRegister: /api/v1/users/register\n    - Login: /api/v1/users/login\n- Deck:\n    - Create: /api/v1/decks/\n    - Get All: /api/v1/decks/\n    - Get One: /api/v1/decks/:deckId\n    - Get Cards: /api/v1/decks/:deckId/cards\n    - Update One: /api/v1/decks/:deckId\n    - Delete: /api/v1/decks/:deckId",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "17265695"
 	},
@@ -13,6 +13,9 @@
 				{
 					"name": "Register User",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -44,6 +47,9 @@
 				{
 					"name": "Login User",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "POST",
 						"header": [],
 						"body": {
@@ -71,20 +77,28 @@
 						}
 					},
 					"response": []
-				},
+				}
+			]
+		},
+		{
+			"name": "Deck",
+			"item": [
 				{
-					"name": "Test User Auth (Add Header with Cookie)",
+					"name": "Create Deck",
 					"request": {
-						"method": "GET",
-						"header": [
-							{
-								"key": "Cookie",
-								"value": "sessionId=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0ODg1NWFhYS1jZWNjLTQyNWQtYjJiNy1iZWMyZTI5Y2QyYTMiLCJpYXQiOjE2NzYzNjkyMTEsImV4cCI6MTY3Njk3NDAxMX0.CfriCgi1dSxKYLVe9JtAzWSt-HcK8pJuIcSPe3Mzu3s_L2v6te66JCsWKJD9ml2Vg_5xC-iEovG9pmYZIPOAIezHfmNRyYqJsxStqrm3ZJ9AcAJ_KsWobp47-8K_LMKqqqhXtJkm2P-4bci_AR5-k6No6C9zPHeV675RNOic7ZZuzmlsefs6YBJUu37zTacqmp9D3LxSxoS-zg2TTKpPooP3_DKcOxIz8lsM3zBqfHo1X9jsX335VzjffXSWYq88T0x-fHlceLajOVKB2ie3p1oMf2G7TiIo5PsS_tZlCKarUaWJhAFxWpZGOYwMGbt3MUzIf86FgqxvMhlWkNsSPQ",
-								"type": "text"
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"deckName\": \"Web Dev\",\r\n    \"archived\": true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
 							}
-						],
+						},
 						"url": {
-							"raw": "http://localhost:4000/api/v1/test",
+							"raw": "http://localhost:4000/api/v1/decks/",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -93,13 +107,177 @@
 							"path": [
 								"api",
 								"v1",
-								"test"
+								"decks",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Decks",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/v1/decks/",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"decks",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Deck",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/v1/decks/6537de66-6f3e-4ee5-94fc-c7eb5fd5f36a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"decks",
+								"6537de66-6f3e-4ee5-94fc-c7eb5fd5f36a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Deck Cards",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:4000/api/v1/decks/6537de66-6f3e-4ee5-94fc-c7eb5fd5f36a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"decks",
+								"6537de66-6f3e-4ee5-94fc-c7eb5fd5f36a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Patch Deck",
+					"request": {
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"archived\": false\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/v1/decks/6537de66-6f3e-4ee5-94fc-c7eb5fd5f36a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"decks",
+								"6537de66-6f3e-4ee5-94fc-c7eb5fd5f36a"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Deck",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:4000/api/v1/decks/6537de66-6f3e-4ee5-94fc-c7eb5fd5f36a",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "4000",
+							"path": [
+								"api",
+								"v1",
+								"decks",
+								"6537de66-6f3e-4ee5-94fc-c7eb5fd5f36a"
 							]
 						}
 					},
 					"response": []
 				}
 			]
+		}
+	],
+	"auth": {
+		"type": "apikey",
+		"apikey": [
+			{
+				"key": "key",
+				"value": "Cookie",
+				"type": "string"
+			},
+			{
+				"key": "value",
+				"value": "sessionId=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0ODg1NWFhYS1jZWNjLTQyNWQtYjJiNy1iZWMyZTI5Y2QyYTMiLCJpYXQiOjE2NzYzODgwNzAsImV4cCI6MTY3Njk5Mjg3MH0.PnEBgx52S0AFz1i5ATznMidZWpvWY8IdY_2Ed-p703RlcxpCOqZpJvlPZ9TS76pL-0meJpV8JTV4LPhmjYCKq5iZDfEI7TQ4ab-_WoP23p0qgrcTweBB5gnsannzwAyV-6iT0hN_Tc7VR7T-lXr7DPdyIjBU-L9XNCCN3siMbGtWt2Qw2G6Wf7MLzNKlmEwzqcHcTXcNKBJzxdWX0JkYS3EnBfDfsM2OdUfffmk4XHOxryDY1NnxQxw-ny3qzuwkAaDty3BBkRVvrMQVfGh8eLAxQ0ELNVv8iqUyt5QrmIDfBlq6eepStzJCz2_rm_nfr5aAJSmHP9GGVCqPitGEjA",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
 		}
 	]
 }
