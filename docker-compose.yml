@@ -29,3 +29,13 @@ services:
     command: npm start
     volumes:
       - ./backend:/var/app/backend
+
+  frontend:
+    container_name: frontend
+    image: node:latest
+    working_dir: /var/app/frontend
+    ports:
+      - '3000:3000'
+    command: npm start
+    volumes:
+      - ./frontend:/var/app/frontend

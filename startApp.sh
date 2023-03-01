@@ -1,6 +1,7 @@
 #!/bin/sh
 # Install Node Modules
 docker-compose run --rm backend npm install
+docker-compose run --rm frontend npm install
 # Start Containers
 docker-compose up -d
 # Create .env file
