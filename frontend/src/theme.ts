@@ -23,7 +23,7 @@ export const darkTheme: DefaultTheme = {
   fonts: {
     headersFont: 'Poppins',
     textFont: 'Roboto',
-    altFont: 'Lato',
+    altFont: 'Work Sans',
     btnFont: 'Poppins',
   },
   fontSizes: {
@@ -69,7 +69,7 @@ export const lightTheme: DefaultTheme = {
   fonts: {
     headersFont: 'Poppins',
     textFont: 'Roboto',
-    altFont: 'Lato',
+    altFont: 'Work Sans',
     btnFont: 'Poppins',
   },
   fontSizes: {

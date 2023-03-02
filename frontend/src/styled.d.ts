@@ -24,7 +24,7 @@ declare module 'styled-components' {
     fonts: {
       headersFont: 'Poppins';
       textFont: 'Roboto';
-      altFont: 'Lato';
+      altFont: 'Work Sans';
       btnFont: 'Poppins';
     };
     fontSizes: {

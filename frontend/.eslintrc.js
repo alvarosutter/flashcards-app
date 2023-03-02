@@ -24,5 +24,13 @@ module.exports = {
     'no-console': 'warn',
     'prettier/prettier': 'error',
     'react/react-in-jsx-scope': 'off',
+    '@typescript-eslint/no-unused-vars': 'error',
+    'react/require-default-props': [
+      'error',
+      {
+        functions: 'ignore',
+      },
+    ],
+    'react-hooks/exhaustive-deps': 'off',
   },
 };

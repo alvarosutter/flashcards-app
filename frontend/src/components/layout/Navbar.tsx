@@ -1,0 +1,98 @@
+import styled from 'styled-components';
+
+const Nav = styled.nav`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: fit-content;
+  height: fit-content;
+  margin: 0;
+  padding: 0;
+`;
+
+const NavList = styled.ul`
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  align-content: center;
+  gap: 13px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+`;
+
+const NavLink = styled.li`
+  color: ${({ theme }) => theme.colors.altText};
+  font-family: ${({ theme }) => theme.fonts.altFont}, sans-serif;
+  font-size: ${({ theme }) => theme.fontSizes.xsmall};
+  font-weight: ${({ theme }) => theme.fontWeights.light};
+  letter-spacing: 0.05rem;
+  margin: 0;
+  padding: 0;
+  height: min-content;
+  &:hover {
+    cursor: pointer;
+    filter: brightness(1.5);
+  }
+`;
+
+const DarkModeButton = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }) => theme.colors.primaryText};
+  background: none;
+  &:hover {
+    cursor: pointer;
+    filter: brightness(1.5);
+  }
+`;
+
+const LogOutButton = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: ${({ theme }) => theme.colors.primaryText};
+  background: none;
+  &:hover {
+    cursor: pointer;
+    color: ${({ theme }) => theme.colors.danger};
+  }
+`;
+
+interface NavbarProps {
+  setMode: (darkMode: boolean) => void;
+  darkMode: boolean;
+}
+
+function Navbar({ setMode, darkMode }: NavbarProps) {
+  return (
+    <Nav>
+      <NavList>
+        <NavLink>decks</NavLink>
+        <NavLink>labels</NavLink>
+        <DarkModeButton onClick={() => setMode(!darkMode)}>
+          {darkMode ? (
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M12 8a4 4 0 1 1-8 0 4 4 0 0 1 8 0zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z" />
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+              <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z" />
+            </svg>
+          )}
+        </DarkModeButton>
+        <LogOutButton>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M7.5 1v7h1V1h-1z" />
+            <path d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z" />
+          </svg>
+        </LogOutButton>
+      </NavList>
+    </Nav>
+  );
+}
+
+export default Navbar;
