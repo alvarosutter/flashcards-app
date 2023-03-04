@@ -9,6 +9,7 @@ import { getDecks } from '../../services/Flashcards/deck.services';
 import { Deck, sortOptions } from '../../services/Flashcards/flashcardsUtils';
 import AddDeckForm from './Components/AddDeckForm';
 import DeckGallery from './Components/DeckGallery';
+import DeleteDeckForm from './Components/DeleteDeckForm';
 import EditDeckForm from './Components/EditDeckForm';
 
 function DeckPage() {
@@ -107,7 +108,25 @@ function DeckPage() {
               }}
             />
           </Modal>
-          <p>{deleteDeck?.deckName}</p>
+          <Modal
+            title="Delete Deck"
+            isOpen={!!deleteDeck}
+            onCancel={() => {
+              setDeleteDeck(null);
+            }}
+          >
+            <DeleteDeckForm
+              onSubmitForm={() => {
+                setDeleteDeck(null);
+                fetchDecks();
+              }}
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              deck={deleteDeck!}
+              onCancel={() => {
+                setDeleteDeck(null);
+              }}
+            />
+          </Modal>
         </>
       )}
     </>
