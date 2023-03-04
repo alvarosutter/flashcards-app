@@ -6,7 +6,7 @@ import globalRouter from './routers/global.router';
 
 const startServer = async () => {
   const corsOpts = {
-    origin: ['http://127.0.0.1:3000'],
+    origin: '*',
     methods: ['GET', 'POST', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type'],
   };

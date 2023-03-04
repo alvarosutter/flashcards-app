@@ -7,10 +7,11 @@ import Navbar from './Navbar';
 
 const Main = styled.main`
   display: flex;
+  flex-direction: column;
   min-height: calc(100vh);
-  max-width: 90%;
+  max-width: 95%;
   margin: auto;
-  padding: 10px 25px;
+  padding: 10px 10px;
 `;
 interface LayoutProps {
   children: React.ReactNode | React.ReactNode[];

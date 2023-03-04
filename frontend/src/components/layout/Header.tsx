@@ -12,6 +12,11 @@ const HeaderStyle = styled.header`
   margin: 0;
   padding: 2px 15px;
   user-select: none;
+  @media (max-width: 350px) {
+    flex-direction: column;
+    gap: 5px;
+    padding: 2px 0px 10px;
+  }
 `;
 
 interface HeaderProps {

@@ -46,12 +46,12 @@ const DarkModeButton = styled.div`
   justify-content: center;
   color: ${({ theme }) => theme.colors.primaryText};
   background: none;
+  margin-inline-start: 10px;
+  margin-inline-end: 5px;
   &:hover {
     cursor: pointer;
     filter: brightness(1.5);
   }
-  margin-inline-start: 10px;
-  margin-inline-end: 5px;
 `;
 
 interface NavbarProps {
