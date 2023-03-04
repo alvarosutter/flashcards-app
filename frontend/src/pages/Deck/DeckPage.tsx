@@ -1,11 +1,13 @@
 import { useEffect, useState } from 'react';
 import DashboardBar from '../../components/ui/DashboardBar';
+import Modal from '../../components/ui/Modal';
 import { Option } from '../../components/ui/Select';
 import useArray from '../../hooks/useArray';
 import useLoader from '../../hooks/useLoader';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { getDecks } from '../../services/Flashcards/deck.services';
 import { Deck, sortOptions } from '../../services/Flashcards/flashcardsUtils';
+import AddDeckForm from './Components/AddDeckForm';
 import DeckGallery from './Components/DeckGallery';
 
 function DeckPage() {
@@ -71,7 +73,20 @@ function DeckPage() {
             setDeleteDeck={setDeleteDeck}
             setSelectedDeck={setSelectedDeck}
           />
-          <p>{addDeckVisible}</p>
+          <Modal
+            title="Add Deck"
+            isOpen={addDeckVisible}
+            onCancel={() => {
+              setAddDeckVisible(false);
+            }}
+          >
+            <AddDeckForm
+              onSubmitForm={() => {
+                setAddDeckVisible(false);
+                fetchDecks();
+              }}
+            />
+          </Modal>
           <p>{editDeck?.deckName}</p>
           <p>{deleteDeck?.deckName}</p>
         </>
