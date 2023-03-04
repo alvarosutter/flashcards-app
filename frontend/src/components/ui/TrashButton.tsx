@@ -9,9 +9,12 @@ const Button = styled.button`
   background: none;
   border: none;
   padding: 3px 4px;
+  font-family: ${({ theme }) => theme.fonts.btnFont};
+  font-size: ${({ theme }) => theme.fontSizes.small};
+  font-weight: ${({ theme }) => theme.fontWeights.normal};
   &:hover {
     cursor: pointer;
-    color: ${({ theme }) => theme.colors.primaryText};
+    color: ${({ theme }) => theme.colors.danger};
   }
 `;
 

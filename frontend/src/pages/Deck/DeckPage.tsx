@@ -9,6 +9,7 @@ import { getDecks } from '../../services/Flashcards/deck.services';
 import { Deck, sortOptions } from '../../services/Flashcards/flashcardsUtils';
 import AddDeckForm from './Components/AddDeckForm';
 import DeckGallery from './Components/DeckGallery';
+import EditDeckForm from './Components/EditDeckForm';
 
 function DeckPage() {
   const [sortValue, setSortValue] = useLocalStorage('deck-sort', {
@@ -87,7 +88,25 @@ function DeckPage() {
               }}
             />
           </Modal>
-          <p>{editDeck?.deckName}</p>
+          <Modal
+            title="Edit Deck"
+            isOpen={!!editDeck}
+            onCancel={() => {
+              setEditDeck(null);
+            }}
+          >
+            <EditDeckForm
+              onSubmitForm={() => {
+                setEditDeck(null);
+                fetchDecks();
+              }}
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              deck={editDeck!}
+              onCancel={() => {
+                setEditDeck(null);
+              }}
+            />
+          </Modal>
           <p>{deleteDeck?.deckName}</p>
         </>
       )}

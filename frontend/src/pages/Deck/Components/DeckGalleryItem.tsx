@@ -14,7 +14,8 @@ const Box = styled.div`
   height: 200px;
   margin: 15px 15px;
   &:hover {
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, ${({ theme }) => theme.colors.primary} 0px 0px 0px 3px;
+    filter: brightness(1.2);
+    transform: scale(0.99);
     cursor: pointer;
   }
 `;
@@ -33,8 +34,9 @@ const Name = styled.p`
   color: ${({ theme }) => theme.colors.primaryText};
   text-align: center;
   letter-spacing: 0.1em;
-  font-family: ${(props) => props.theme.fonts.headersFont}, sans-serif;
-  font-weight: 300;
+  font-family: ${({ theme }) => theme.fonts.headersFont};
+  font-size: ${({ theme }) => theme.fontSizes.small};
+  font-weight: ${({ theme }) => theme.fontWeights.normal};
   inline-size: 150px;
   overflow-wrap: break-word;
   overflow: auto;
@@ -51,8 +53,10 @@ const DeckInfo = styled.div`
   justify-content: center;
   align-items: center;
   color: ${({ theme }) => theme.colors.altText};
+  font-family: ${({ theme }) => theme.fonts.textFont};
+  font-size: ${({ theme }) => theme.fontSizes.xsmall};
+  font-weight: ${({ theme }) => theme.fontWeights.light};
   padding: 2px 5px;
-  font-size: 0.7em;
   user-select: none;
 `;
 
