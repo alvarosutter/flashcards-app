@@ -14,17 +14,16 @@ const Main = styled.main`
 `;
 interface LayoutProps {
   children: React.ReactNode | React.ReactNode[];
-  showNav: boolean;
   setMode: (darkMode: boolean) => void;
   darkMode: boolean;
 }
 
-function Layout({ children, showNav, setMode, darkMode }: LayoutProps) {
+function Layout({ children, setMode, darkMode }: LayoutProps) {
   return (
     <>
       <Header>
         <Logo />
-        {showNav && <Navbar setMode={setMode} darkMode={darkMode} />}
+        <Navbar setMode={setMode} darkMode={darkMode} />
       </Header>
       <Main>{children}</Main>
       <Footer />

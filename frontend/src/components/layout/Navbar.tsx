@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const Nav = styled.nav`
@@ -23,12 +24,13 @@ const NavList = styled.ul`
   margin: 0;
 `;
 
-const NavLink = styled.li`
+const NavLink = styled(Link)`
   color: ${({ theme }) => theme.colors.altText};
   font-family: ${({ theme }) => theme.fonts.altFont}, sans-serif;
   font-size: ${({ theme }) => theme.fontSizes.xsmall};
   font-weight: ${({ theme }) => theme.fontWeights.light};
   letter-spacing: 0.05rem;
+  text-decoration: none;
   margin: 0;
   padding: 0;
   height: min-content;
@@ -48,18 +50,8 @@ const DarkModeButton = styled.div`
     cursor: pointer;
     filter: brightness(1.5);
   }
-`;
-
-const LogOutButton = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: ${({ theme }) => theme.colors.primaryText};
-  background: none;
-  &:hover {
-    cursor: pointer;
-    color: ${({ theme }) => theme.colors.danger};
-  }
+  margin-inline-start: 10px;
+  margin-inline-end: 5px;
 `;
 
 interface NavbarProps {
@@ -71,8 +63,8 @@ function Navbar({ setMode, darkMode }: NavbarProps) {
   return (
     <Nav>
       <NavList>
-        <NavLink>decks</NavLink>
-        <NavLink>labels</NavLink>
+        <NavLink to="/decks">decks</NavLink>
+        <NavLink to="/labels">labels</NavLink>
         <DarkModeButton onClick={() => setMode(!darkMode)}>
           {darkMode ? (
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
@@ -84,12 +76,6 @@ function Navbar({ setMode, darkMode }: NavbarProps) {
             </svg>
           )}
         </DarkModeButton>
-        <LogOutButton>
-          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M7.5 1v7h1V1h-1z" />
-            <path d="M3 8.812a4.999 4.999 0 0 1 2.578-4.375l-.485-.874A6 6 0 1 0 11 3.616l-.501.865A5 5 0 1 1 3 8.812z" />
-          </svg>
-        </LogOutButton>
       </NavList>
     </Nav>
   );
