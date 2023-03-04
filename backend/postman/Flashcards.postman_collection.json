@@ -8,79 +8,6 @@
 	},
 	"item": [
 		{
-			"name": "User",
-			"item": [
-				{
-					"name": "Register User",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"userName\": \"guest\",\r\n    \"email\": \"guest@email.com\",\r\n    \"password\": \"pass\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:4000/api/v1/users/register",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "4000",
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"register"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "Login User",
-					"request": {
-						"auth": {
-							"type": "noauth"
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"email\": \"guest@email.com\",\r\n    \"password\": \"pass\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "http://localhost:4000/api/v1/users/login",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "4000",
-							"path": [
-								"api",
-								"v1",
-								"users",
-								"login"
-							]
-						}
-					},
-					"response": []
-				}
-			]
-		},
-		{
 			"name": "Deck",
 			"item": [
 				{
@@ -90,7 +17,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"deckName\": \"Web Dev\",\r\n    \"archived\": true\r\n}",
+							"raw": "{\r\n    \"deckName\": \"Web Dev 2\",\r\n    \"archived\": true\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -142,7 +69,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/v1/decks/88201437-e716-4794-a0a0-d960c0b24fd8",
+							"raw": "http://localhost:4000/api/v1/decks/b174b7a8-4f64-4b8b-92c2-34d3ca9a7fba",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -152,7 +79,7 @@
 								"api",
 								"v1",
 								"decks",
-								"88201437-e716-4794-a0a0-d960c0b24fd8"
+								"b174b7a8-4f64-4b8b-92c2-34d3ca9a7fba"
 							]
 						}
 					},
@@ -164,7 +91,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:4000/api/v1/decks/88201437-e716-4794-a0a0-d960c0b24fd8/cards",
+							"raw": "http://localhost:4000/api/v1/decks/b174b7a8-4f64-4b8b-92c2-34d3ca9a7fba/cards",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -174,7 +101,7 @@
 								"api",
 								"v1",
 								"decks",
-								"88201437-e716-4794-a0a0-d960c0b24fd8",
+								"b174b7a8-4f64-4b8b-92c2-34d3ca9a7fba",
 								"cards"
 							]
 						}
@@ -196,7 +123,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:4000/api/v1/decks/6537de66-6f3e-4ee5-94fc-c7eb5fd5f36a",
+							"raw": "http://localhost:4000/api/v1/decks/b174b7a8-4f64-4b8b-92c2-34d3ca9a7fba",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -206,7 +133,7 @@
 								"api",
 								"v1",
 								"decks",
-								"6537de66-6f3e-4ee5-94fc-c7eb5fd5f36a"
+								"b174b7a8-4f64-4b8b-92c2-34d3ca9a7fba"
 							]
 						}
 					},
@@ -411,7 +338,7 @@
 			]
 		},
 		{
-			"name": "Card Copy",
+			"name": "Card",
 			"item": [
 				{
 					"name": "Create Card",
@@ -420,7 +347,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"cardName\": \"Lorem\",\r\n    \"content\": \"Lorem ipsum dolor sit amet sed euismod justo vulputate amet accusam sit tincidunt duis amet nonumy. Gubergren facilisi labore est sed aliquyam sanctus ea sit ut at eu. Ut sed et tempor eirmod te sadipscing sea consequat diam sed magna sanctus voluptua dolor dolor et exerci.\",\r\n    \"deckId\": \"88201437-e716-4794-a0a0-d960c0b24fd8\",\r\n    \"labels\": []\r\n}",
+							"raw": "{\r\n    \"cardName\": \"Lorem\",\r\n    \"content\": \"Lorem ipsum dolor sit amet sed euismod justo vulputate amet accusam sit tincidunt duis amet nonumy. Gubergren facilisi labore est sed aliquyam sanctus ea sit ut at eu. Ut sed et tempor eirmod te sadipscing sea consequat diam sed magna sanctus voluptua dolor dolor et exerci.\",\r\n    \"deckId\": \"b174b7a8-4f64-4b8b-92c2-34d3ca9a7fba\",\r\n    \"labels\": [\"newLabel\", \"myLabel\"]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -567,21 +494,6 @@
 			]
 		}
 	],
-	"auth": {
-		"type": "apikey",
-		"apikey": [
-			{
-				"key": "key",
-				"value": "Cookie",
-				"type": "string"
-			},
-			{
-				"key": "value",
-				"value": "sessionId=eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI0ODg1NWFhYS1jZWNjLTQyNWQtYjJiNy1iZWMyZTI5Y2QyYTMiLCJpYXQiOjE2NzYzODgwNzAsImV4cCI6MTY3Njk5Mjg3MH0.PnEBgx52S0AFz1i5ATznMidZWpvWY8IdY_2Ed-p703RlcxpCOqZpJvlPZ9TS76pL-0meJpV8JTV4LPhmjYCKq5iZDfEI7TQ4ab-_WoP23p0qgrcTweBB5gnsannzwAyV-6iT0hN_Tc7VR7T-lXr7DPdyIjBU-L9XNCCN3siMbGtWt2Qw2G6Wf7MLzNKlmEwzqcHcTXcNKBJzxdWX0JkYS3EnBfDfsM2OdUfffmk4XHOxryDY1NnxQxw-ny3qzuwkAaDty3BBkRVvrMQVfGh8eLAxQ0ELNVv8iqUyt5QrmIDfBlq6eepStzJCz2_rm_nfr5aAJSmHP9GGVCqPitGEjA",
-				"type": "string"
-			}
-		]
-	},
 	"event": [
 		{
 			"listen": "prerequest",

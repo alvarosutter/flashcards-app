@@ -7,13 +7,11 @@ const prisma = new PrismaClient();
 export const createDeck = async (req: Request, res: Response) => {
   try {
     const { deckName, archived } = req.body;
-    const { userId } = req.token!;
 
     const newDeck = await prisma.deck.create({
       data: {
         deckName,
         archived,
-        userId,
       },
     });
 
@@ -30,11 +28,9 @@ export const createDeck = async (req: Request, res: Response) => {
   }
 };
 
-export const getDecks = async (req: Request, res: Response) => {
+export const getDecks = async (_: Request, res: Response) => {
   try {
-    const { userId } = req.token!;
     const decks = await prisma.deck.findMany({
-      where: { userId },
       include: { cards: { include: { labels: { select: { label: true } } } } },
     });
 
@@ -58,14 +54,10 @@ export const getDecks = async (req: Request, res: Response) => {
 export const getDeck = async (req: Request, res: Response) => {
   try {
     const { deckId } = req.params;
-    const { userId } = req.token!;
 
     const deck = await prisma.deck.findUniqueOrThrow({
       where: {
-        userId_deckId: {
-          userId,
-          deckId,
-        },
+        deckId,
       },
       include: { cards: { include: { labels: { select: { label: true } } } } },
     });
@@ -89,14 +81,10 @@ export const getDeck = async (req: Request, res: Response) => {
 export const getDeckCards = async (req: Request, res: Response) => {
   try {
     const { deckId } = req.params;
-    const { userId } = req.token!;
 
     const deck = await prisma.deck.findUniqueOrThrow({
       where: {
-        userId_deckId: {
-          userId,
-          deckId,
-        },
+        deckId,
       },
       include: { cards: { include: { labels: { select: { label: true } } } } },
     });
@@ -119,14 +107,10 @@ export const patchDeck = async (req: Request, res: Response) => {
   try {
     const { deckId } = req.params;
     const { deckName, archived } = req.body;
-    const { userId } = req.token!;
 
     const deck = await prisma.deck.update({
       where: {
-        userId_deckId: {
-          userId,
-          deckId,
-        },
+        deckId,
       },
       include: { cards: { include: { labels: { select: { label: true } } } } },
       data: {
@@ -154,14 +138,10 @@ export const patchDeck = async (req: Request, res: Response) => {
 export const deleteDeck = async (req: Request, res: Response) => {
   try {
     const { deckId } = req.params;
-    const { userId } = req.token!;
 
     await prisma.deck.delete({
       where: {
-        userId_deckId: {
-          userId,
-          deckId,
-        },
+        deckId,
       },
     });
 

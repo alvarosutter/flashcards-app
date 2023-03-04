@@ -7,12 +7,10 @@ const prisma = new PrismaClient();
 export const createLabel = async (req: Request, res: Response) => {
   try {
     const { labelName } = req.body;
-    const { userId } = req.token!;
 
     const newLabel = await prisma.label.create({
       data: {
         labelName,
-        userId,
       },
     });
 
@@ -29,11 +27,9 @@ export const createLabel = async (req: Request, res: Response) => {
   }
 };
 
-export const getLabels = async (req: Request, res: Response) => {
+export const getLabels = async (_: Request, res: Response) => {
   try {
-    const { userId } = req.token!;
     const labels = await prisma.label.findMany({
-      where: { userId },
       include: { cards: { select: { card: { include: { labels: { select: { label: true } } } } } } },
     });
 
@@ -60,14 +56,10 @@ export const getLabels = async (req: Request, res: Response) => {
 export const getLabel = async (req: Request, res: Response) => {
   try {
     const { labelId } = req.params;
-    const { userId } = req.token!;
 
     const label = await prisma.label.findUniqueOrThrow({
       where: {
-        userId_labelId: {
-          userId,
-          labelId,
-        },
+        labelId,
       },
       include: { cards: { select: { card: { include: { labels: { select: { label: true } } } } } } },
     });
@@ -94,14 +86,10 @@ export const getLabel = async (req: Request, res: Response) => {
 export const getLabelCards = async (req: Request, res: Response) => {
   try {
     const { labelId } = req.params;
-    const { userId } = req.token!;
 
     const label = await prisma.label.findUniqueOrThrow({
       where: {
-        userId_labelId: {
-          userId,
-          labelId,
-        },
+        labelId,
       },
       include: { cards: { select: { card: { include: { labels: { select: { label: true } } } } } } },
     });
@@ -127,14 +115,10 @@ export const patchLabel = async (req: Request, res: Response) => {
   try {
     const { labelId } = req.params;
     const { labelName } = req.body;
-    const { userId } = req.token!;
 
     const label = await prisma.label.update({
       where: {
-        userId_labelId: {
-          userId,
-          labelId,
-        },
+        labelId,
       },
       include: { cards: { select: { card: { include: { labels: { select: { label: true } } } } } } },
       data: {
@@ -164,14 +148,10 @@ export const patchLabel = async (req: Request, res: Response) => {
 export const deleteLabel = async (req: Request, res: Response) => {
   try {
     const { labelId } = req.params;
-    const { userId } = req.token!;
 
     await prisma.label.delete({
       where: {
-        userId_labelId: {
-          userId,
-          labelId,
-        },
+        labelId,
       },
     });
 

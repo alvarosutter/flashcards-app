@@ -33,6 +33,8 @@ services:
   frontend:
     container_name: frontend
     image: node:latest
+    environment:
+      - VITE_API_URL=http://127.0.0.1:4000/api/v1
     working_dir: /var/app/frontend
     ports:
       - '3000:3000'

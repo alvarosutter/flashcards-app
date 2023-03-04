@@ -7,14 +7,12 @@ const prisma = new PrismaClient();
 /**
  * Creates labels (if new) using the labels names send by the client
  * @param labels Array with the name of the labels
- * @param userId ID of the user creating the labels
  * @returns A Promise with a Label array
  */
-async function createLabels(labels: string[], userId: string): Promise<Label[]> {
+async function createLabels(labels: string[]): Promise<Label[]> {
   // Creates an array with label objects
   const typedLabels = labels.map((labelName: string) => ({
     labelName,
-    userId,
   }));
   // Creates new labels if they do not exist already
   await prisma.label.createMany({ data: typedLabels, skipDuplicates: true });
@@ -61,7 +59,7 @@ async function checkLabels(typedLabels: string[], card: Card, currentLabels: Lab
   const labelsToAssign = typedLabels.filter((label) => !currentLabelsNames.includes(label));
   const labelsToRemove = currentLabelsNames.filter((label) => !typedLabels.includes(label));
   // Assign new labels
-  await assignLabels(await createLabels(labelsToAssign, card.userId), card.cardId);
+  await assignLabels(await createLabels(labelsToAssign), card.cardId);
   // Remove labels
   await prisma.labelsOnCards.deleteMany({
     where: {
@@ -76,31 +74,26 @@ async function checkLabels(typedLabels: string[], card: Card, currentLabels: Lab
 export const createCard = async (req: Request, res: Response) => {
   try {
     const { cardName, content, labels, deckId } = req.body;
-    const { userId } = req.token!;
 
     const newCard = await prisma.card.create({
       data: {
         cardName,
         content,
         deckId,
-        userId,
       },
     });
 
     if (labels) {
       const typedLabels = labels as string[];
       // Create labels if they do not exist
-      const dbLabels = await createLabels(typedLabels, userId);
+      const dbLabels = await createLabels(typedLabels);
       // Assign the labels to the card
       await assignLabels(dbLabels, newCard.cardId);
     }
 
     const card = await prisma.card.findUniqueOrThrow({
       where: {
-        userId_cardId: {
-          userId,
-          cardId: newCard.cardId,
-        },
+        cardId: newCard.cardId,
       },
       include: { labels: { select: { label: true } } },
     });
@@ -121,11 +114,9 @@ export const createCard = async (req: Request, res: Response) => {
   }
 };
 
-export const getCards = async (req: Request, res: Response) => {
+export const getCards = async (_: Request, res: Response) => {
   try {
-    const { userId } = req.token!;
     const cards = await prisma.card.findMany({
-      where: { userId },
       include: { labels: { select: { label: true } } },
     });
 
@@ -146,14 +137,10 @@ export const getCards = async (req: Request, res: Response) => {
 export const getCard = async (req: Request, res: Response) => {
   try {
     const { cardId } = req.params;
-    const { userId } = req.token!;
 
     const card = await prisma.card.findUniqueOrThrow({
       where: {
-        userId_cardId: {
-          userId,
-          cardId,
-        },
+        cardId,
       },
       include: { labels: { select: { label: true } } },
     });
@@ -177,14 +164,10 @@ export const getCard = async (req: Request, res: Response) => {
 export const getCardLabels = async (req: Request, res: Response) => {
   try {
     const { cardId } = req.params;
-    const { userId } = req.token!;
 
     const card = await prisma.card.findUniqueOrThrow({
       where: {
-        userId_cardId: {
-          userId,
-          cardId,
-        },
+        cardId,
       },
       include: { labels: { select: { label: true } } },
     });
@@ -207,14 +190,10 @@ export const patchCard = async (req: Request, res: Response) => {
   try {
     const { cardId } = req.params;
     const { cardName, content, labels, deckId } = req.body;
-    const { userId } = req.token!;
 
     const card = await prisma.card.update({
       where: {
-        userId_cardId: {
-          userId,
-          cardId,
-        },
+        cardId,
       },
       include: { labels: { select: { label: true } } },
       data: {
@@ -239,10 +218,7 @@ export const patchCard = async (req: Request, res: Response) => {
 
     const patchedCard = await prisma.card.findUniqueOrThrow({
       where: {
-        userId_cardId: {
-          userId,
-          cardId,
-        },
+        cardId,
       },
       include: { labels: { select: { label: true } } },
     });
@@ -266,14 +242,10 @@ export const patchCard = async (req: Request, res: Response) => {
 export const deleteCard = async (req: Request, res: Response) => {
   try {
     const { cardId } = req.params;
-    const { userId } = req.token!;
 
     await prisma.card.delete({
       where: {
-        userId_cardId: {
-          userId,
-          cardId,
-        },
+        cardId,
       },
     });
 
