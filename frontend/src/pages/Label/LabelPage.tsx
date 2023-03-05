@@ -7,6 +7,8 @@ import { Option } from '../../components/ui/Select';
 import useLoader from '../../hooks/useLoader';
 import { getLabels } from '../../services/Flashcards/label.services';
 import LabelGallery from './Components/LabelGallery';
+import Modal from '../../components/ui/Modal';
+import AddLabelForm from './Components/AddLabelForm';
 
 function LabelPage() {
   const { array: labels, set, sort } = useArray([]);
@@ -71,7 +73,20 @@ function LabelPage() {
             setDeleteLabel={setDeleteLabel}
             setSelectedLabel={setSelectedLabel}
           />
-          <p>{addLabelVisible}</p>
+          <Modal
+            title="Add Label"
+            isOpen={addLabelVisible}
+            onCancel={() => {
+              setAddLabelVisible(false);
+            }}
+          >
+            <AddLabelForm
+              onSubmitForm={() => {
+                setAddLabelVisible(false);
+                fetchLabels();
+              }}
+            />
+          </Modal>
           <p>{editLabel?.labelName}</p>
           <p>{deleteLabel?.labelName}</p>
         </>
