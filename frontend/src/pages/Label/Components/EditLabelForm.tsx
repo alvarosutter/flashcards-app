@@ -11,10 +11,11 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: center;
+  gap: 25px;
   width: 100%;
   margin: 25px 0 15px;
-  padding: 0;
+  padding: 0px 15px;
 `;
 
 interface EditLabelFormProps {

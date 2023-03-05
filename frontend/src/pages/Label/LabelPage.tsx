@@ -10,6 +10,7 @@ import LabelGallery from './Components/LabelGallery';
 import Modal from '../../components/ui/Modal';
 import AddLabelForm from './Components/AddLabelForm';
 import EditLabelForm from './Components/EditLabelForm';
+import DeleteLabelForm from './Components/DeleteLabelForm';
 
 function LabelPage() {
   const { array: labels, set, sort } = useArray([]);
@@ -107,7 +108,25 @@ function LabelPage() {
               }}
             />
           </Modal>
-          <p>{deleteLabel?.labelName}</p>
+          <Modal
+            title="Delete Label"
+            isOpen={!!deleteLabel}
+            onCancel={() => {
+              setDeleteLabel(null);
+            }}
+          >
+            <DeleteLabelForm
+              onSubmitForm={() => {
+                setDeleteLabel(null);
+                fetchLabels();
+              }}
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              label={deleteLabel!}
+              onCancel={() => {
+                setDeleteLabel(null);
+              }}
+            />
+          </Modal>
         </>
       )}
     </>
