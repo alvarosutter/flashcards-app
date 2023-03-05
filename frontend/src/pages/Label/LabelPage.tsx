@@ -9,6 +9,7 @@ import { getLabels } from '../../services/Flashcards/label.services';
 import LabelGallery from './Components/LabelGallery';
 import Modal from '../../components/ui/Modal';
 import AddLabelForm from './Components/AddLabelForm';
+import EditLabelForm from './Components/EditLabelForm';
 
 function LabelPage() {
   const { array: labels, set, sort } = useArray([]);
@@ -87,7 +88,25 @@ function LabelPage() {
               }}
             />
           </Modal>
-          <p>{editLabel?.labelName}</p>
+          <Modal
+            title="Edit Label"
+            isOpen={!!editLabel}
+            onCancel={() => {
+              setEditLabel(null);
+            }}
+          >
+            <EditLabelForm
+              onSubmitForm={() => {
+                setEditLabel(null);
+                fetchLabels();
+              }}
+              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              label={editLabel!}
+              onCancel={() => {
+                setEditLabel(null);
+              }}
+            />
+          </Modal>
           <p>{deleteLabel?.labelName}</p>
         </>
       )}
