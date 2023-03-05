@@ -1,11 +1,12 @@
 import styled, { useTheme } from 'styled-components';
 import Select, { Option } from './Select';
 import AddButton from './AddButton';
+import GoBackButton from './GoBackButton';
 
 const Container = styled.div`
   display: flex;
   flex-direction: row;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: center;
   align-content: center;
   gap: 15px;
@@ -52,7 +53,7 @@ const Divider = styled.div`
 `;
 
 interface DashboardBarProps {
-  title: string;
+  title?: string;
   sortItems?: {
     options: Option[];
     defaultOption: Option;
@@ -63,10 +64,16 @@ interface DashboardBarProps {
     name: string;
     onClick: (value: boolean) => void;
   };
+  filterCards?: {
+    options: Option[];
+    defaultOption: Option;
+    onChange: (option: Option | readonly Option[] | null) => void;
+  };
   addItem?: () => void;
+  goBack?: () => void;
 }
 
-function DashboardBar({ title, sortItems, filterItems, addItem }: DashboardBarProps) {
+function DashboardBar({ title, sortItems, filterItems, filterCards, addItem, goBack }: DashboardBarProps) {
   const theme = useTheme();
   /** Custom Style for React-Select */
   const customStyles = {
@@ -111,7 +118,8 @@ function DashboardBar({ title, sortItems, filterItems, addItem }: DashboardBarPr
   return (
     <>
       <Container>
-        <Title>{title}</Title>
+        {goBack && <GoBackButton title="Go back" onClick={() => goBack()} />}
+        {title && <Title>{title}</Title>}
         {sortItems && (
           <Select
             style={customStyles}
@@ -133,7 +141,20 @@ function DashboardBar({ title, sortItems, filterItems, addItem }: DashboardBarPr
             {filterItems.value ? 'Hide' : 'Show'} {filterItems.name}
           </FilterButton>
         )}
-        {addItem && <AddButton title={`Add ${title}`} onClick={() => addItem()} />}
+        {filterCards && (
+          <Select
+            style={customStyles}
+            defaultValue={filterCards.defaultOption}
+            options={filterCards.options}
+            name="Filter Cards"
+            isMulti={false}
+            isSearchable
+            isClearable={false}
+            isDisabled={false}
+            onChange={filterCards.onChange}
+          />
+        )}
+        {addItem && <AddButton title={`Add ${title?.slice(0, -1) || 'Card'}`} onClick={() => addItem()} />}
       </Container>
       <Divider />
     </>

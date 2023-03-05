@@ -7,6 +7,7 @@ import useLoader from '../../hooks/useLoader';
 import useLocalStorage from '../../hooks/useLocalStorage';
 import { getDecks } from '../../services/Flashcards/deck.services';
 import { Deck, sortOptions } from '../../services/Flashcards/flashcardsUtils';
+import Cards from '../Card/Cards';
 import AddDeckForm from './Components/AddDeckForm';
 import DeckGallery from './Components/DeckGallery';
 import DeleteDeckForm from './Components/DeleteDeckForm';
@@ -44,6 +45,18 @@ function DeckPage() {
 
   return (
     <>
+      {selectedDeck && (
+        <Cards
+          item={selectedDeck}
+          goBack={() => {
+            setSelectedDeck(null);
+            setLoading(true);
+            fetchDecks().then(() => {
+              setLoading(false);
+            });
+          }}
+        />
+      )}
       {isLoading && getLoader()}
       {!isLoading && !selectedDeck && (
         <>

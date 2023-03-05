@@ -11,6 +11,7 @@ import Modal from '../../components/ui/Modal';
 import AddLabelForm from './Components/AddLabelForm';
 import EditLabelForm from './Components/EditLabelForm';
 import DeleteLabelForm from './Components/DeleteLabelForm';
+import Cards from '../Card/Cards';
 
 function LabelPage() {
   const { array: labels, set, sort } = useArray([]);
@@ -44,6 +45,7 @@ function LabelPage() {
 
   return (
     <>
+      {selectedLabel && <Cards item={selectedLabel} goBack={() => setSelectedLabel(null)} />}
       {isLoading && getLoader()}
       {!isLoading && !selectedLabel && (
         <>
