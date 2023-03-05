@@ -5,12 +5,9 @@ import GlobalStyle from './components/layout/GlobalStyle';
 import Layout from './components/layout/Layout';
 import useDarkMode from './hooks/useDarkMode';
 import DeckPage from './pages/Deck/DeckPage';
+import LabelPage from './pages/Label/LabelPage';
 import NotFoundPage from './pages/NotFound/NotFoundPage';
 import { darkTheme, lightTheme } from './theme';
-
-function Labels() {
-  return <p>My Labels</p>;
-}
 
 function App() {
   const [darkMode, setMode] = useDarkMode();
@@ -24,7 +21,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Navigate to="/decks" />} />
             <Route path="/decks" element={<DeckPage />} />
-            <Route path="/labels" element={<Labels />} />
+            <Route path="/labels" element={<LabelPage />} />
             <Route path="*" element={<NotFoundPage />} />
           </Routes>
         </Layout>

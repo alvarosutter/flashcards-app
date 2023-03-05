@@ -1,37 +1,37 @@
 import { get, patch, post, remove } from '../../lib/API/fetchApi';
-import { URL, Card, Deck, ResJsonFail, ResJsonMulti, ResJsonSingle } from './flashcardsUtils';
+import { URL, Card, Label, ResJsonFail, ResJsonMulti, ResJsonSingle } from './flashcardsUtils';
 
-const url = `${URL}/decks`;
+const url = `${URL}/labels`;
 
-export async function createDeck(body: object): Promise<Deck> {
+export async function createLabel(body: object): Promise<Label> {
   const response = await post(url, body);
   const json: ResJsonSingle | ResJsonFail = await response.json();
   if (json.status === 'success') {
-    return json.data as Deck;
+    return json.data as Label;
   }
   throw new Error(json.message);
 }
 
-export async function getDecks(): Promise<Deck[]> {
+export async function getLabels(): Promise<Label[]> {
   const response = await get(url);
   const json: ResJsonMulti | ResJsonFail = await response.json();
   if (json.status === 'success') {
-    return json.data as Deck[];
+    return json.data as Label[];
   }
   throw new Error(json.message);
 }
 
-export async function getDeck(deckId: string): Promise<Deck> {
-  const response = await get(`${url}/${deckId}`);
+export async function getLabel(labelId: string): Promise<Label> {
+  const response = await get(`${url}/${labelId}`);
   const json: ResJsonSingle | ResJsonFail = await response.json();
   if (json.status === 'success') {
-    return json.data as Deck;
+    return json.data as Label;
   }
   throw new Error(json.message);
 }
 
-export async function getDeckCards(deckId: string): Promise<Card[]> {
-  const response = await get(`${url}/${deckId}/cards`);
+export async function getLabelCards(labelId: string): Promise<Card[]> {
+  const response = await get(`${url}/${labelId}/cards`);
   const json: ResJsonMulti | ResJsonFail = await response.json();
   if (json.status === 'success') {
     return json.data as Card[];
@@ -39,17 +39,17 @@ export async function getDeckCards(deckId: string): Promise<Card[]> {
   throw new Error(json.message);
 }
 
-export async function patchDeck(deckId: string, body: object): Promise<Deck> {
-  const response = await patch(`${url}/${deckId}`, body);
+export async function patchLabel(labelId: string, body: object): Promise<Label> {
+  const response = await patch(`${url}/${labelId}`, body);
   const json: ResJsonSingle | ResJsonFail = await response.json();
   if (json.status === 'success') {
-    return json.data as Deck;
+    return json.data as Label;
   }
   throw new Error(json.message);
 }
 
-export async function deleteDeck(deckId: string): Promise<null> {
-  const response = await remove(`${url}/${deckId}`);
+export async function deleteLabel(labelId: string): Promise<null> {
+  const response = await remove(`${url}/${labelId}`);
   if (response.status === 204) {
     return null;
   }
