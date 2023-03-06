@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import Form from '../../../components/form/Form';
-import { DangerButton, FormButton } from '../../../components/form/FormButton';
-import FormError from '../../../components/form/FormError';
+import { DangerButton, Form, FormButton, FormError } from '../../../components/form';
 import { Label } from '../../../services/Flashcards/flashcardsUtils';
 import { deleteLabel } from '../../../services/Flashcards/label.services';
 

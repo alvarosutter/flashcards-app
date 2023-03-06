@@ -7,13 +7,13 @@ const Box = styled.div`
   flex-wrap: nowrap;
   justify-content: center;
   background-color: ${({ theme }) => theme.colors.inputBg};
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, ${({ theme }) => theme.colors.itemShadow} 0px 0px 0px 3px;
   width: 170px;
   height: 170px;
   margin: 15px 15px;
   padding: 10px;
   &:hover {
-    filter: brightness(1.2);
+    filter: brightness(1.1);
     transform: scale(0.99);
     cursor: pointer;
   }

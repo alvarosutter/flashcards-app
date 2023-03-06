@@ -1,6 +1,6 @@
 import styled from 'styled-components';
-import EditButton from '../../../components/ui/EditButton';
-import TrashButton from '../../../components/ui/TrashButton';
+import EditButton from '../../../components/dashboard/EditButton';
+import TrashButton from '../../../components/dashboard/TrashButton';
 import { Deck } from '../../../services/Flashcards/flashcardsUtils';
 
 const Box = styled.div`
@@ -9,12 +9,12 @@ const Box = styled.div`
   flex-wrap: nowrap;
   justify-content: center;
   background-color: ${({ theme }) => theme.colors.inputBg};
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, ${({ theme }) => theme.colors.itemShadow} 0px 0px 0px 3px;
   width: 150px;
   height: 200px;
   margin: 15px 15px;
   &:hover {
-    filter: brightness(1.2);
+    filter: brightness(1.1);
     transform: scale(0.99);
     cursor: pointer;
   }

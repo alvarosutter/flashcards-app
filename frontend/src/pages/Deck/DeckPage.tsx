@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-import DashboardBar from '../../components/ui/DashboardBar';
+import DashboardBar from '../../components/dashboard/DashboardBar';
 import Modal from '../../components/ui/Modal';
-import { Option } from '../../components/ui/Select';
-import useArray from '../../hooks/useArray';
-import useLoader from '../../hooks/useLoader';
-import useLocalStorage from '../../hooks/useLocalStorage';
+import { Option } from '../../components/dashboard/Select';
+import { useArray, useLoader, useLocalStorage } from '../../hooks';
 import { getDecks } from '../../services/Flashcards/deck.services';
 import { Deck, sortOptions } from '../../services/Flashcards/flashcardsUtils';
 import Cards from '../Card/Cards';

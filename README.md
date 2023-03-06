@@ -1,5 +1,7 @@
 # Flashcards App
 
+App to create decks of flashcards.
+
 ## Description
 
 This project was made with the intention of learning and practicing React and TypeScript.
@@ -7,3 +9,79 @@ This project was made with the intention of learning and practicing React and Ty
 It is an app that lets the user create decks of flashcards and organize them using labels. The cards are simple and
 consist only of name and content. Additionally, you may add one or more labels. You can then browse all the cards in a
 deck or all cards with a particular label.
+
+## Install Instructions
+
+1. You can use the live version: [flashcards-app.com](flashcards-app.com). Your data will be save in the browser
+   LocalStorage.
+
+2. You can download the project and run it locally using [Docker](https://www.docker.com/).
+
+   - Go to the project folder and run the following command:
+     ```bash
+       sh startApp.sh
+     ```
+   - After the containers are initialized, go to [http://localhost:3000/](http://localhost:3000/)
+   
+
+# Backend
+
+The backend API for Flashcards App offers routes to create, read, update and delete Decks, Cards, and Labels. The
+backend was build using NodeJs, Express, Postgres for the database and Prisma as the ORM. It is written in TypeScript.
+
+## Routes
+
+### Deck
+
+|   **Action**    | **Method** |           **Route**            |
+| :-------------: | :--------: | :----------------------------: |
+|   Create Deck   |   `POST`   |        `/api/v1/decks/`        |
+| Read all Decks  |   `GET`    |       `/api/v1/ decks/`        |
+|    Read Deck    |   `GET`    |    `/api/v1/ decks/:deckId`    |
+| Read Deck Cards |   `GET`    | `/api/v1/ decks/:deckId/cards` |
+|   Update Deck   |  `PATCH`   |    `/api/v1/ decks/:deckId`    |
+|   Delete Deck   |  `DELETE`  |    `/api/v1/decks/:deckId`     |
+
+### Card
+
+|    **Action**    | **Method** |            **Route**            |
+| :--------------: | :--------: | :-----------------------------: |
+|   Create Card    |   `POST`   |        `/api/v1/cards/`         |
+|  Read all Cards  |   `GET`    |        `/api/v1/ cards/`        |
+|    Read Card     |   `GET`    |    `/api/v1/ cards/:cardId`     |
+| Read Card Labels |   `GET`    | `/api/v1/ cards/:cardId/labels` |
+|   Update Card    |  `PATCH`   |    `/api/v1/ cards/:cardId`     |
+|   Delete Card    |  `DELETE`  |     `/api/v1/cards/:cardId`     |
+
+### Label
+
+|    **Action**    | **Method** |            **Route**             |
+| :--------------: | :--------: | :------------------------------: |
+|   Create Label   |   `POST`   |        `/api/v1/labels/`         |
+| Read all Labels  |   `GET`    |        `/api/v1/ labels/`        |
+|    Read Label    |   `GET`    |    `/api/v1/ labels/:labelId`    |
+| Read Label Cards |   `GET`    | `/api/v1/ labels/:labelId/cards` |
+|   Update Label   |  `PATCH`   |    `/api/v1/ labels/:labelId`    |
+|   Delete Label   |  `DELETE`  |    `/api/v1/labels/:labelId`     |
+
+## Response
+
+If the request was successful, the response will include a status, the data and if the data is an array, a total with
+the length of the array.
+
+```json
+{
+  "status": "success",
+  "data": {},
+  "total": 1
+}
+```
+
+If the request was a failure, the response will include a status and a message with the reason.
+
+```json
+{
+  "status": "failure",
+  "message": " "
+}
+```

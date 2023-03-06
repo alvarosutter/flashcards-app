@@ -1,15 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
 import { Card } from '../../../services/Flashcards/flashcardsUtils';
-import Select, { Option } from '../../../components/ui/Select';
+import Select, { Option } from '../../../components/dashboard/Select';
 import useLoader from '../../../hooks/useLoader';
 import { getLabels } from '../../../services/Flashcards/label.services';
 import { getDecks } from '../../../services/Flashcards/deck.services';
 import { deleteCard, patchCard } from '../../../services/Flashcards/card.services';
-import Form from '../../../components/form/Form';
-import { FormInput, TextAreaInput } from '../../../components/form/FormInput';
-import FormError from '../../../components/form/FormError';
-import { DangerButton, FormButton } from '../../../components/form/FormButton';
+import { DangerButton, Form, FormButton, FormError, FormInput, TextAreaInput } from '../../../components/form';
 
 const ButtonContainer = styled.div`
   display: flex;

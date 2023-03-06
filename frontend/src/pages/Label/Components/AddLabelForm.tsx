@@ -1,9 +1,6 @@
 import { useRef, useState } from 'react';
-import Form from '../../../components/form/Form';
-import { FormButton } from '../../../components/form/FormButton';
-import FormError from '../../../components/form/FormError';
-import { FormInput } from '../../../components/form/FormInput';
 import { createLabel } from '../../../services/Flashcards/label.services';
+import { Form, FormButton, FormError, FormInput } from '../../../components/form';
 
 interface AddLabelFormProps {
   onSubmitForm: () => void;

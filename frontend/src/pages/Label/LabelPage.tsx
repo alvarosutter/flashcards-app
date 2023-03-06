@@ -1,10 +1,8 @@
 import { useEffect, useState } from 'react';
-import DashboardBar from '../../components/ui/DashboardBar';
-import useArray from '../../hooks/useArray';
-import useLocalStorage from '../../hooks/useLocalStorage';
+import DashboardBar from '../../components/dashboard/DashboardBar';
+import { useArray, useLoader, useLocalStorage } from '../../hooks';
 import { Label, sortOptions } from '../../services/Flashcards/flashcardsUtils';
-import { Option } from '../../components/ui/Select';
-import useLoader from '../../hooks/useLoader';
+import { Option } from '../../components/dashboard/Select';
 import { getLabels } from '../../services/Flashcards/label.services';
 import LabelGallery from './Components/LabelGallery';
 import Modal from '../../components/ui/Modal';

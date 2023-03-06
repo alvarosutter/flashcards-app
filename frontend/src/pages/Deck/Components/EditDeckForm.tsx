@@ -1,9 +1,6 @@
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
-import Form from '../../../components/form/Form';
-import { FormButton } from '../../../components/form/FormButton';
-import FormError from '../../../components/form/FormError';
-import { FormInput } from '../../../components/form/FormInput';
+import { Form, FormButton, FormError, FormInput } from '../../../components/form';
 import { patchDeck } from '../../../services/Flashcards/deck.services';
 import { Deck } from '../../../services/Flashcards/flashcardsUtils';
 

@@ -20,6 +20,7 @@ declare module 'styled-components' {
       danger: string;
       onDanger: string;
       scrollbarBg: string;
+      itemShadow: string;
     };
     fonts: {
       headersFont: 'Poppins';

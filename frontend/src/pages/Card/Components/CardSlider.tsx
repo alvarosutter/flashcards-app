@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import styled from 'styled-components';
-import EditButton from '../../../components/ui/EditButton';
+import EditButton from '../../../components/dashboard/EditButton';
 import { Card } from '../../../services/Flashcards/flashcardsUtils';
 
 const SliderOverlay = styled.div`
@@ -51,7 +51,7 @@ const ExitButton = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.small};
   font-weight: ${({ theme }) => theme.fontWeights.normal};
   &:hover {
-    filter: brightness(1.3);
+    filter: brightness(1.2);
     cursor: pointer;
   }
 `;
@@ -65,7 +65,7 @@ const MiddleBox = styled.div`
   width: inherit;
   &:hover {
     cursor: pointer;
-    filter: brightness(1.2);
+    filter: brightness(1.1);
   }
 `;
 

@@ -1,10 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTheme } from 'styled-components';
-import Form from '../../../components/form/Form';
-import { FormButton } from '../../../components/form/FormButton';
-import FormError from '../../../components/form/FormError';
-import { FormInput, TextAreaInput } from '../../../components/form/FormInput';
-import Select, { Option } from '../../../components/ui/Select';
+import { Form, FormButton, FormError, FormInput, TextAreaInput } from '../../../components/form';
+import Select, { Option } from '../../../components/dashboard/Select';
 import useLoader from '../../../hooks/useLoader';
 import { createCard } from '../../../services/Flashcards/card.services';
 import { getDecks } from '../../../services/Flashcards/deck.services';
