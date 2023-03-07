@@ -10,6 +10,13 @@ It is an app that lets the user create decks of flashcards and organize them usi
 consist only of name and content. Additionally, you may add one or more labels. You can then browse all the cards in a
 deck or all cards with a particular label.
 
+## Live Demo
+
+You can see a demo version of the app on [flashcards-app.com](https://myflashcardsapp.netlify.app/).
+
+**Important**: This version does not connect to any database, your data will be saved in the browser Local Storage. This
+version also allows duplicates names do to the lack of validation and may have issues not present in the full version.
+
 ## Install Instructions
 
 1. You can use the live version: [flashcards-app.com](flashcards-app.com). Your data will be save in the browser
@@ -22,7 +29,6 @@ deck or all cards with a particular label.
        sh startApp.sh
      ```
    - After the containers are initialized, go to [http://localhost:3000/](http://localhost:3000/)
-   
 
 # Backend
 

@@ -4,7 +4,6 @@ import { Form, FormButton, FormError, FormInput, TextAreaInput } from '../../../
 import Select, { Option } from '../../../components/dashboard/Select';
 import useLoader from '../../../hooks/useLoader';
 import { createCard } from '../../../services/Flashcards/card.services';
-import { getDecks } from '../../../services/Flashcards/deck.services';
 import { getLabels } from '../../../services/Flashcards/label.services';
 
 interface AddCardFormProps {
@@ -15,9 +14,7 @@ interface AddCardFormProps {
 
 function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
   const [formError, setFormError] = useState<undefined | string>();
-  const [cardDeck, setCardDeck] = useState(deckId);
   const [labels, setLabels] = useState<Option[]>([]);
-  const [decks, setDecks] = useState<Option[]>([]);
   const { isLoading, setLoading, getLoader } = useLoader();
   const nameInputRef = useRef<HTMLInputElement>(null);
   const contentInputRef = useRef<HTMLTextAreaElement>(null);
@@ -67,8 +64,6 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
   async function fetchData() {
     const labelsData = await getLabels();
     setLabels(labelsData.map((label) => ({ label: label.labelName, value: label.labelId })));
-    const decksData = await getDecks();
-    setDecks(decksData.map((deck) => ({ label: deck.deckName, value: deck.deckId })));
   }
 
   async function addCardHandler(card: { cardName: string; content: string }) {
@@ -85,7 +80,7 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
       cardName: name!,
       // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       content: content!,
-      deckId: cardDeck,
+      deckId,
       labels: selectedLabels,
     };
 
@@ -110,22 +105,7 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
           <FormInput label="Title" name="card-name" type="text" ref={nameInputRef} maxLength={25} required autoFocus />
         </div>
         <div>
-          {deckName !== 'All' ? (
-            <FormInput label="Deck" name="deck-name" type="text" value={deckName} readOnly />
-          ) : (
-            <Select
-              selectLabel="Deck"
-              style={customStyles}
-              options={decks}
-              name="select-card-deck"
-              isMulti={false}
-              isSearchable={false}
-              isClearable={false}
-              isDisabled={false}
-              // eslint-disable-next-line no-return-assign
-              onChange={(option: readonly Option[] | Option | null) => setCardDeck((option as Option).value)}
-            />
-          )}
+          <FormInput label="Deck" name="deck-name" type="text" value={deckName} readOnly />
         </div>
       </div>
       <TextAreaInput label="Text" name="card-content" ref={contentInputRef} rows={4} cols={60} required />
