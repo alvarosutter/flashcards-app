@@ -19,10 +19,7 @@ version also allows duplicates names do to the lack of validation and may have i
 
 ## Install Instructions
 
-1. You can use the live version: [flashcards-app.com](flashcards-app.com). Your data will be save in the browser
-   LocalStorage.
-
-2. You can download the project and run it locally using [Docker](https://www.docker.com/).
+You can download the project and run it locally using [Docker](https://www.docker.com/).
 
    - Go to the project folder and run the following command:
      ```bash
