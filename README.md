@@ -26,6 +26,11 @@ You can download the project and run it locally using [Docker](https://www.docke
        sh startApp.sh
      ```
    - After the containers are initialized, go to [http://localhost:3000/](http://localhost:3000/)
+   
+## Future Work
+
+I would like to improve how the application looks. Also add two other functions, the first an option to download all the flashcards in a PDF and the second an option to create exams where only selected flashcards are reviewed and a record about the performance is kept.
+
 
 # Backend
 
