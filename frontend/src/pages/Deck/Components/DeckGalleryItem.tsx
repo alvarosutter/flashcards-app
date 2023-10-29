@@ -9,7 +9,9 @@ const Box = styled.div`
   flex-wrap: nowrap;
   justify-content: center;
   background-color: ${({ theme }) => theme.colors.inputBg};
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, ${({ theme }) => theme.colors.itemShadow} 0px 0px 0px 3px;
+  box-shadow:
+    rgba(0, 0, 0, 0.16) 0px 1px 4px,
+    ${({ theme }) => theme.colors.itemShadow} 0px 0px 0px 3px;
   width: 150px;
   height: 200px;
   margin: 15px 15px;
