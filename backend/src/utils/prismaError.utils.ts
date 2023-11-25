@@ -1,18 +1,18 @@
 import { Prisma } from '@prisma/client';
 
-interface PrismaError {
+interface IPrismaError {
   message: string;
   statusCode: number;
 }
 
-function getPrismaError(error: unknown): PrismaError {
-  const prismaError: PrismaError = {
+function getPrismaError(error: unknown): IPrismaError {
+  const prismaError: IPrismaError = {
     message: String(error),
     statusCode: 500,
   };
 
   if (error instanceof Prisma.PrismaClientValidationError) {
-    prismaError.message = 'Missing field or Incorrect field type provided';
+    prismaError.message = 'missing field or incorrect field type provided';
     prismaError.statusCode = 400;
   }
   if (error instanceof Prisma.PrismaClientUnknownRequestError) {
@@ -23,15 +23,11 @@ function getPrismaError(error: unknown): PrismaError {
     prismaError.message = error.message;
     prismaError.statusCode = 500;
   }
-  if (error instanceof Prisma.NotFoundError) {
-    prismaError.message = error.message;
-    prismaError.statusCode = 404;
-  }
   if (error instanceof Prisma.PrismaClientKnownRequestError) {
     const errorCode = error.code;
     prismaError.statusCode = 400;
     if (errorCode === 'P2002') {
-      prismaError.message = 'Unique Constraint Error'.concat(
+      prismaError.message = 'unique constraint error'.concat(
         ': ',
         [error.meta?.target].join('') || 'unique field is empty',
       );
@@ -40,7 +36,7 @@ function getPrismaError(error: unknown): PrismaError {
       prismaError.message = String(error.meta?.message);
     }
     if (errorCode === 'P2025') {
-      prismaError.message = String(error.meta?.cause);
+      prismaError.message = 'not found';
       prismaError.statusCode = 404;
     }
   }
