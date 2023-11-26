@@ -1,0 +1,30 @@
+import { ICard, IDeck, ILabel } from '../models/interfaces.models';
+
+const date = new Date();
+
+export const cardData: ICard = {
+  cardId: '9dbaccb9-cab7-4846-9122-d005fd53755c',
+  createdAt: date,
+  updatedAt: date,
+  cardName: 'my first card',
+  content: 'this is my first card',
+  deckId: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
+  labels: [],
+};
+
+export const labelData: ILabel = {
+  labelId: '5d332513-6d80-4457-b799-bd1cbcf68f25',
+  createdAt: date,
+  updatedAt: date,
+  labelName: 'my first card',
+  cards: [cardData],
+};
+
+export const deckData: IDeck = {
+  deckId: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
+  createdAt: date,
+  updatedAt: date,
+  deckName: 'my first deck',
+  archived: false,
+  cards: [cardData],
+};

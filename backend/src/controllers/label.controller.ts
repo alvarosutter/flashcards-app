@@ -1,12 +1,13 @@
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
 import getPrismaError from '../utils/prismaError.utils';
+import { ILabel } from '../models/interfaces.models';
 
 const prisma = new PrismaClient();
 
 export const createLabel = async (req: Request, res: Response) => {
   try {
-    const { labelName } = req.body;
+    const { labelName } = req.body as ILabel;
 
     const newLabel = await prisma.label.create({
       data: {
@@ -114,7 +115,7 @@ export const getLabelCards = async (req: Request, res: Response) => {
 export const patchLabel = async (req: Request, res: Response) => {
   try {
     const { labelId } = req.params;
-    const { labelName } = req.body;
+    const { labelName } = req.body as ILabel;
 
     const label = await prisma.label.update({
       where: {

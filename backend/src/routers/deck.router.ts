@@ -1,13 +1,13 @@
 import { Router } from 'express';
-import { createDeck, deleteDeck, getDeck, getDeckCards, getDecks, patchDeck } from '../controllers/deck.controller';
+import { addDeck, listDeck, listDeckCards, listDecks, removeDeck, updateDeck } from '../controllers/deck.controller';
 
 const deckRouter = Router({ mergeParams: true });
 
-deckRouter.post('/', createDeck);
-deckRouter.get('/', getDecks);
-deckRouter.get('/:deckId', getDeck);
-deckRouter.get('/:deckId/cards', getDeckCards);
-deckRouter.patch('/:deckId', patchDeck);
-deckRouter.delete('/:deckId', deleteDeck);
+deckRouter.post('/', addDeck);
+deckRouter.get('/', listDecks);
+deckRouter.get('/:deckId', listDeck);
+deckRouter.get('/:deckId/cards', listDeckCards);
+deckRouter.patch('/:deckId', updateDeck);
+deckRouter.delete('/:deckId', removeDeck);
 
 export default deckRouter;

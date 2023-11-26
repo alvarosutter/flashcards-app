@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { Card, Label, PrismaClient } from '@prisma/client';
 import getPrismaError from '../utils/prismaError.utils';
+import { ICard } from '../models/interfaces.models';
 
 const prisma = new PrismaClient();
 
@@ -73,7 +74,9 @@ async function checkLabels(typedLabels: string[], card: Card, currentLabels: Lab
 
 export const createCard = async (req: Request, res: Response) => {
   try {
-    const { cardName, content, labels, deckId } = req.body;
+    const { cardName, content, deckId } = req.body as ICard;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const { labels } = req.body;
 
     const newCard = await prisma.card.create({
       data: {
@@ -189,7 +192,9 @@ export const getCardLabels = async (req: Request, res: Response) => {
 export const patchCard = async (req: Request, res: Response) => {
   try {
     const { cardId } = req.params;
-    const { cardName, content, labels, deckId } = req.body;
+    const { cardName, content, deckId } = req.body as ICard;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+    const { labels } = req.body;
 
     const card = await prisma.card.update({
       where: {
@@ -204,7 +209,7 @@ export const patchCard = async (req: Request, res: Response) => {
     });
 
     if (!labels) {
-      removeCardLabels(cardId);
+      await removeCardLabels(cardId);
     }
     if (labels) {
       const typedLabels = labels as string[];
