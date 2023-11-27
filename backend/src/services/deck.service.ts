@@ -1,5 +1,6 @@
 import { deckCreate, deckDelete, deckFind, deckFindMany, deckUpdate } from '../database/deck.database';
 import { ICreateDeck, IPatchDeck, IQueryResult } from '../types/interfaces';
+import mapCards from '../utils/mapCards.utils';
 import getPrismaError from '../utils/prismaError.utils';
 
 const createDeck = async ({ deckName, archived }: ICreateDeck): Promise<IQueryResult> => {
@@ -26,7 +27,10 @@ const getDeck = async (deckId: string): Promise<IQueryResult> => {
 
     return {
       status: 'success',
-      data: deck,
+      data: {
+        ...deck,
+        cards: mapCards(deck.cards),
+      },
     };
   } catch (error) {
     const prismaError = getPrismaError(error);
@@ -40,12 +44,12 @@ const getDeck = async (deckId: string): Promise<IQueryResult> => {
 
 const getDeckCards = async (deckId: string): Promise<IQueryResult> => {
   try {
-    const deck = await deckFind(deckId);
+    const { cards } = await deckFind(deckId);
 
     return {
       status: 'success',
-      total: deck.cards.length,
-      data: deck.cards,
+      total: cards.length,
+      data: mapCards(cards),
     };
   } catch (error) {
     const prismaError = getPrismaError(error);
@@ -64,7 +68,10 @@ const getDecks = async (): Promise<IQueryResult> => {
     return {
       status: 'success',
       total: decks.length,
-      data: decks,
+      data: decks.map((deck) => ({
+        ...deck,
+        cards: mapCards(deck.cards),
+      })),
     };
   } catch (error) {
     const prismaError = getPrismaError(error);
@@ -82,7 +89,10 @@ const patchDeck = async ({ deckId, deckName, archived }: IPatchDeck): Promise<IQ
 
     return {
       status: 'success',
-      data: deck,
+      data: {
+        ...deck,
+        cards: mapCards(deck.cards),
+      },
     };
   } catch (error) {
     const prismaError = getPrismaError(error);

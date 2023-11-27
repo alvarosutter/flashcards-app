@@ -12,20 +12,23 @@ interface IDeck extends Base {
 
 interface ICard extends Base {
   cardId: string;
-  createdAt: Date;
-  updatedAt: Date;
   cardName: string;
   content: string;
   deckId: string;
-  labels: ILabel[];
+  labels: ILabelsOnCards[];
 }
 
 interface ILabel extends Base {
   labelId: string;
-  createdAt: Date;
-  updatedAt: Date;
   labelName: string;
-  cards: ICard[];
+  cards: ILabelsOnCards[];
 }
 
-export type { IDeck, ICard, ILabel };
+interface ILabelsOnCards {
+  card: ICard;
+  cardId: string;
+  label: ILabel;
+  labelId: string;
+}
+
+export type { IDeck, ICard, ILabel, ILabelsOnCards };

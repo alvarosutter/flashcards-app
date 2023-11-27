@@ -2,6 +2,7 @@ import * as DeckDatabase from '../../database/deck.database';
 import { deckData } from '../helper.tests';
 import { createDeck, deleteDeck, getDeck, getDeckCards, getDecks, patchDeck } from '../../services/deck.service';
 import { IQueryResult } from '../../types/interfaces';
+import mapCards from '../../utils/mapCards.utils';
 
 describe('Create Deck', () => {
   describe('Given all is working correctly', () => {
@@ -38,7 +39,7 @@ describe('Get Deck', () => {
       };
       const expected: IQueryResult = {
         status: 'success',
-        data: { ...deckData, ...input },
+        data: { ...deckData, cards: mapCards(deckData.cards), ...input },
       };
 
       jest.spyOn(DeckDatabase, 'deckFind').mockResolvedValueOnce(deck);
@@ -61,7 +62,7 @@ describe('Get Deck Cards', () => {
       const expected: IQueryResult = {
         status: 'success',
         total: deck.cards.length,
-        data: deck.cards,
+        data: mapCards(deckData.cards),
       };
 
       jest.spyOn(DeckDatabase, 'deckFind').mockResolvedValueOnce(deck);
@@ -78,7 +79,10 @@ describe('Get Decks', () => {
       const expected: IQueryResult = {
         status: 'success',
         total: decks.length,
-        data: decks,
+        data: decks.map((deck) => ({
+          ...deck,
+          cards: mapCards(deck.cards),
+        })),
       };
 
       jest.spyOn(DeckDatabase, 'deckFindMany').mockResolvedValueOnce(decks);
@@ -102,7 +106,7 @@ describe('Patch Deck', () => {
       };
       const expected: IQueryResult = {
         status: 'success',
-        data: { ...deckData, ...input },
+        data: { ...deckData, cards: mapCards(deckData.cards), ...input },
       };
 
       jest.spyOn(DeckDatabase, 'deckUpdate').mockResolvedValueOnce(deck);

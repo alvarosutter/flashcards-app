@@ -17,19 +17,22 @@ const deckFind = async (deckId: string): Promise<IDeck> => {
     where: {
       deckId,
     },
-    include: { cards: true },
+    include: { cards: { include: { labels: { select: { label: true } } } } },
   });
   return deck as IDeck;
 };
 
 const deckFindMany = async (): Promise<IDeck[]> => {
-  const decks = await prisma.deck.findMany();
+  const decks = await prisma.deck.findMany({
+    include: { cards: { include: { labels: { select: { label: true } } } } },
+  });
   return decks as IDeck[];
 };
 
 const deckUpdate = async ({ deckId, deckName, archived }: IPatchDeck): Promise<IDeck> => {
   const deck = await prisma.deck.update({
     where: { deckId },
+    include: { cards: { include: { labels: { select: { label: true } } } } },
     data: {
       deckName,
       archived,
