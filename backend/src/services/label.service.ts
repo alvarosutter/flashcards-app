@@ -1,15 +1,15 @@
-import { deckCreate, deckDelete, deckFind, deckFindMany, deckUpdate } from '../database/deck.database';
-import { ICreateDeck, IPatchDeck, IQueryResult } from '../types/interfaces';
-import { mapDeckCards } from '../utils/mapCards.utils';
+import { labelCreate, labelDelete, labelFind, labelFindMany, labelUpdate } from '../database/label.database';
+import { IPatchLabel, IQueryResult } from '../types/interfaces';
+import { mapLabelCards } from '../utils/mapCards.utils';
 import getPrismaError from '../utils/prismaError.utils';
 
-const createDeck = async ({ deckName, archived }: ICreateDeck): Promise<IQueryResult> => {
+const createLabel = async (labelName: string): Promise<IQueryResult> => {
   try {
-    const newDeck = await deckCreate({ deckName, archived });
+    const newLabel = await labelCreate(labelName);
 
     return {
       status: 'success',
-      data: newDeck,
+      data: newLabel,
     };
   } catch (error) {
     const prismaError = getPrismaError(error);
@@ -21,15 +21,15 @@ const createDeck = async ({ deckName, archived }: ICreateDeck): Promise<IQueryRe
   }
 };
 
-const getDeck = async (deckId: string): Promise<IQueryResult> => {
+const getLabel = async (labelId: string): Promise<IQueryResult> => {
   try {
-    const deck = await deckFind(deckId);
+    const label = await labelFind(labelId);
 
     return {
       status: 'success',
       data: {
-        ...deck,
-        cards: mapDeckCards(deck.cards),
+        ...label,
+        cards: mapLabelCards(label.cards),
       },
     };
   } catch (error) {
@@ -42,14 +42,14 @@ const getDeck = async (deckId: string): Promise<IQueryResult> => {
   }
 };
 
-const getDeckCards = async (deckId: string): Promise<IQueryResult> => {
+const getLabelCards = async (labelId: string): Promise<IQueryResult> => {
   try {
-    const { cards } = await deckFind(deckId);
+    const { cards } = await labelFind(labelId);
 
     return {
       status: 'success',
-      total: cards.length,
-      data: mapDeckCards(cards),
+      total: cards.map((element) => element.card).length,
+      data: mapLabelCards(cards),
     };
   } catch (error) {
     const prismaError = getPrismaError(error);
@@ -61,16 +61,16 @@ const getDeckCards = async (deckId: string): Promise<IQueryResult> => {
   }
 };
 
-const getDecks = async (): Promise<IQueryResult> => {
+const getLabels = async (): Promise<IQueryResult> => {
   try {
-    const decks = await deckFindMany();
+    const labels = await labelFindMany();
 
     return {
       status: 'success',
-      total: decks.length,
-      data: decks.map((deck) => ({
-        ...deck,
-        cards: mapDeckCards(deck.cards),
+      total: labels.length,
+      data: labels.map((label) => ({
+        ...label,
+        cards: mapLabelCards(label.cards),
       })),
     };
   } catch (error) {
@@ -83,15 +83,15 @@ const getDecks = async (): Promise<IQueryResult> => {
   }
 };
 
-const patchDeck = async ({ deckId, deckName, archived }: IPatchDeck): Promise<IQueryResult> => {
+const patchLabel = async ({ labelId, labelName }: IPatchLabel): Promise<IQueryResult> => {
   try {
-    const deck = await deckUpdate({ deckId, deckName, archived });
+    const label = await labelUpdate({ labelId, labelName });
 
     return {
       status: 'success',
       data: {
-        ...deck,
-        cards: mapDeckCards(deck.cards),
+        ...label,
+        cards: mapLabelCards(label.cards),
       },
     };
   } catch (error) {
@@ -104,9 +104,9 @@ const patchDeck = async ({ deckId, deckName, archived }: IPatchDeck): Promise<IQ
   }
 };
 
-const deleteDeck = async (id: string): Promise<IQueryResult> => {
+const deleteLabel = async (id: string): Promise<IQueryResult> => {
   try {
-    await deckDelete(id);
+    await labelDelete(id);
     return {
       status: 'success',
     };
@@ -120,4 +120,4 @@ const deleteDeck = async (id: string): Promise<IQueryResult> => {
   }
 };
 
-export { createDeck, getDeck, getDecks, getDeckCards, patchDeck, deleteDeck };
+export { createLabel, getLabel, getLabels, getLabelCards, patchLabel, deleteLabel };

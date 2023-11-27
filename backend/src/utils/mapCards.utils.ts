@@ -1,7 +1,14 @@
-import { ICard } from '../models/interfaces.models';
+import { ICard, ILabelsOnCards } from '../models/interfaces.models';
 
-function mapCards(cards: ICard[]) {
+function mapDeckCards(cards: ICard[]) {
   return cards.map((card) => ({ ...card, labels: card.labels.map((element) => element.label) }));
 }
 
-export default mapCards;
+function mapLabelCards(cards: ILabelsOnCards[]) {
+  return cards.map((element) => ({
+    ...element.card,
+    labels: element.card.labels.map((e) => e.label),
+  }));
+}
+
+export { mapDeckCards, mapLabelCards };

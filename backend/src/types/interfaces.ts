@@ -16,3 +16,8 @@ export interface IPatchDeck {
   deckName: string;
   archived: boolean;
 }
+
+export interface IPatchLabel {
+  labelId: string;
+  labelName: string;
+}

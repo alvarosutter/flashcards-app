@@ -1,167 +1,78 @@
 import { Request, Response } from 'express';
-import { PrismaClient } from '@prisma/client';
-import getPrismaError from '../utils/prismaError.utils';
 import { ILabel } from '../models/interfaces.models';
+import { createLabel, deleteLabel, getLabel, getLabelCards, getLabels, patchLabel } from '../services/label.service';
 
-const prisma = new PrismaClient();
-
-export const createLabel = async (req: Request, res: Response) => {
+const addLabel = async (req: Request, res: Response) => {
   try {
     const { labelName } = req.body as ILabel;
 
-    const newLabel = await prisma.label.create({
-      data: {
-        labelName,
-      },
-    });
-
-    return res.status(201).send({
-      status: 'success',
-      data: newLabel,
-    });
+    const { statusCode, ...queryResult } = await createLabel(labelName);
+    return res.status(statusCode ?? 201).send(queryResult);
   } catch (error) {
-    const prismaError = getPrismaError(error);
-    return res.status(prismaError.statusCode).send({
-      status: 'failure',
-      message: prismaError.message,
-    });
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return res.status(500).send(errorMessage);
   }
 };
 
-export const getLabels = async (_: Request, res: Response) => {
+const listLabels = async (_: Request, res: Response) => {
   try {
-    const labels = await prisma.label.findMany({
-      include: { cards: { select: { card: { include: { labels: { select: { label: true } } } } } } },
-    });
-
-    return res.status(200).send({
-      status: 'success',
-      data: labels.map((label) => ({
-        ...label,
-        cards: label.cards.map((element) => ({
-          ...element.card,
-          labels: element.card.labels.map((e) => e.label),
-        })),
-      })),
-      total: labels.length,
-    });
+    const { statusCode, ...queryResult } = await getLabels();
+    return res.status(statusCode ?? 200).send(queryResult);
   } catch (error) {
-    const prismaError = getPrismaError(error);
-    return res.status(prismaError.statusCode).send({
-      status: 'failure',
-      message: prismaError.message,
-    });
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return res.status(500).send(errorMessage);
   }
 };
 
-export const getLabel = async (req: Request, res: Response) => {
+const listLabel = async (req: Request, res: Response) => {
   try {
     const { labelId } = req.params;
 
-    const label = await prisma.label.findUniqueOrThrow({
-      where: {
-        labelId,
-      },
-      include: { cards: { select: { card: { include: { labels: { select: { label: true } } } } } } },
-    });
-
-    return res.status(200).send({
-      status: 'success',
-      data: {
-        ...label,
-        cards: label.cards.map((element) => ({
-          ...element.card,
-          labels: element.card.labels.map((e) => e.label),
-        })),
-      },
-    });
+    const { statusCode, ...queryResult } = await getLabel(labelId);
+    return res.status(statusCode ?? 200).send(queryResult);
   } catch (error) {
-    const prismaError = getPrismaError(error);
-    return res.status(prismaError.statusCode).send({
-      status: 'failure',
-      message: prismaError.message,
-    });
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return res.status(500).send(errorMessage);
   }
 };
 
-export const getLabelCards = async (req: Request, res: Response) => {
+const listLabelCards = async (req: Request, res: Response) => {
   try {
     const { labelId } = req.params;
 
-    const label = await prisma.label.findUniqueOrThrow({
-      where: {
-        labelId,
-      },
-      include: { cards: { select: { card: { include: { labels: { select: { label: true } } } } } } },
-    });
-
-    return res.status(200).send({
-      status: 'success',
-      data: label.cards.map((element) => ({
-        ...element.card,
-        labels: element.card.labels.map((e) => e.label),
-      })),
-      total: label.cards.map((element) => element.card).length,
-    });
+    const { statusCode, ...queryResult } = await getLabelCards(labelId);
+    return res.status(statusCode ?? 200).send(queryResult);
   } catch (error) {
-    const prismaError = getPrismaError(error);
-    return res.status(prismaError.statusCode).send({
-      status: 'failure',
-      message: prismaError.message,
-    });
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return res.status(500).send(errorMessage);
   }
 };
 
-export const patchLabel = async (req: Request, res: Response) => {
+const updateLabel = async (req: Request, res: Response) => {
   try {
     const { labelId } = req.params;
     const { labelName } = req.body as ILabel;
 
-    const label = await prisma.label.update({
-      where: {
-        labelId,
-      },
-      include: { cards: { select: { card: { include: { labels: { select: { label: true } } } } } } },
-      data: {
-        labelName,
-      },
-    });
-
-    return res.status(200).send({
-      status: 'success',
-      data: {
-        ...label,
-        cards: label.cards.map((element) => ({
-          ...element.card,
-          labels: element.card.labels.map((e) => e.label),
-        })),
-      },
-    });
+    const { statusCode, ...queryResult } = await patchLabel({ labelId, labelName });
+    return res.status(statusCode ?? 200).send(queryResult);
   } catch (error) {
-    const prismaError = getPrismaError(error);
-    return res.status(prismaError.statusCode).send({
-      status: 'failure',
-      message: prismaError.message,
-    });
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return res.status(500).send(errorMessage);
   }
 };
 
-export const deleteLabel = async (req: Request, res: Response) => {
+const removeLabel = async (req: Request, res: Response) => {
   try {
     const { labelId } = req.params;
-
-    await prisma.label.delete({
-      where: {
-        labelId,
-      },
-    });
-
+    const { statusCode, ...queryResult } = await deleteLabel(labelId);
+    if (statusCode) {
+      return res.status(statusCode).send(queryResult);
+    }
     return res.status(204).send();
   } catch (error) {
-    const prismaError = getPrismaError(error);
-    return res.status(prismaError.statusCode).send({
-      status: 'failure',
-      message: prismaError.message,
-    });
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return res.status(500).send(errorMessage);
   }
 };
+
+export { addLabel, listLabels, listLabel, listLabelCards, updateLabel, removeLabel };
