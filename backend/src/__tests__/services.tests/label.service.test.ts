@@ -30,7 +30,7 @@ describe('Get Label', () => {
   describe('Given all is working correctly', () => {
     it('should get the label', async () => {
       const input = {
-        labelId: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
+        labelId: '5d332513-6d80-4457-b799-bd1cbcf68f25',
       };
       const label = {
         ...labelData,
@@ -52,7 +52,7 @@ describe('Get Label Cards', () => {
   describe('Given all is working correctly', () => {
     it('should get the label cards', async () => {
       const input = {
-        labelId: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
+        labelId: '5d332513-6d80-4457-b799-bd1cbcf68f25',
       };
       const label = {
         ...labelData,
@@ -95,9 +95,8 @@ describe('Patch Label', () => {
   describe('Given all is working correctly', () => {
     it('should update the label', async () => {
       const input = {
-        labelId: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
+        labelId: '5d332513-6d80-4457-b799-bd1cbcf68f25',
         labelName: 'my label',
-        archived: true,
       };
       const label = {
         ...labelData,
@@ -119,7 +118,7 @@ describe('Delete Label', () => {
   describe('Given all is working correctly', () => {
     it('should delete the label', async () => {
       const input = {
-        labelId: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
+        labelId: '5d332513-6d80-4457-b799-bd1cbcf68f25',
       };
 
       const expected: IQueryResult = {

@@ -21,3 +21,17 @@ export interface IPatchLabel {
   labelId: string;
   labelName: string;
 }
+
+export interface ICreateCard {
+  cardName: string;
+  content: string;
+  deckId: string;
+  labels?: string[];
+}
+
+export interface IPatchCard {
+  cardId: string;
+  cardName: string;
+  content: string;
+  labels?: string[];
+}
