@@ -18,7 +18,7 @@ describe('Create Card', () => {
       };
       const expected: IQueryResult = {
         status: 'success',
-        data: { ...cardData, ...input },
+        data: { ...cardData, labels: mapLabels(cardData.labels), ...input },
       };
 
       jest.spyOn(CardDatabase, 'cardCreate').mockResolvedValueOnce(card);
