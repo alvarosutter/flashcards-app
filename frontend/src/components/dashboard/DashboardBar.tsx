@@ -1,4 +1,5 @@
 import styled, { useTheme } from 'styled-components';
+import { StylesConfig } from 'react-select';
 import Select, { Option } from './Select';
 import AddButton from './AddButton';
 import GoBackButton from './GoBackButton';
@@ -52,7 +53,7 @@ const Divider = styled.div`
   margin: 5px auto;
 `;
 
-interface DashboardBarProps {
+interface IDashboardBarProps {
   title?: string;
   sortItems?: {
     options: Option[];
@@ -73,12 +74,46 @@ interface DashboardBarProps {
   goBack?: () => void;
 }
 
-function DashboardBar({ title, sortItems, filterItems, filterCards, addItem, goBack }: DashboardBarProps) {
+function DashboardBar({
+  title = '',
+  sortItems = {
+    options: [],
+    defaultOption: {
+      value: '',
+      label: '',
+    },
+    onChange(): void {
+      throw new Error('Function not implemented.');
+    },
+  },
+  filterItems = {
+    value: false,
+    name: '',
+    onClick(): void {
+      throw new Error('Function not implemented.');
+    },
+  },
+  filterCards = {
+    options: [],
+    defaultOption: {
+      value: '',
+      label: '',
+    },
+    onChange(): void {
+      throw new Error('Function not implemented.');
+    },
+  },
+  addItem = () => {
+    throw new Error('Function not implemented.');
+  },
+  goBack = () => {
+    throw new Error('Function not implemented.');
+  },
+}: IDashboardBarProps) {
   const theme = useTheme();
   /** Custom Style for React-Select */
-  const customStyles = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    control: (provided: any, state: any) => ({
+  const customStyles: StylesConfig<Option> = {
+    control: (provided, state) => ({
       ...provided,
       background: theme.colors.headerBg,
       border: 'none',
@@ -91,8 +126,8 @@ function DashboardBar({ title, sortItems, filterItems, filterCards, addItem, goB
       fontSize: 'inherit',
       fontFamily: theme.fonts.btnFont,
     }),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    menu: (provided: any) => ({
+
+    menu: (provided) => ({
       ...provided,
       minWidth: 'fit-content',
       background: theme.colors.inputBg,
@@ -101,8 +136,8 @@ function DashboardBar({ title, sortItems, filterItems, filterCards, addItem, goB
       fontFamily: theme.fonts.btnFont,
       cursor: 'pointer',
     }),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    option: (provided: any) => ({
+
+    option: (provided) => ({
       ...provided,
       minWidth: 'fit-content',
       background: theme.colors.inputBg,

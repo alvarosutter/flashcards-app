@@ -54,12 +54,12 @@ const DarkModeButton = styled.div`
   }
 `;
 
-interface NavbarProps {
+interface INavbarProps {
   setMode: (darkMode: boolean) => void;
   darkMode: boolean;
 }
 
-function Navbar({ setMode, darkMode }: NavbarProps) {
+function Navbar({ setMode, darkMode }: INavbarProps) {
   return (
     <Nav>
       <NavList>

@@ -22,7 +22,6 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
 
   const theme = useTheme();
   const customStyles = {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     control: (provided: any) => ({
       ...provided,
       color: theme.colors.altText,
@@ -32,7 +31,7 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
       fontSize: 'inherit',
       fontFamily: theme.fonts.btnFont,
     }),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     multiValue: (provided: any) => ({
       ...provided,
       color: theme.colors.primaryText,
@@ -41,7 +40,7 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
       fontSize: 'inherit',
       fontFamily: theme.fonts.btnFont,
     }),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     menu: (provided: any) => ({
       ...provided,
       background: theme.colors.inputBg,
@@ -49,7 +48,7 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
       fontSize: 'inherit',
       fontFamily: theme.fonts.btnFont,
     }),
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
     option: (provided: any) => ({
       ...provided,
       background: theme.colors.inputBg,

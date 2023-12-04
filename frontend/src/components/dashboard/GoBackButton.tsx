@@ -13,14 +13,13 @@ const Button = styled.button`
   }
 `;
 
-interface GoBackButtonProps {
+interface IGoBackButtonProps {
   title: string;
   style?: React.CSSProperties;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onClick: (e: any) => void;
+  onClick: (e: unknown) => void;
 }
 
-function GoBackButton({ title, style, onClick }: GoBackButtonProps) {
+function GoBackButton({ title, style = {}, onClick }: IGoBackButtonProps) {
   return (
     <Button title={title} style={style} onClick={onClick}>
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">

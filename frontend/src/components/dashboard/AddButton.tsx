@@ -14,14 +14,13 @@ const Button = styled.button`
   }
 `;
 
-interface AddButtonProps {
+interface IAddButtonProps {
   title: string;
   style?: React.CSSProperties;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onClick: (e: any) => void;
+  onClick: (e: unknown) => void;
 }
 
-function AddButton({ title, style, onClick }: AddButtonProps) {
+function AddButton({ title, style = {}, onClick }: IAddButtonProps) {
   return (
     <Button title={title} style={style} onClick={onClick}>
       <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 16 16">

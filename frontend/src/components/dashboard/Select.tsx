@@ -3,8 +3,8 @@ import Select, { GroupBase, StylesConfig } from 'react-select';
 import styled from 'styled-components';
 
 export type Option = {
-  value: string;
   label: string;
+  value: string;
 };
 
 const Wrapper = styled.div`
@@ -51,16 +51,16 @@ interface MySelectProps {
   selectLabel?: string;
 }
 function MySelect({
-  style,
+  style = {},
   options,
-  defaultValue,
+  defaultValue = { label: '', value: '' },
   name,
   isMulti,
   isSearchable,
   isClearable,
   isDisabled,
   onChange,
-  selectLabel,
+  selectLabel = '',
 }: MySelectProps) {
   const select = (
     <Select

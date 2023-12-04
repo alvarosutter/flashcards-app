@@ -13,13 +13,13 @@ const Main = styled.main`
   margin: auto;
   padding: 10px 10px;
 `;
-interface LayoutProps {
+interface ILayoutProps {
   children: React.ReactNode | React.ReactNode[];
   setMode: (darkMode: boolean) => void;
   darkMode: boolean;
 }
 
-function Layout({ children, setMode, darkMode }: LayoutProps) {
+function Layout({ children, setMode, darkMode }: ILayoutProps) {
   return (
     <>
       <Header>

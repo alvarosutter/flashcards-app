@@ -19,11 +19,11 @@ const HeaderStyle = styled.header`
   }
 `;
 
-interface HeaderProps {
+interface IHeaderProps {
   children: React.ReactNode | React.ReactNode[];
 }
 
-function Header({ children }: HeaderProps) {
+function Header({ children }: IHeaderProps) {
   return <HeaderStyle>{children}</HeaderStyle>;
 }
 

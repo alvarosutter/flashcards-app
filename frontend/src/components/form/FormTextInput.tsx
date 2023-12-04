@@ -1,5 +1,4 @@
-/* eslint-disable react/jsx-props-no-spreading */
-import { forwardRef, InputHTMLAttributes, Ref, TextareaHTMLAttributes } from 'react';
+import { forwardRef, InputHTMLAttributes, Ref } from 'react';
 import styled from 'styled-components';
 
 const InputWrapper = styled.div`
@@ -44,31 +43,12 @@ const Checkbox = styled.input`
   cursor: pointer;
 `;
 
-const TextArea = styled.textarea`
-  color: ${({ theme }) => theme.colors.primaryText};
-  background-color: ${({ theme }) => theme.colors.inputBg};
-  border: none;
-  font-family: ${({ theme }) => theme.fonts.btnFont}, sans-serif;
-  font-weight: ${({ theme }) => theme.fontWeights.light};
-  font-size: ${({ theme }) => theme.fontSizes.small};
-  width: 100%;
-  height: 200px;
-  margin: 0;
-  padding: 5px 10px;
-`;
-
-interface FormInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface IFormInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   name: string;
 }
 
-interface TextAreaInputProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
-  label: string;
-  name: string;
-}
-
-// eslint-disable-next-line react/display-name
-export const FormInput = forwardRef(({ label, name, ...props }: FormInputProps, ref: Ref<HTMLInputElement>) => (
+const FormTextInput = forwardRef(({ label, name, ...props }: IFormInputProps, ref: Ref<HTMLInputElement>) => (
   <InputWrapper>
     <Label htmlFor={name} style={props.type === 'checkbox' ? { textAlign: 'center' } : {}}>
       {label}
@@ -77,13 +57,6 @@ export const FormInput = forwardRef(({ label, name, ...props }: FormInputProps, 
     {props.type === 'checkbox' && <Checkbox id={name} {...props} ref={ref} />}
   </InputWrapper>
 ));
+FormTextInput.displayName = 'FormTextInput';
 
-// eslint-disable-next-line react/display-name
-export const TextAreaInput = forwardRef(
-  ({ label, name, ...rest }: TextAreaInputProps, ref: Ref<HTMLTextAreaElement>) => (
-    <InputWrapper>
-      <Label htmlFor={name}>{label}</Label>
-      <TextArea id={name} {...rest} ref={ref} />
-    </InputWrapper>
-  ),
-);
+export default FormTextInput;

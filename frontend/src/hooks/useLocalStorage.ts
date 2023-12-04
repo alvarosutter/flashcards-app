@@ -3,7 +3,7 @@ import { useCallback, useState, useEffect } from 'react';
 function getSavedValue(key: string, initialValue: string | number | boolean | object | (() => void)) {
   const jsonValue = localStorage.getItem(key);
   if (jsonValue != null) {
-    return JSON.parse(jsonValue);
+    return JSON.parse(jsonValue) as unknown;
   }
   if (initialValue instanceof Function) {
     return initialValue();

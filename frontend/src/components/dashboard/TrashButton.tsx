@@ -18,13 +18,12 @@ const Button = styled.button`
   }
 `;
 
-interface TrashButtonProps {
+interface ITrashButtonProps {
   style?: React.CSSProperties;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onClick: (e: any) => void;
+  onClick: (e: unknown) => void;
 }
 
-function TrashButton({ style, onClick }: TrashButtonProps) {
+function TrashButton({ style = {}, onClick }: ITrashButtonProps) {
   return (
     <Button style={style} onClick={onClick}>
       &times;

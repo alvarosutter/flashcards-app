@@ -22,7 +22,6 @@ const Button = styled.button`
 `;
 
 export function FormButton(props: React.ButtonHTMLAttributes<HTMLButtonElement>) {
-  // eslint-disable-next-line react/jsx-props-no-spreading
   return <Button {...props} />;
 }
 

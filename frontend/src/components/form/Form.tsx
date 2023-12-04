@@ -10,12 +10,11 @@ const FormStyle = styled.form`
   user-select: none;
 `;
 
-interface FormProps extends FormHTMLAttributes<HTMLFormElement> {
+interface IFormProps extends FormHTMLAttributes<HTMLFormElement> {
   children: React.ReactNode | React.ReactNode[];
 }
 
-function Form({ children, ...rest }: FormProps) {
-  // eslint-disable-next-line react/jsx-props-no-spreading
+function Form({ children, ...rest }: IFormProps) {
   return <FormStyle {...rest}>{children}</FormStyle>;
 }
 

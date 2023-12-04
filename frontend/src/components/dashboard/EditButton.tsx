@@ -14,15 +14,14 @@ const Button = styled.button`
   }
 `;
 
-interface EditButtonProps {
+interface IEditButtonProps {
   style?: React.CSSProperties;
   width?: string;
   height?: string;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onClick: (e: any) => void;
+  onClick: (e: unknown) => void;
 }
 
-function EditButton({ style, onClick, width = '14', height = '14' }: EditButtonProps) {
+function EditButton({ style = {}, onClick, width = '14', height = '14' }: IEditButtonProps) {
   return (
     <Button style={style} onClick={onClick}>
       <svg xmlns="http://www.w3.org/2000/svg" width={width} height={height} fill="currentColor" viewBox="0 0 16 16">
