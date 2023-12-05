@@ -13,15 +13,9 @@ const Button = styled.button`
   }
 `;
 
-interface IGoBackButtonProps {
-  title: string;
-  style?: React.CSSProperties;
-  onClick: (e: unknown) => void;
-}
-
-function GoBackButton({ title, style = {}, onClick }: IGoBackButtonProps) {
+function GoBackButton({ title, onClick, ...restProps }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <Button title={title} style={style} onClick={onClick}>
+    <Button title={title} onClick={onClick} {...restProps}>
       <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
         <path
           fillRule="evenodd"

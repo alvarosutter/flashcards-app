@@ -14,8 +14,8 @@ interface IFormProps extends FormHTMLAttributes<HTMLFormElement> {
   children: React.ReactNode | React.ReactNode[];
 }
 
-function Form({ children, ...rest }: IFormProps) {
-  return <FormStyle {...rest}>{children}</FormStyle>;
+function Form({ children, ...restProps }: IFormProps) {
+  return <FormStyle {...restProps}>{children}</FormStyle>;
 }
 
 export default Form;

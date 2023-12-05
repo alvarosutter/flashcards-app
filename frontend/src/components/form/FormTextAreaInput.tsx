@@ -37,12 +37,14 @@ interface ITextAreaInputProps extends TextareaHTMLAttributes<HTMLTextAreaElement
   name: string;
 }
 
-const FormTextAreaInput = forwardRef(({ label, name, ...rest }: ITextAreaInputProps, ref: Ref<HTMLTextAreaElement>) => (
-  <InputWrapper>
-    <Label htmlFor={name}>{label}</Label>
-    <TextArea id={name} {...rest} ref={ref} />
-  </InputWrapper>
-));
+const FormTextAreaInput = forwardRef(
+  ({ label, name, ...restProps }: ITextAreaInputProps, ref: Ref<HTMLTextAreaElement>) => (
+    <InputWrapper>
+      <Label htmlFor={name}>{label}</Label>
+      <TextArea id={name} {...restProps} ref={ref} />
+    </InputWrapper>
+  ),
+);
 FormTextAreaInput.displayName = 'FormTextAreaInput';
 
 export default FormTextAreaInput;

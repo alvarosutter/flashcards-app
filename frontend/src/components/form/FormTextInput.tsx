@@ -48,13 +48,13 @@ interface IFormInputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
 }
 
-const FormTextInput = forwardRef(({ label, name, ...props }: IFormInputProps, ref: Ref<HTMLInputElement>) => (
+const FormTextInput = forwardRef(({ label, name, type, ...restProps }: IFormInputProps, ref: Ref<HTMLInputElement>) => (
   <InputWrapper>
-    <Label htmlFor={name} style={props.type === 'checkbox' ? { textAlign: 'center' } : {}}>
+    <Label htmlFor={name} style={type === 'checkbox' ? { textAlign: 'center' } : {}}>
       {label}
     </Label>
-    {props.type === 'text' && <Text id={name} {...props} ref={ref} />}
-    {props.type === 'checkbox' && <Checkbox id={name} {...props} ref={ref} />}
+    {type === 'text' && <Text id={name} {...restProps} ref={ref} />}
+    {type === 'checkbox' && <Checkbox id={name} {...restProps} ref={ref} />}
   </InputWrapper>
 ));
 FormTextInput.displayName = 'FormTextInput';
