@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { IDeck } from '../models/interfaces.models';
 import { createDeck, deleteDeck, getDeck, getDeckCards, getDecks, patchDeck } from '../services/deck.service';
+import { IDeck } from '../types/deck';
 
 const addDeck = async (req: Request, res: Response) => {
   try {

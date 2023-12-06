@@ -2,7 +2,7 @@ import supertest from 'supertest';
 import createServer from '../../utils/server.utils';
 import * as DeckService from '../../services/deck.service';
 import { deckData } from '../helper.tests';
-import { IQueryResult } from '../../types/interfaces';
+import IQueryResult from '../../types/queryResult';
 
 const app = createServer();
 

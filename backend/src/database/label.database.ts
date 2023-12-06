@@ -1,5 +1,4 @@
-import { ILabel } from '../models/interfaces.models';
-import { IPatchLabel } from '../types/interfaces';
+import { ILabel, IPatchLabel } from '../types/label';
 import prisma from '../utils/prismaClient.utils';
 
 const labelCreate = async (labelName: string): Promise<ILabel> => {

@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
-import { ILabel } from '../models/interfaces.models';
 import { createLabel, deleteLabel, getLabel, getLabelCards, getLabels, patchLabel } from '../services/label.service';
+import { ILabel } from '../types/label';
 
 const addLabel = async (req: Request, res: Response) => {
   try {

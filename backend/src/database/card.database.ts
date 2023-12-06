@@ -1,5 +1,4 @@
-import { ICard } from '../models/interfaces.models';
-import { ICreateCard, IPatchCard } from '../types/interfaces';
+import { ICreateCard, ICard, IPatchCard } from '../types/card';
 import prisma from '../utils/prismaClient.utils';
 
 const getLabelsFromDB = async (reqLabels: string[]) => {

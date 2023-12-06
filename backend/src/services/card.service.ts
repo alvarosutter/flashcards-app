@@ -7,7 +7,8 @@ import {
   cardUpdate,
   removeLabelsFromCard,
 } from '../database/card.database';
-import { ICreateCard, IPatchCard, IQueryResult } from '../types/interfaces';
+import { ICreateCard, IPatchCard } from '../types/card';
+import IQueryResult from '../types/queryResult';
 import mapLabels from '../utils/mapLabels.utils';
 import getPrismaError from '../utils/prismaError.utils';
 

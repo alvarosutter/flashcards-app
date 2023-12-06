@@ -2,7 +2,7 @@ import supertest from 'supertest';
 import createServer from '../../utils/server.utils';
 import * as LabelService from '../../services/label.service';
 import { labelData } from '../helper.tests';
-import { IQueryResult } from '../../types/interfaces';
+import IQueryResult from '../../types/queryResult';
 
 const app = createServer();
 

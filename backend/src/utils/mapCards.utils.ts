@@ -1,4 +1,5 @@
-import { ICard, ILabelsOnCards } from '../models/interfaces.models';
+import { ICard } from '../types/card';
+import ILabelsOnCards from '../types/labelOnCards';
 
 function mapDeckCards(cards: ICard[]) {
   return cards.map((card) => ({ ...card, labels: card.labels.map((element) => element.label) }));

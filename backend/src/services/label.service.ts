@@ -1,5 +1,6 @@
 import { labelCreate, labelDelete, labelFind, labelFindMany, labelUpdate } from '../database/label.database';
-import { IPatchLabel, IQueryResult } from '../types/interfaces';
+import { IPatchLabel } from '../types/label';
+import IQueryResult from '../types/queryResult';
 import { mapLabelCards } from '../utils/mapCards.utils';
 import getPrismaError from '../utils/prismaError.utils';
 

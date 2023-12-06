@@ -1,8 +1,8 @@
 import * as CardDatabase from '../../database/card.database';
 import { cardData } from '../helper.tests';
 import { createCard, deleteCard, getCard, getCardLabels, getCards, patchCard } from '../../services/card.service';
-import { IQueryResult } from '../../types/interfaces';
 import mapLabels from '../../utils/mapLabels.utils';
+import IQueryResult from '../../types/queryResult';
 
 describe('Create Card', () => {
   describe('Given all is working correctly', () => {

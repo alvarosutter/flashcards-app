@@ -2,7 +2,7 @@ import supertest from 'supertest';
 import createServer from '../../utils/server.utils';
 import * as CardService from '../../services/card.service';
 import { cardData } from '../helper.tests';
-import { IQueryResult } from '../../types/interfaces';
+import IQueryResult from '../../types/queryResult';
 
 const app = createServer();
 

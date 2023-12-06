@@ -1,4 +1,7 @@
-import { ICard, IDeck, ILabel, ILabelsOnCards } from '../models/interfaces.models';
+import { ICard } from '../types/card';
+import { IDeck } from '../types/deck';
+import { ILabel } from '../types/label';
+import ILabelsOnCards from '../types/labelOnCards';
 
 const date = new Date();
 

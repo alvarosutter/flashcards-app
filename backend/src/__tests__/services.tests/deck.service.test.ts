@@ -1,8 +1,9 @@
 import * as DeckDatabase from '../../database/deck.database';
 import { deckData } from '../helper.tests';
 import { createDeck, deleteDeck, getDeck, getDeckCards, getDecks, patchDeck } from '../../services/deck.service';
-import { IQueryResult } from '../../types/interfaces';
+
 import { mapDeckCards } from '../../utils/mapCards.utils';
+import IQueryResult from '../../types/queryResult';
 
 describe('Create Deck', () => {
   describe('Given all is working correctly', () => {

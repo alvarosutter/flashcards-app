@@ -1,8 +1,8 @@
 import * as LabelDatabase from '../../database/label.database';
 import { labelData } from '../helper.tests';
 import { createLabel, deleteLabel, getLabel, getLabelCards, getLabels, patchLabel } from '../../services/label.service';
-import { IQueryResult } from '../../types/interfaces';
 import { mapLabelCards } from '../../utils/mapCards.utils';
+import IQueryResult from '../../types/queryResult';
 
 describe('Create Label', () => {
   describe('Given all is working correctly', () => {

@@ -1,5 +1,4 @@
-import { IDeck } from '../models/interfaces.models';
-import { ICreateDeck, IPatchDeck } from '../types/interfaces';
+import { ICreateDeck, IDeck, IPatchDeck } from '../types/deck';
 import prisma from '../utils/prismaClient.utils';
 
 const deckCreate = async ({ deckName, archived }: ICreateDeck): Promise<IDeck> => {

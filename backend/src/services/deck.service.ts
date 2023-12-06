@@ -1,5 +1,6 @@
 import { deckCreate, deckDelete, deckFind, deckFindMany, deckUpdate } from '../database/deck.database';
-import { ICreateDeck, IPatchDeck, IQueryResult } from '../types/interfaces';
+import { ICreateDeck, IPatchDeck } from '../types/deck';
+import IQueryResult from '../types/queryResult';
 import { mapDeckCards } from '../utils/mapCards.utils';
 import getPrismaError from '../utils/prismaError.utils';
 
