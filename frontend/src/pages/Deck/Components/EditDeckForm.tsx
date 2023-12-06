@@ -1,8 +1,9 @@
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Form, FormButton, FormError, FormInput } from '../../../components/form';
+import { Form, FormButton, FormError, FormTextInput } from '../../../components/form';
 import { patchDeck } from '../../../services/Flashcards/deck.services';
 import { Deck } from '../../../services/Flashcards/flashcardsUtils';
+import FormCheckboxInput from '../../../components/form/FormCheckboxInput';
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -34,9 +35,7 @@ function EditDeckForm({ deck, onSubmitForm, onCancel }: EditDeckFormProps) {
     const archived = archivedInputRef.current?.checked;
 
     const editedDeck = {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       deckName: name!,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       archived: archived!,
     };
 
@@ -49,13 +48,13 @@ function EditDeckForm({ deck, onSubmitForm, onCancel }: EditDeckFormProps) {
     <>
       <Form
         id="editDeck"
-        onSubmit={submitHandler}
+        onSubmit={() => submitHandler}
         onBlur={() => setFormError(undefined)}
         style={{
           flexDirection: 'row',
         }}
       >
-        <FormInput
+        <FormTextInput
           label="Name"
           name="deck-name"
           ref={nameInputRef}
@@ -64,7 +63,7 @@ function EditDeckForm({ deck, onSubmitForm, onCancel }: EditDeckFormProps) {
           defaultValue={deck.deckName}
           required
         />
-        <FormInput
+        <FormCheckboxInput
           label="Archived"
           name="deck-archived"
           ref={archivedInputRef}

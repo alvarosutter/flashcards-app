@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import Select, { GroupBase, StylesConfig } from 'react-select';
 import styled from 'styled-components';
 

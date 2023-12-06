@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 import styled, { useTheme } from 'styled-components';
+import { StylesConfig } from 'react-select';
 import { Card } from '../../../services/Flashcards/flashcardsUtils';
 import Select, { Option } from '../../../components/dashboard/Select';
 import useLoader from '../../../hooks/useLoader';
 import { getLabels } from '../../../services/Flashcards/label.services';
 import { getDecks } from '../../../services/Flashcards/deck.services';
 import { deleteCard, patchCard } from '../../../services/Flashcards/card.services';
-import { DangerButton, Form, FormButton, FormError, FormInput, TextAreaInput } from '../../../components/form';
+import { DangerButton, Form, FormButton, FormError, FormTextAreaInput, FormTextInput } from '../../../components/form';
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -34,8 +35,8 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
   const selectedLabels: string[] = [];
 
   const theme = useTheme();
-  const customStyles = {
-    control: (provided: any) => ({
+  const customStyles: StylesConfig<Option> = {
+    control: (provided) => ({
       ...provided,
       color: theme.colors.altText,
       background: theme.colors.inputBg,
@@ -45,7 +46,7 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
       fontFamily: theme.fonts.btnFont,
     }),
 
-    multiValue: (provided: any) => ({
+    multiValue: (provided) => ({
       ...provided,
       color: theme.colors.primaryText,
       backgroundColor: '#6b6b6b',
@@ -54,7 +55,7 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
       fontFamily: theme.fonts.btnFont,
     }),
 
-    menu: (provided: any) => ({
+    menu: (provided) => ({
       ...provided,
       background: theme.colors.inputBg,
       boxShadow: `0 0 0 1px ${theme.colors.primary}`,
@@ -62,7 +63,7 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
       fontFamily: theme.fonts.btnFont,
     }),
 
-    option: (provided: any) => ({
+    option: (provided) => ({
       ...provided,
       background: theme.colors.inputBg,
       '&:hover': {
@@ -98,9 +99,7 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
 
     const editedCard = {
       deckId: cardDeck,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       cardName: name!,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       content: content!,
       labels: selectedLabels,
     };
@@ -111,19 +110,23 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
   };
 
   useEffect(() => {
-    fetchData().then(() => {
-      setLoading(false);
-    });
+    fetchData()
+      .then(() => {
+        setLoading(false);
+      })
+      .catch(() => {
+        throw Error('Error when fetching data');
+      });
   }, []);
 
   if (isLoading) {
     return getLoader();
   }
   return (
-    <Form onSubmit={submitHandler} onBlur={() => setFormError(undefined)}>
+    <Form onSubmit={() => submitHandler} onBlur={() => setFormError(undefined)}>
       <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', margin: '0', padding: '0' }}>
         <div>
-          <FormInput
+          <FormTextInput
             label="Title"
             name="card-name"
             type="text"
@@ -144,12 +147,11 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
             isSearchable={false}
             isClearable={false}
             isDisabled={false}
-            // eslint-disable-next-line no-return-assign
             onChange={(option: readonly Option[] | Option | null) => setCardDeck((option as Option).value)}
           />
         </div>
       </div>
-      <TextAreaInput
+      <FormTextAreaInput
         label="Text"
         name="card-content"
         defaultValue={card.content}
@@ -169,15 +171,12 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
         isClearable
         isDisabled={false}
         onChange={(option: readonly Option[] | Option | null) => {
-          // eslint-disable-next-line array-callback-return
-          (option as Option[]).map((label: Option) => {
-            selectedLabels.push(label.label);
-          });
+          (option as Option[]).map((label: Option) => selectedLabels.push(label.label));
         }}
       />
       {formError && <FormError>{formError}</FormError>}
       <ButtonContainer>
-        <DangerButton onClick={deleteCardHandler}>Delete Card</DangerButton>
+        <DangerButton onClick={() => deleteCardHandler}>Delete Card</DangerButton>
         <FormButton type="submit">Edit Card</FormButton>
       </ButtonContainer>
     </Form>

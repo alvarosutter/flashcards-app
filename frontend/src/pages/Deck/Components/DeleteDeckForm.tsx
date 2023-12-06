@@ -37,7 +37,7 @@ function DeleteDeckForm({ deck, onSubmitForm, onCancel }: DeleteDeckFormProps) {
   };
 
   return (
-    <Form onSubmit={submitHandler} onBlur={() => setFormError(undefined)}>
+    <Form onSubmit={() => submitHandler} onBlur={() => setFormError(undefined)}>
       <Text>Are you sure you want to delete &apos;{deck?.deckName}&apos; ?</Text>
       <ButtonContainer>
         <FormButton onClick={onCancel}>No</FormButton>

@@ -31,15 +31,12 @@ export type ResJsonFail = {
   message: string;
 };
 
-export type ResJsonMulti = {
+export type ResJsonSuccess = {
   status: 'success';
-  data: Array<Deck | Card | Label>;
+  data: Array<Deck | Card | Label> | Deck | Card | Label;
 };
 
-export type ResJsonSingle = {
-  status: 'success';
-  data: Deck | Card | Label;
-};
+export type ResJson = ResJsonFail | ResJsonSuccess;
 
 export function isDeck(obj: Deck | Card | Label): obj is Deck {
   return 'deckName' in obj;

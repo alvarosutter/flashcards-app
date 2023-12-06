@@ -68,7 +68,6 @@ const CardInfo = styled.div`
   white-space: nowrap;
   scroll-behavior: smooth;
   user-select: none;
-  // overflow-x: hidden;
   /* width */
   ::-webkit-scrollbar {
     height: 2.5px;

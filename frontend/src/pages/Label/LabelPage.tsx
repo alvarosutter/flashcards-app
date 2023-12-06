@@ -11,13 +11,22 @@ import EditLabelForm from './Components/EditLabelForm';
 import DeleteLabelForm from './Components/DeleteLabelForm';
 import Cards from '../Card/Cards';
 
+interface ILabelsArray {
+  array: Label[];
+  set: React.Dispatch<React.SetStateAction<Label[]>>;
+  sort: (callback: (a: Label, b: Label) => number) => void;
+}
+
 function LabelPage() {
-  const { array: labels, set, sort } = useArray([]);
+  const { array: labels, set, sort } = useArray([]) as ILabelsArray;
   const [sortValue, setSortValue] = useLocalStorage('label-sort', {
     label: sortOptions[0].label,
     value: sortOptions[0].value,
-  });
-  const [showEmpty, setShowEmpty] = useLocalStorage('show-empty', true);
+  }) as [Option, React.Dispatch<React.SetStateAction<Option>>];
+  const [showEmpty, setShowEmpty] = useLocalStorage('show-empty', true) as [
+    boolean,
+    React.Dispatch<React.SetStateAction<boolean>>,
+  ];
   const [addLabelVisible, setAddLabelVisible] = useState(false);
   const [editLabel, setEditLabel] = useState<Label | null>(null);
   const [deleteLabel, setDeleteLabel] = useState<Label | null>(null);
@@ -35,10 +44,27 @@ function LabelPage() {
     sortLabels(sortValue);
   }
 
+  async function handleOnSubmitAddLabel() {
+    setAddLabelVisible(false);
+    await fetchLabels();
+  }
+  async function handleOnSubmitEditLabel() {
+    setEditLabel(null);
+    await fetchLabels();
+  }
+  async function handleOnSubmitDeleteLabel() {
+    setEditLabel(null);
+    await fetchLabels();
+  }
+
   useEffect(() => {
-    fetchLabels().then(() => {
-      setLoading(false);
-    });
+    fetchLabels()
+      .then(() => {
+        setLoading(false);
+      })
+      .catch(() => {
+        throw Error('Error when fetching data');
+      });
   }, []);
 
   return (
@@ -56,13 +82,13 @@ function LabelPage() {
               })),
               defaultOption: sortValue,
               onChange: (value) => {
-                setSortValue(value);
+                setSortValue(value as Option);
                 sortLabels(value as Option);
               },
             }}
             filterItems={{
               name: 'Empty',
-              value: showEmpty,
+              value: showEmpty as boolean,
               onClick: (value) => {
                 setShowEmpty(value);
               },
@@ -70,7 +96,7 @@ function LabelPage() {
             addItem={() => setAddLabelVisible(true)}
           />
           <LabelGallery
-            labels={showEmpty ? (labels as Label[]) : (labels as Label[]).filter((label) => label.cards?.length !== 0)}
+            labels={showEmpty ? labels : labels.filter((label) => label.cards?.length !== 0)}
             setEditLabel={setEditLabel}
             setDeleteLabel={setDeleteLabel}
             setSelectedLabel={setSelectedLabel}
@@ -82,12 +108,7 @@ function LabelPage() {
               setAddLabelVisible(false);
             }}
           >
-            <AddLabelForm
-              onSubmitForm={() => {
-                setAddLabelVisible(false);
-                fetchLabels();
-              }}
-            />
+            <AddLabelForm onSubmitForm={() => handleOnSubmitAddLabel} />
           </Modal>
           <Modal
             title="Edit Label"
@@ -97,11 +118,7 @@ function LabelPage() {
             }}
           >
             <EditLabelForm
-              onSubmitForm={() => {
-                setEditLabel(null);
-                fetchLabels();
-              }}
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              onSubmitForm={() => handleOnSubmitEditLabel}
               label={editLabel!}
               onCancel={() => {
                 setEditLabel(null);
@@ -116,11 +133,7 @@ function LabelPage() {
             }}
           >
             <DeleteLabelForm
-              onSubmitForm={() => {
-                setDeleteLabel(null);
-                fetchLabels();
-              }}
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              onSubmitForm={() => handleOnSubmitDeleteLabel}
               label={deleteLabel!}
               onCancel={() => {
                 setDeleteLabel(null);

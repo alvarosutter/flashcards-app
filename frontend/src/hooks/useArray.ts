@@ -1,26 +1,37 @@
 import { useState } from 'react';
+import { Deck, Card, Label } from '../services/Flashcards/flashcardsUtils';
 
-function useArray(defaultValue: Array<unknown>) {
+function useArray(defaultValue: Array<Deck | Card | Label>) {
   const [array, setArray] = useState(defaultValue);
 
-  function filter(callback: (element?: unknown, index?: number, array?: Array<unknown>) => unknown) {
-    setArray((arr: unknown[]) => arr.filter(callback));
+  function filter(
+    callback: (
+      element?: Deck | Card | Label,
+      index?: number,
+      array?: Array<Deck | Card | Label>,
+    ) => Deck | Card | Label,
+  ) {
+    setArray((arr: Array<Deck | Card | Label>) => arr.filter(callback));
   }
 
-  function sort(callback: (a: unknown, b: unknown) => number) {
-    setArray((arr: unknown[]) => arr.sort(callback));
+  function sort(callback: (a: Deck | Card | Label, b: Deck | Card | Label) => number) {
+    setArray((arr: Array<Deck | Card | Label>) => arr.sort(callback));
   }
 
-  function add(element: unknown) {
-    setArray((arr: unknown[]) => [...arr, element]);
+  function add(element: Deck | Card | Label) {
+    setArray((arr: Array<Deck | Card | Label>) => [...arr, element]);
   }
 
-  function update(index: number, element: unknown) {
-    setArray((arr: unknown[]) => [...arr.slice(0, index), element, ...arr.slice(index + 1, arr.length - 1)]);
+  function update(index: number, element: Deck | Card | Label) {
+    setArray((arr: Array<Deck | Card | Label>) => [
+      ...arr.slice(0, index),
+      element,
+      ...arr.slice(index + 1, arr.length - 1),
+    ]);
   }
 
   function remove(index: number) {
-    setArray((arr: unknown[]) => [...arr.slice(0, index), ...arr.slice(index + 1, arr.length - 1)]);
+    setArray((arr: Array<Deck | Card | Label>) => [...arr.slice(0, index), ...arr.slice(index + 1, arr.length - 1)]);
   }
 
   function clear() {

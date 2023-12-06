@@ -15,7 +15,7 @@ const GlobalStyle = createGlobalStyle`
     font-family: ${({ theme }) => theme.fonts.textFont}, sans-serif;
     line-height: 1.5;
     scroll-behavior: smooth;
-    // overflow-x: hidden;
+   
     /* width */
     ::-webkit-scrollbar {
       width: 7px;

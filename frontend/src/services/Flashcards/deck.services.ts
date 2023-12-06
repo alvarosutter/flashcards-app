@@ -1,11 +1,11 @@
 import { get, patch, post, remove } from '../../lib/API/fetchApi';
-import { URL, Card, Deck, ResJsonFail, ResJsonMulti, ResJsonSingle } from './flashcardsUtils';
+import { URL, Card, Deck, ResJson, ResJsonFail, ResJsonSuccess } from './flashcardsUtils';
 
 const url = `${URL}/decks`;
 
 export async function createDeck(body: object): Promise<Deck> {
   const response = await post(url, body);
-  const json: ResJsonSingle | ResJsonFail = await response.json();
+  const json: ResJsonSuccess | ResJsonFail = (await response.json()) as ResJson;
   if (json.status === 'success') {
     return json.data as Deck;
   }
@@ -14,7 +14,7 @@ export async function createDeck(body: object): Promise<Deck> {
 
 export async function getDecks(): Promise<Deck[]> {
   const response = await get(url);
-  const json: ResJsonMulti | ResJsonFail = await response.json();
+  const json: ResJsonSuccess | ResJsonFail = (await response.json()) as ResJson;
   if (json.status === 'success') {
     return json.data as Deck[];
   }
@@ -23,7 +23,7 @@ export async function getDecks(): Promise<Deck[]> {
 
 export async function getDeck(deckId: string): Promise<Deck> {
   const response = await get(`${url}/${deckId}`);
-  const json: ResJsonSingle | ResJsonFail = await response.json();
+  const json: ResJsonSuccess | ResJsonFail = (await response.json()) as ResJson;
   if (json.status === 'success') {
     return json.data as Deck;
   }
@@ -32,7 +32,7 @@ export async function getDeck(deckId: string): Promise<Deck> {
 
 export async function getDeckCards(deckId: string): Promise<Card[]> {
   const response = await get(`${url}/${deckId}/cards`);
-  const json: ResJsonMulti | ResJsonFail = await response.json();
+  const json: ResJsonSuccess | ResJsonFail = (await response.json()) as ResJson;
   if (json.status === 'success') {
     return json.data as Card[];
   }
@@ -41,7 +41,7 @@ export async function getDeckCards(deckId: string): Promise<Card[]> {
 
 export async function patchDeck(deckId: string, body: object): Promise<Deck> {
   const response = await patch(`${url}/${deckId}`, body);
-  const json: ResJsonSingle | ResJsonFail = await response.json();
+  const json: ResJsonSuccess | ResJsonFail = (await response.json()) as ResJson;
   if (json.status === 'success') {
     return json.data as Deck;
   }
@@ -53,6 +53,6 @@ export async function deleteDeck(deckId: string): Promise<null> {
   if (response.status === 204) {
     return null;
   }
-  const json: ResJsonFail = await response.json();
+  const json = (await response.json()) as ResJsonFail;
   throw new Error(json.message);
 }

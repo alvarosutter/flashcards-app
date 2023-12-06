@@ -16,12 +16,18 @@ interface CardsProps {
   goBack: () => void;
 }
 
+interface ICardsArray {
+  array: Card[];
+  set: React.Dispatch<React.SetStateAction<Card[]>>;
+  sort: (callback: (a: Card, b: Card) => number) => void;
+}
+
 function Cards({ item, goBack }: CardsProps) {
-  const { array: cards, set: setCards, sort } = useArray(item.cards);
+  const { array: cards, set: setCards, sort } = useArray(item.cards) as ICardsArray;
   const [sortValue, setSortValue] = useLocalStorage('card-sort', {
     label: sortOptions[0].label,
     value: sortOptions[0].value,
-  });
+  }) as [{ label: string; value: string }, (value: Option | null) => void];
   const [filterValue, setFilterValue] = useState<Option>({ label: 'All', value: 'All' });
   const [filterData, setFilterData] = useState<Option[]>([]);
   const [pageType, setPageType] = useState<'deck' | 'label'>('deck');
@@ -76,10 +82,23 @@ function Cards({ item, goBack }: CardsProps) {
     return arr;
   }
 
+  async function handleOnSubmitAddCard() {
+    setAddCardVisible(false);
+    await fetchCards();
+  }
+  async function handleOnSubmitEditCard() {
+    setEditCard(null);
+    await fetchCards();
+  }
+
   useEffect(() => {
-    fetchFilterData().then(() => {
-      setLoading(false);
-    });
+    fetchFilterData()
+      .then(() => {
+        setLoading(false);
+      })
+      .catch(() => {
+        throw Error('Error when fetching data');
+      });
   }, []);
 
   return (
@@ -95,7 +114,7 @@ function Cards({ item, goBack }: CardsProps) {
               })),
               defaultOption: sortValue,
               onChange: (option) => {
-                setSortValue(option);
+                setSortValue(option as Option);
                 sortCards(option as Option);
               },
             }}
@@ -118,14 +137,7 @@ function Cards({ item, goBack }: CardsProps) {
                 setAddCardVisible(false);
               }}
             >
-              <AddCardForm
-                onSubmitForm={() => {
-                  setAddCardVisible(false);
-                  fetchCards();
-                }}
-                deckName={item.deckName}
-                deckId={item.deckId}
-              />
+              <AddCardForm onSubmitForm={() => handleOnSubmitAddCard} deckName={item.deckName} deckId={item.deckId} />
             </Modal>
           )}
           <Modal
@@ -135,14 +147,7 @@ function Cards({ item, goBack }: CardsProps) {
               setEditCard(null);
             }}
           >
-            <EditCardForm
-              onSubmitForm={() => {
-                setEditCard(null);
-                fetchCards();
-              }}
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-              card={editCard!}
-            />
+            <EditCardForm onSubmitForm={() => handleOnSubmitEditCard} card={editCard!} />
           </Modal>
           {selectedCard && (
             <CardSlider

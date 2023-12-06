@@ -1,17 +1,15 @@
 import { useCallback, useState, useEffect } from 'react';
 
-function getSavedValue(key: string, initialValue: string | number | boolean | object | (() => void)) {
+function getSavedValue(key: string, initialValue: string | number | boolean | object) {
   const jsonValue = localStorage.getItem(key);
   if (jsonValue != null) {
-    return JSON.parse(jsonValue) as unknown;
+    return JSON.parse(jsonValue) as typeof initialValue;
   }
-  if (initialValue instanceof Function) {
-    return initialValue();
-  }
+
   return initialValue;
 }
 
-function useLocalStorage(key: string, initialValue: string | number | boolean | object | (() => void)) {
+function useLocalStorage(key: string, initialValue: string | number | boolean | object) {
   const [value, setValue] = useState(() => getSavedValue(key, initialValue));
 
   useEffect(() => {

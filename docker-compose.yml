@@ -13,3 +13,31 @@ services:
       - '5432:5432'
     volumes:
       - ./backend/postgres-data:/var/lib/postgresql/data
+
+  backend:
+    container_name: backend
+    image: node:latest
+    environment:
+      - DB_USER=admin
+      - DB_PASSWORD=pass
+      - DB_NAME=flashcards
+      - DB_HOST=db
+      - PORT=4000
+    working_dir: /var/app/backend
+    ports:
+      - '4000:4000'
+    command: npm start
+    volumes:
+      - ./backend:/var/app/backend
+
+  frontend:
+    container_name: frontend
+    image: node:latest
+    environment:
+      - VITE_API_URL=http://127.0.0.1:4000/api/v1
+    working_dir: /var/app/frontend
+    ports:
+      - '3000:3000'
+    command: npm start
+    volumes:
+      - ./frontend:/var/app/frontend

@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Form, FormButton, FormError, FormInput } from '../../../components/form';
+import { Form, FormButton, FormError, FormTextInput } from '../../../components/form';
 import { Label } from '../../../services/Flashcards/flashcardsUtils';
 import { patchLabel } from '../../../services/Flashcards/label.services';
 
@@ -34,7 +34,6 @@ function EditLabelForm({ label, onSubmitForm, onCancel }: EditLabelFormProps) {
     const name = nameInputRef.current?.value;
 
     const editedLabel = {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       labelName: name!,
     };
 
@@ -44,8 +43,8 @@ function EditLabelForm({ label, onSubmitForm, onCancel }: EditLabelFormProps) {
   };
 
   return (
-    <Form onSubmit={submitHandler} onBlur={() => setFormError(undefined)}>
-      <FormInput
+    <Form onSubmit={() => submitHandler} onBlur={() => setFormError(undefined)}>
+      <FormTextInput
         label="Name"
         name="label-name"
         ref={nameInputRef}

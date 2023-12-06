@@ -91,19 +91,16 @@ function Modal({ children, title, isOpen, onCancel }: ModalProps) {
   }, [isOpen]);
 
   return (
-    // eslint-disable-next-line react/jsx-no-useless-fragment
-    <>
-      {isOpen && (
-        <ModalOverlay>
-          <ModalHolder onClick={(e) => e.stopPropagation()}>
-            <ModalCloseButton onClick={onCancel}>&times;</ModalCloseButton>
-            <ModalTitle>{title}</ModalTitle>
-            <Divider />
-            {children}
-          </ModalHolder>
-        </ModalOverlay>
-      )}
-    </>
+    isOpen && (
+      <ModalOverlay>
+        <ModalHolder onClick={(e) => e.stopPropagation()}>
+          <ModalCloseButton onClick={onCancel}>&times;</ModalCloseButton>
+          <ModalTitle>{title}</ModalTitle>
+          <Divider />
+          {children}
+        </ModalHolder>
+      </ModalOverlay>
+    )
   );
 }
 

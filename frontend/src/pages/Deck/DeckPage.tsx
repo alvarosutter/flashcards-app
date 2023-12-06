@@ -11,13 +11,22 @@ import DeckGallery from './Components/DeckGallery';
 import DeleteDeckForm from './Components/DeleteDeckForm';
 import EditDeckForm from './Components/EditDeckForm';
 
+interface IDecksArray {
+  array: Deck[];
+  set: React.Dispatch<React.SetStateAction<Deck[]>>;
+  sort: (callback: (a: Deck, b: Deck) => number) => void;
+}
+
 function DeckPage() {
   const [sortValue, setSortValue] = useLocalStorage('deck-sort', {
     label: sortOptions[0].label,
     value: sortOptions[0].value,
-  });
-  const [showArchived, setShowArchived] = useLocalStorage('show-archived', true);
-  const { array: decks, set, sort } = useArray([]);
+  }) as [Option, React.Dispatch<React.SetStateAction<Option>>];
+  const [showArchived, setShowArchived] = useLocalStorage('show-archived', true) as [
+    boolean,
+    React.Dispatch<React.SetStateAction<boolean>>,
+  ];
+  const { array: decks, set, sort } = useArray([]) as IDecksArray;
   const [addDeckVisible, setAddDeckVisible] = useState(false);
   const [editDeck, setEditDeck] = useState<Deck | null>(null);
   const [deleteDeck, setDeleteDeck] = useState<Deck | null>(null);
@@ -35,10 +44,27 @@ function DeckPage() {
     sortDecks(sortValue);
   }
 
+  async function handleOnSubmitAddDeck() {
+    setAddDeckVisible(false);
+    await fetchDecks();
+  }
+  async function handleOnSubmitEditDeck() {
+    setEditDeck(null);
+    await fetchDecks();
+  }
+  async function handleOnSubmitDeleteDeck() {
+    setEditDeck(null);
+    await fetchDecks();
+  }
+
   useEffect(() => {
-    fetchDecks().then(() => {
-      setLoading(false);
-    });
+    fetchDecks()
+      .then(() => {
+        setLoading(false);
+      })
+      .catch(() => {
+        throw Error('Error when fetching data');
+      });
   }, []);
 
   return (
@@ -49,9 +75,13 @@ function DeckPage() {
           goBack={() => {
             setSelectedDeck(null);
             setLoading(true);
-            fetchDecks().then(() => {
-              setLoading(false);
-            });
+            fetchDecks()
+              .then(() => {
+                setLoading(false);
+              })
+              .catch(() => {
+                throw Error('Error when fetching data');
+              });
           }}
         />
       )}
@@ -67,7 +97,7 @@ function DeckPage() {
               })),
               defaultOption: sortValue,
               onChange: (option) => {
-                setSortValue(option);
+                setSortValue(option as Option);
                 sortDecks(option as Option);
               },
             }}
@@ -81,7 +111,7 @@ function DeckPage() {
             addItem={() => setAddDeckVisible(true)}
           />
           <DeckGallery
-            decks={showArchived ? (decks as Deck[]) : (decks as Deck[]).filter((deck) => deck.archived === false)}
+            decks={showArchived ? decks : decks.filter((deck) => deck.archived === false)}
             setEditDeck={setEditDeck}
             setDeleteDeck={setDeleteDeck}
             setSelectedDeck={setSelectedDeck}
@@ -94,10 +124,8 @@ function DeckPage() {
             }}
           >
             <AddDeckForm
-              onSubmitForm={() => {
-                setAddDeckVisible(false);
-                fetchDecks();
-              }}
+              // eslint-disable-next-line react/jsx-no-bind, @typescript-eslint/no-misused-promises
+              onSubmit={handleOnSubmitAddDeck}
             />
           </Modal>
           <Modal
@@ -108,11 +136,7 @@ function DeckPage() {
             }}
           >
             <EditDeckForm
-              onSubmitForm={() => {
-                setEditDeck(null);
-                fetchDecks();
-              }}
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              onSubmitForm={() => handleOnSubmitEditDeck}
               deck={editDeck!}
               onCancel={() => {
                 setEditDeck(null);
@@ -127,11 +151,7 @@ function DeckPage() {
             }}
           >
             <DeleteDeckForm
-              onSubmitForm={() => {
-                setDeleteDeck(null);
-                fetchDecks();
-              }}
-              // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+              onSubmitForm={() => handleOnSubmitDeleteDeck}
               deck={deleteDeck!}
               onCancel={() => {
                 setDeleteDeck(null);

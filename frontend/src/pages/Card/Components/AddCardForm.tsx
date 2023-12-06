@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTheme } from 'styled-components';
-import { Form, FormButton, FormError, FormInput, TextAreaInput } from '../../../components/form';
+import { StylesConfig } from 'react-select';
+import { Form, FormButton, FormError, FormTextAreaInput, FormTextInput } from '../../../components/form';
 import Select, { Option } from '../../../components/dashboard/Select';
 import useLoader from '../../../hooks/useLoader';
 import { createCard } from '../../../services/Flashcards/card.services';
@@ -21,8 +22,8 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
   const selectedLabels: string[] = [];
 
   const theme = useTheme();
-  const customStyles = {
-    control: (provided: any) => ({
+  const customStyles: StylesConfig<Option> = {
+    control: (provided) => ({
       ...provided,
       color: theme.colors.altText,
       background: theme.colors.inputBg,
@@ -32,7 +33,7 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
       fontFamily: theme.fonts.btnFont,
     }),
 
-    multiValue: (provided: any) => ({
+    multiValue: (provided) => ({
       ...provided,
       color: theme.colors.primaryText,
       backgroundColor: '#6b6b6b',
@@ -41,7 +42,7 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
       fontFamily: theme.fonts.btnFont,
     }),
 
-    menu: (provided: any) => ({
+    menu: (provided) => ({
       ...provided,
       background: theme.colors.inputBg,
       boxShadow: `0 0 0 1px ${theme.colors.primary}`,
@@ -49,7 +50,7 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
       fontFamily: theme.fonts.btnFont,
     }),
 
-    option: (provided: any) => ({
+    option: (provided) => ({
       ...provided,
       background: theme.colors.inputBg,
       '&:hover': {
@@ -75,9 +76,7 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
     const content = contentInputRef.current?.value;
 
     const card = {
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       cardName: name!,
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
       content: content!,
       deckId,
       labels: selectedLabels,
@@ -89,25 +88,37 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
   };
 
   useEffect(() => {
-    fetchData().then(() => {
-      setLoading(false);
-    });
+    fetchData()
+      .then(() => {
+        setLoading(false);
+      })
+      .catch(() => {
+        throw Error('Error when fetching data');
+      });
   }, []);
 
   if (isLoading) {
     return getLoader();
   }
   return (
-    <Form onSubmit={submitHandler} onBlur={() => setFormError(undefined)}>
+    <Form onSubmit={() => submitHandler} onBlur={() => setFormError(undefined)}>
       <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', margin: '0', padding: '0' }}>
         <div>
-          <FormInput label="Title" name="card-name" type="text" ref={nameInputRef} maxLength={25} required autoFocus />
+          <FormTextInput
+            label="Title"
+            name="card-name"
+            type="text"
+            ref={nameInputRef}
+            maxLength={25}
+            required
+            autoFocus
+          />
         </div>
         <div>
-          <FormInput label="Deck" name="deck-name" type="text" value={deckName} readOnly />
+          <FormTextInput label="Deck" name="deck-name" type="text" value={deckName} readOnly />
         </div>
       </div>
-      <TextAreaInput label="Text" name="card-content" ref={contentInputRef} rows={4} cols={60} required />
+      <FormTextAreaInput label="Text" name="card-content" ref={contentInputRef} rows={4} cols={60} required />
       <Select
         selectLabel="Labels"
         style={customStyles}
@@ -118,10 +129,7 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
         isClearable
         isDisabled={false}
         onChange={(option: readonly Option[] | Option | null) => {
-          // eslint-disable-next-line array-callback-return
-          (option as Option[]).map((label: Option) => {
-            selectedLabels.push(label.label);
-          });
+          (option as Option[]).map((label: Option) => selectedLabels.push(label.label));
         }}
       />
       {formError && <FormError>{formError}</FormError>}
