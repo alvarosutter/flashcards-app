@@ -123,7 +123,7 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
     return getLoader();
   }
   return (
-    <Form onSubmit={() => submitHandler} onBlur={() => setFormError(undefined)}>
+    <Form onSubmit={submitHandler} onBlur={() => setFormError(undefined)}>
       <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', margin: '0', padding: '0' }}>
         <div>
           <FormTextInput
@@ -176,7 +176,7 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
       />
       {formError && <FormError>{formError}</FormError>}
       <ButtonContainer>
-        <DangerButton onClick={() => deleteCardHandler}>Delete Card</DangerButton>
+        <DangerButton onClick={deleteCardHandler}>Delete Card</DangerButton>
         <FormButton type="submit">Edit Card</FormButton>
       </ButtonContainer>
     </Form>

@@ -48,7 +48,7 @@ function EditDeckForm({ deck, onSubmitForm, onCancel }: EditDeckFormProps) {
     <>
       <Form
         id="editDeck"
-        onSubmit={() => submitHandler}
+        onSubmit={submitHandler}
         onBlur={() => setFormError(undefined)}
         style={{
           flexDirection: 'row',

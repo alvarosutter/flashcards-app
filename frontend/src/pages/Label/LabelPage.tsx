@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import DashboardBar from '../../components/dashboard/DashboardBar';
 import { useArray, useLoader, useLocalStorage } from '../../hooks';
 import { Label, sortOptions } from '../../services/Flashcards/flashcardsUtils';
@@ -44,18 +44,20 @@ function LabelPage() {
     sortLabels(sortValue);
   }
 
-  async function handleOnSubmitAddLabel() {
+  const handleOnSubmitAddLabel = useCallback(async () => {
     setAddLabelVisible(false);
     await fetchLabels();
-  }
-  async function handleOnSubmitEditLabel() {
+  }, [setAddLabelVisible]);
+
+  const handleOnSubmitEditLabel = useCallback(async () => {
     setEditLabel(null);
     await fetchLabels();
-  }
-  async function handleOnSubmitDeleteLabel() {
-    setEditLabel(null);
+  }, [setEditLabel]);
+
+  const handleOnSubmitDeleteLabel = useCallback(async () => {
+    setDeleteLabel(null);
     await fetchLabels();
-  }
+  }, [setDeleteLabel]);
 
   useEffect(() => {
     fetchLabels()
@@ -108,7 +110,7 @@ function LabelPage() {
               setAddLabelVisible(false);
             }}
           >
-            <AddLabelForm onSubmitForm={() => handleOnSubmitAddLabel} />
+            <AddLabelForm onSubmitForm={handleOnSubmitAddLabel} />
           </Modal>
           <Modal
             title="Edit Label"
@@ -118,7 +120,7 @@ function LabelPage() {
             }}
           >
             <EditLabelForm
-              onSubmitForm={() => handleOnSubmitEditLabel}
+              onSubmitForm={handleOnSubmitEditLabel}
               label={editLabel!}
               onCancel={() => {
                 setEditLabel(null);
@@ -133,7 +135,7 @@ function LabelPage() {
             }}
           >
             <DeleteLabelForm
-              onSubmitForm={() => handleOnSubmitDeleteLabel}
+              onSubmitForm={handleOnSubmitDeleteLabel}
               label={deleteLabel!}
               onCancel={() => {
                 setDeleteLabel(null);

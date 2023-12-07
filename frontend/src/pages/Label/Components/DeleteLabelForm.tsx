@@ -37,7 +37,7 @@ function DeleteLabelForm({ label, onSubmitForm, onCancel }: DeleteLabelFormProps
   };
 
   return (
-    <Form onSubmit={() => submitHandler} onBlur={() => setFormError(undefined)}>
+    <Form onSubmit={submitHandler} onBlur={() => setFormError(undefined)}>
       <Text>Are you sure you want to delete &apos;{label?.labelName}&apos; ?</Text>
       <ButtonContainer>
         <FormButton onClick={onCancel}>No</FormButton>

@@ -43,7 +43,7 @@ function EditLabelForm({ label, onSubmitForm, onCancel }: EditLabelFormProps) {
   };
 
   return (
-    <Form onSubmit={() => submitHandler} onBlur={() => setFormError(undefined)}>
+    <Form onSubmit={submitHandler} onBlur={() => setFormError(undefined)}>
       <FormTextInput
         label="Name"
         name="label-name"

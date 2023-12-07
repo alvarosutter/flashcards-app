@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import DashboardBar from '../../components/dashboard/DashboardBar';
 import Modal from '../../components/ui/Modal';
 import { Option } from '../../components/dashboard/Select';
@@ -82,14 +82,15 @@ function Cards({ item, goBack }: CardsProps) {
     return arr;
   }
 
-  async function handleOnSubmitAddCard() {
+  const handleOnSubmitAddCard = useCallback(async () => {
     setAddCardVisible(false);
     await fetchCards();
-  }
-  async function handleOnSubmitEditCard() {
+  }, [setAddCardVisible]);
+
+  const handleOnSubmitEditCard = useCallback(async () => {
     setEditCard(null);
     await fetchCards();
-  }
+  }, [setEditCard]);
 
   useEffect(() => {
     fetchFilterData()
@@ -137,7 +138,7 @@ function Cards({ item, goBack }: CardsProps) {
                 setAddCardVisible(false);
               }}
             >
-              <AddCardForm onSubmitForm={() => handleOnSubmitAddCard} deckName={item.deckName} deckId={item.deckId} />
+              <AddCardForm onSubmitForm={handleOnSubmitAddCard} deckName={item.deckName} deckId={item.deckId} />
             </Modal>
           )}
           <Modal
@@ -147,7 +148,7 @@ function Cards({ item, goBack }: CardsProps) {
               setEditCard(null);
             }}
           >
-            <EditCardForm onSubmitForm={() => handleOnSubmitEditCard} card={editCard!} />
+            <EditCardForm onSubmitForm={handleOnSubmitEditCard} card={editCard!} />
           </Modal>
           {selectedCard && (
             <CardSlider

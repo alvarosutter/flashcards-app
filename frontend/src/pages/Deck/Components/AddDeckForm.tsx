@@ -4,10 +4,10 @@ import { createDeck } from '../../../services/Flashcards/deck.services';
 import FormCheckboxInput from '../../../components/form/FormCheckboxInput';
 
 interface AddDeckFormProps {
-  onSubmit: () => void;
+  onSubmitForm: () => void;
 }
 
-function AddDeckForm({ onSubmit }: AddDeckFormProps) {
+function AddDeckForm({ onSubmitForm }: AddDeckFormProps) {
   const [formError, setFormError] = useState<undefined | string>();
   const nameInputRef = useRef<HTMLInputElement>(null);
   const archivedInputRef = useRef<HTMLInputElement>(null);
@@ -27,7 +27,7 @@ function AddDeckForm({ onSubmit }: AddDeckFormProps) {
     };
 
     await addDeckHandler(deck)
-      .then(() => onSubmit())
+      .then(() => onSubmitForm())
       .catch(() => setFormError('Name is invalid or already exists'));
   };
 
@@ -35,7 +35,6 @@ function AddDeckForm({ onSubmit }: AddDeckFormProps) {
     <>
       <Form
         id="addDeck"
-        // eslint-disable-next-line @typescript-eslint/no-misused-promises
         onSubmit={submitHandler}
         onBlur={() => setFormError(undefined)}
         style={{ flexDirection: 'row' }}

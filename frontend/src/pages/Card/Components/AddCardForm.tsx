@@ -101,7 +101,7 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
     return getLoader();
   }
   return (
-    <Form onSubmit={() => submitHandler} onBlur={() => setFormError(undefined)}>
+    <Form onSubmit={submitHandler} onBlur={() => setFormError(undefined)}>
       <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', margin: '0', padding: '0' }}>
         <div>
           <FormTextInput

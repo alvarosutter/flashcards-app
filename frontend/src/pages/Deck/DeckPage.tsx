@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import DashboardBar from '../../components/dashboard/DashboardBar';
 import Modal from '../../components/ui/Modal';
 import { Option } from '../../components/dashboard/Select';
 import { useArray, useLoader, useLocalStorage } from '../../hooks';
 import { getDecks } from '../../services/Flashcards/deck.services';
 import { Deck, sortOptions } from '../../services/Flashcards/flashcardsUtils';
-import Cards from '../Card/Cards';
 import AddDeckForm from './Components/AddDeckForm';
 import DeckGallery from './Components/DeckGallery';
 import DeleteDeckForm from './Components/DeleteDeckForm';
 import EditDeckForm from './Components/EditDeckForm';
+import Cards from '../Card/Cards';
 
 interface IDecksArray {
   array: Deck[];
@@ -44,18 +44,20 @@ function DeckPage() {
     sortDecks(sortValue);
   }
 
-  async function handleOnSubmitAddDeck() {
+  const handleOnSubmitAddDeck = useCallback(async () => {
     setAddDeckVisible(false);
     await fetchDecks();
-  }
-  async function handleOnSubmitEditDeck() {
+  }, [setAddDeckVisible]);
+
+  const handleOnSubmitEditDeck = useCallback(async () => {
     setEditDeck(null);
     await fetchDecks();
-  }
-  async function handleOnSubmitDeleteDeck() {
-    setEditDeck(null);
+  }, [setEditDeck]);
+
+  const handleOnSubmitDeleteDeck = useCallback(async () => {
+    setDeleteDeck(null);
     await fetchDecks();
-  }
+  }, [setDeleteDeck]);
 
   useEffect(() => {
     fetchDecks()
@@ -123,10 +125,7 @@ function DeckPage() {
               setAddDeckVisible(false);
             }}
           >
-            <AddDeckForm
-              // eslint-disable-next-line react/jsx-no-bind, @typescript-eslint/no-misused-promises
-              onSubmit={handleOnSubmitAddDeck}
-            />
+            <AddDeckForm onSubmitForm={handleOnSubmitAddDeck} />
           </Modal>
           <Modal
             title="Edit Deck"
@@ -136,7 +135,7 @@ function DeckPage() {
             }}
           >
             <EditDeckForm
-              onSubmitForm={() => handleOnSubmitEditDeck}
+              onSubmitForm={handleOnSubmitEditDeck}
               deck={editDeck!}
               onCancel={() => {
                 setEditDeck(null);
@@ -151,7 +150,7 @@ function DeckPage() {
             }}
           >
             <DeleteDeckForm
-              onSubmitForm={() => handleOnSubmitDeleteDeck}
+              onSubmitForm={handleOnSubmitDeleteDeck}
               deck={deleteDeck!}
               onCancel={() => {
                 setDeleteDeck(null);

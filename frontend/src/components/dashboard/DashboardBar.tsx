@@ -74,42 +74,8 @@ interface IDashboardBarProps {
   goBack?: () => void;
 }
 
-function DashboardBar({
-  title = '',
-  sortItems = {
-    options: [],
-    defaultOption: {
-      value: '',
-      label: '',
-    },
-    onChange(): void {
-      throw new Error('Function not implemented.');
-    },
-  },
-  filterItems = {
-    value: false,
-    name: '',
-    onClick(): void {
-      throw new Error('Function not implemented.');
-    },
-  },
-  filterCards = {
-    options: [],
-    defaultOption: {
-      value: '',
-      label: '',
-    },
-    onChange(): void {
-      throw new Error('Function not implemented.');
-    },
-  },
-  addItem = () => {
-    throw new Error('Function not implemented.');
-  },
-  goBack = () => {
-    throw new Error('Function not implemented.');
-  },
-}: IDashboardBarProps) {
+// eslint-disable-next-line react/require-default-props
+function DashboardBar({ title, sortItems, filterItems, filterCards, addItem, goBack }: IDashboardBarProps) {
   const theme = useTheme();
   /** Custom Style for React-Select */
   const customStyles: StylesConfig<Option> = {

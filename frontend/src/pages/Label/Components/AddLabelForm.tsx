@@ -28,7 +28,7 @@ function AddLabelForm({ onSubmitForm }: AddLabelFormProps) {
   };
 
   return (
-    <Form onSubmit={() => submitHandler} onBlur={() => setFormError(undefined)}>
+    <Form onSubmit={submitHandler} onBlur={() => setFormError(undefined)}>
       <FormTextInput label="Name" name="label-name" ref={nameInputRef} type="text" maxLength={15} required autoFocus />
       {formError && <FormError>{formError}</FormError>}
       <FormButton style={{ margin: '25px 0 15px' }} type="submit">
