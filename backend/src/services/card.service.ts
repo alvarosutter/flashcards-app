@@ -12,13 +12,13 @@ import IQueryResult from '../types/queryResult';
 import mapLabels from '../utils/mapLabels.utils';
 import getPrismaError from '../utils/prismaError.utils';
 
-const createCard = async ({ cardName, content, deckId, labels }: ICreateCard): Promise<IQueryResult> => {
+const createCard = async ({ name, content, deckId, labels }: ICreateCard): Promise<IQueryResult> => {
   try {
-    let card = await cardCreate({ cardName, content, deckId });
+    let card = await cardCreate({ name, content, deckId });
 
-    if (labels && !labels.length) {
-      await assignLabelsToCard(labels, card.cardId);
-      card = await cardFind(card.cardId);
+    if (labels) {
+      await assignLabelsToCard(labels, card.id);
+      card = await cardFind(card.id);
     }
 
     return {
@@ -38,9 +38,9 @@ const createCard = async ({ cardName, content, deckId, labels }: ICreateCard): P
   }
 };
 
-const getCard = async (cardId: string): Promise<IQueryResult> => {
+const getCard = async (id: string): Promise<IQueryResult> => {
   try {
-    const card = await cardFind(cardId);
+    const card = await cardFind(id);
 
     return {
       status: 'success',
@@ -59,9 +59,9 @@ const getCard = async (cardId: string): Promise<IQueryResult> => {
   }
 };
 
-const getCardLabels = async (cardId: string): Promise<IQueryResult> => {
+const getCardLabels = async (id: string): Promise<IQueryResult> => {
   try {
-    const { labels } = await cardFind(cardId);
+    const { labels } = await cardFind(id);
     const cardLabels = mapLabels(labels);
 
     return {
@@ -101,17 +101,15 @@ const getCards = async (): Promise<IQueryResult> => {
   }
 };
 
-const patchCard = async ({ cardId, cardName, content, labels }: IPatchCard): Promise<IQueryResult> => {
+const patchCard = async ({ id, name, content, labels }: IPatchCard): Promise<IQueryResult> => {
   try {
-    const card = await cardUpdate({ cardId, cardName, content });
+    const card = await cardUpdate({ id, name, content });
 
     if (labels) {
-      const labelsToRemove = card.labels
-        .map((e) => e.label.labelName)
-        .filter((labelName) => !labels.includes(labelName));
+      const labelsToRemove = card.labels.map((e) => e.label.name).filter((labelName) => !labels.includes(labelName));
 
-      await removeLabelsFromCard(labelsToRemove, card.cardId);
-      await assignLabelsToCard(labels, card.cardId);
+      await removeLabelsFromCard(labelsToRemove, card.id);
+      await assignLabelsToCard(labels, card.id);
     }
 
     return {

@@ -9,7 +9,7 @@ describe('Create Deck', () => {
   describe('Given all is working correctly', () => {
     it('should create a new deck', async () => {
       const input = {
-        deckName: 'my deck',
+        name: 'my deck',
         archived: false,
       };
       const deck = {
@@ -32,7 +32,7 @@ describe('Get Deck', () => {
   describe('Given all is working correctly', () => {
     it('should get the deck', async () => {
       const input = {
-        deckId: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
+        id: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
       };
       const deck = {
         ...deckData,
@@ -44,7 +44,7 @@ describe('Get Deck', () => {
       };
 
       jest.spyOn(DeckDatabase, 'deckFind').mockResolvedValueOnce(deck);
-      const result: IQueryResult = await getDeck(input.deckId);
+      const result: IQueryResult = await getDeck(input.id);
       expect(result).toEqual(expected);
     });
   });
@@ -54,7 +54,7 @@ describe('Get Deck Cards', () => {
   describe('Given all is working correctly', () => {
     it('should get the deck cards', async () => {
       const input = {
-        deckId: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
+        id: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
       };
       const deck = {
         ...deckData,
@@ -67,7 +67,7 @@ describe('Get Deck Cards', () => {
       };
 
       jest.spyOn(DeckDatabase, 'deckFind').mockResolvedValueOnce(deck);
-      const result: IQueryResult = await getDeckCards(input.deckId);
+      const result: IQueryResult = await getDeckCards(input.id);
       expect(result).toEqual(expected);
     });
   });
@@ -97,8 +97,8 @@ describe('Patch Deck', () => {
   describe('Given all is working correctly', () => {
     it('should update the deck', async () => {
       const input = {
-        deckId: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
-        deckName: 'my deck',
+        id: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
+        name: 'my deck',
         archived: true,
       };
       const deck = {
@@ -121,7 +121,7 @@ describe('Delete Deck', () => {
   describe('Given all is working correctly', () => {
     it('should delete the deck', async () => {
       const input = {
-        deckId: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
+        id: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
       };
 
       const expected: IQueryResult = {
@@ -129,7 +129,7 @@ describe('Delete Deck', () => {
       };
 
       jest.spyOn(DeckDatabase, 'deckDelete').mockResolvedValueOnce();
-      const result: IQueryResult = await deleteDeck(input.deckId);
+      const result: IQueryResult = await deleteDeck(input.id);
       expect(result).toEqual(expected);
     });
   });

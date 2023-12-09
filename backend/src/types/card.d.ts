@@ -1,25 +1,25 @@
 import ILabelsOnCards from './labelOnCards';
 
 interface ICard {
-  cardId: string;
+  id: string;
   createdAt: Date;
   updatedAt: Date;
-  cardName: string;
+  name: string;
   content: string;
   deckId: string;
   labels: ILabelsOnCards[];
 }
 
 interface ICreateCard {
-  cardName: string;
+  name: string;
   content: string;
   deckId: string;
   labels?: string[];
 }
 
 interface IPatchCard {
-  cardId: string;
-  cardName: string;
+  id: string;
+  name: string;
   content: string;
   labels?: string[];
 }

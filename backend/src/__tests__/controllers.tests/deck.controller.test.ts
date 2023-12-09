@@ -10,7 +10,7 @@ describe('Add Deck', () => {
   describe('Given all is working correctly', () => {
     it('should create a new deck', async () => {
       const input = {
-        deckName: 'my deck',
+        name: 'my deck',
         archived: false,
       };
       const expected: IQueryResult = {
@@ -29,7 +29,7 @@ describe('Add Deck', () => {
   describe('Given the server is not connected to the database', () => {
     it('should return an error', async () => {
       const input = {
-        deckName: 'my deck',
+        name: 'my deck',
         archived: false,
       };
       const expected: IQueryResult = {
@@ -52,7 +52,7 @@ describe('Add Deck', () => {
   describe('Given something went wrong during adding a new deck', () => {
     it('should return an error', async () => {
       const input = {
-        deckName: 'my deck',
+        name: 'my deck',
         archived: false,
       };
       const expected = new Error('Error');
@@ -71,7 +71,7 @@ describe('Add Deck', () => {
 describe('List Deck Cards', () => {
   describe('Given everything is working correctly', () => {
     it('should return the deck', async () => {
-      const deckId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'success',
         total: deckData.cards.length,
@@ -81,7 +81,7 @@ describe('List Deck Cards', () => {
       const deckServiceMock = jest.spyOn(DeckService, 'getDeckCards').mockResolvedValueOnce(expected);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app).get(`/api/v1/decks/${deckId}/cards`);
+      const { statusCode, body: responseBody } = await supertest(app).get(`/api/v1/decks/${id}/cards`);
 
       expect(statusCode).toBe(200);
       expect(JSON.stringify(responseBody)).toEqual(JSON.stringify(expected));
@@ -90,16 +90,16 @@ describe('List Deck Cards', () => {
   });
   describe('Given the server is not connected to the database', () => {
     it('should return an error', async () => {
-      const deckId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'failure',
       };
 
       jest.spyOn(DeckService, 'getDeckCards').mockRejectedValueOnce(expected);
 
-      await supertest(app).get(`/api/v1/decks/${deckId}/cards`);
+      await supertest(app).get(`/api/v1/decks/${id}/cards`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body } = await supertest(app).get(`/api/v1/decks/${deckId}/cards`);
+      const { statusCode, body } = await supertest(app).get(`/api/v1/decks/${id}/cards`);
 
       const responseBody = body as IQueryResult;
 
@@ -112,12 +112,12 @@ describe('List Deck Cards', () => {
   });
   describe('Given something went wrong during updating the deck', () => {
     it('should return an error', async () => {
-      const deckId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected = new Error('Error');
 
       jest.spyOn(DeckService, 'getDeckCards').mockRejectedValueOnce(expected);
 
-      const { statusCode, text } = await supertest(app).get(`/api/v1/decks/${deckId}/cards`);
+      const { statusCode, text } = await supertest(app).get(`/api/v1/decks/${id}/cards`);
 
       expect(statusCode).toBe(500);
       expect(text).toStrictEqual(expected.message);
@@ -128,16 +128,16 @@ describe('List Deck Cards', () => {
 describe('List Deck', () => {
   describe('Given everything is working correctly', () => {
     it('should return the deck', async () => {
-      const deckId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'success',
-        data: { ...deckData, deckId },
+        data: { ...deckData, id },
       };
 
       const deckServiceMock = jest.spyOn(DeckService, 'getDeck').mockResolvedValueOnce(expected);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app).get(`/api/v1/decks/${deckId}`);
+      const { statusCode, body: responseBody } = await supertest(app).get(`/api/v1/decks/${id}`);
 
       expect(statusCode).toBe(200);
       expect(JSON.stringify(responseBody)).toEqual(JSON.stringify(expected));
@@ -146,16 +146,16 @@ describe('List Deck', () => {
   });
   describe('Given the server is not connected to the database', () => {
     it('should return an error', async () => {
-      const deckId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'failure',
       };
 
       jest.spyOn(DeckService, 'getDeck').mockRejectedValueOnce(expected);
 
-      await supertest(app).get(`/api/v1/decks/${deckId}`);
+      await supertest(app).get(`/api/v1/decks/${id}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body } = await supertest(app).get(`/api/v1/decks/${deckId}`);
+      const { statusCode, body } = await supertest(app).get(`/api/v1/decks/${id}`);
 
       const responseBody = body as IQueryResult;
 
@@ -168,12 +168,12 @@ describe('List Deck', () => {
   });
   describe('Given something went wrong during updating the deck', () => {
     it('should return an error', async () => {
-      const deckId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected = new Error('Error');
 
       jest.spyOn(DeckService, 'getDeck').mockRejectedValueOnce(expected);
 
-      const { statusCode, text } = await supertest(app).get(`/api/v1/decks/${deckId}`);
+      const { statusCode, text } = await supertest(app).get(`/api/v1/decks/${id}`);
 
       expect(statusCode).toBe(500);
       expect(text).toStrictEqual(expected.message);
@@ -185,8 +185,8 @@ describe('Update Deck', () => {
   describe('Given the input is valid', () => {
     it('should update the deck data', async () => {
       const input = {
-        deckId: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
-        deckName: 'my deck',
+        id: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
+        name: 'my deck',
         archived: true,
       };
       const expected: IQueryResult = {
@@ -197,9 +197,7 @@ describe('Update Deck', () => {
       const deckServiceMock = jest.spyOn(DeckService, 'patchDeck').mockResolvedValueOnce(expected);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app)
-        .patch(`/api/v1/decks/${input.deckId}`)
-        .send(input);
+      const { statusCode, body: responseBody } = await supertest(app).patch(`/api/v1/decks/${input.id}`).send(input);
 
       expect(statusCode).toBe(200);
       expect(JSON.stringify(responseBody)).toEqual(JSON.stringify(expected));
@@ -208,16 +206,16 @@ describe('Update Deck', () => {
   });
   describe('Given the server is not connected to the database', () => {
     it('should return an error', async () => {
-      const deckId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'failure',
       };
 
       jest.spyOn(DeckService, 'patchDeck').mockRejectedValueOnce(expected);
 
-      await supertest(app).patch(`/api/v1/decks/${deckId}`);
+      await supertest(app).patch(`/api/v1/decks/${id}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body } = await supertest(app).patch(`/api/v1/decks/${deckId}`);
+      const { statusCode, body } = await supertest(app).patch(`/api/v1/decks/${id}`);
 
       const responseBody = body as IQueryResult;
 
@@ -230,12 +228,12 @@ describe('Update Deck', () => {
   });
   describe('Given something went wrong during updating the deck', () => {
     it('should return an error', async () => {
-      const deckId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected = new Error('Error');
 
       jest.spyOn(DeckService, 'patchDeck').mockRejectedValueOnce(expected);
 
-      const { statusCode, text } = await supertest(app).patch(`/api/v1/decks/${deckId}`);
+      const { statusCode, text } = await supertest(app).patch(`/api/v1/decks/${id}`);
 
       expect(statusCode).toBe(500);
       expect(text).toStrictEqual(expected.message);
@@ -246,7 +244,7 @@ describe('Update Deck', () => {
 describe('Remove Deck', () => {
   describe('Given all is working correctly', () => {
     it('should delete the deck', async () => {
-      const deckId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'success',
       };
@@ -254,7 +252,7 @@ describe('Remove Deck', () => {
       jest.spyOn(DeckService, 'deleteDeck').mockResolvedValueOnce(expected);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app).delete(`/api/v1/decks/${deckId}`);
+      const { statusCode, body: responseBody } = await supertest(app).delete(`/api/v1/decks/${id}`);
 
       expect(statusCode).toBe(204);
       expect(responseBody).toEqual({});
@@ -262,16 +260,16 @@ describe('Remove Deck', () => {
   });
   describe('Given the server is not connected to the database', () => {
     it('should return an error', async () => {
-      const deckId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'failure',
       };
 
       jest.spyOn(DeckService, 'deleteDeck').mockRejectedValueOnce(expected);
 
-      await supertest(app).delete(`/api/v1/decks/${deckId}`);
+      await supertest(app).delete(`/api/v1/decks/${id}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body } = await supertest(app).delete(`/api/v1/decks/${deckId}`);
+      const { statusCode, body } = await supertest(app).delete(`/api/v1/decks/${id}`);
 
       const responseBody = body as IQueryResult;
 
@@ -283,12 +281,12 @@ describe('Remove Deck', () => {
   });
   describe('Given something went wrong during removing the deck', () => {
     it('should return an error', async () => {
-      const deckId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected = new Error('Error');
 
       jest.spyOn(DeckService, 'deleteDeck').mockRejectedValueOnce(expected);
 
-      const { statusCode, text } = await supertest(app).delete(`/api/v1/decks/${deckId}`);
+      const { statusCode, text } = await supertest(app).delete(`/api/v1/decks/${id}`);
 
       expect(statusCode).toBe(500);
       expect(text).toStrictEqual(expected.message);

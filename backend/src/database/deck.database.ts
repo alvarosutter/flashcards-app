@@ -1,20 +1,20 @@
 import { ICreateDeck, IDeck, IPatchDeck } from '../types/deck';
 import prisma from '../utils/prismaClient.utils';
 
-const deckCreate = async ({ deckName, archived }: ICreateDeck): Promise<IDeck> => {
+const deckCreate = async ({ name, archived }: ICreateDeck): Promise<IDeck> => {
   const deck = await prisma.deck.create({
     data: {
-      deckName,
+      name,
       archived,
     },
   });
   return deck as IDeck;
 };
 
-const deckFind = async (deckId: string): Promise<IDeck> => {
+const deckFind = async (id: string): Promise<IDeck> => {
   const deck = await prisma.deck.findUniqueOrThrow({
     where: {
-      deckId,
+      id,
     },
     include: { cards: { include: { labels: { select: { label: true } } } } },
   });
@@ -28,22 +28,22 @@ const deckFindMany = async (): Promise<IDeck[]> => {
   return decks as IDeck[];
 };
 
-const deckUpdate = async ({ deckId, deckName, archived }: IPatchDeck): Promise<IDeck> => {
+const deckUpdate = async ({ id, name, archived }: IPatchDeck): Promise<IDeck> => {
   const deck = await prisma.deck.update({
-    where: { deckId },
+    where: { id },
     include: { cards: { include: { labels: { select: { label: true } } } } },
     data: {
-      deckName,
+      name,
       archived,
     },
   });
   return deck as IDeck;
 };
 
-const deckDelete = async (deckId: string) => {
+const deckDelete = async (id: string) => {
   await prisma.deck.delete({
     where: {
-      deckId,
+      id,
     },
   });
 };

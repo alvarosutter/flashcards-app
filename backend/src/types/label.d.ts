@@ -1,16 +1,16 @@
 import ILabelsOnCards from './labelOnCards';
 
 interface ILabel {
-  labelId: string;
+  id: string;
   createdAt: Date;
   updatedAt: Date;
-  labelName: string;
+  name: string;
   cards: ILabelsOnCards[];
 }
 
 interface IPatchLabel {
-  labelId: string;
-  labelName: string;
+  id: string;
+  name: string;
 }
 
 export { ILabel, IPatchLabel };

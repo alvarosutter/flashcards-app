@@ -4,9 +4,9 @@ import IQueryResult from '../types/queryResult';
 import { mapLabelCards } from '../utils/mapCards.utils';
 import getPrismaError from '../utils/prismaError.utils';
 
-const createLabel = async (labelName: string): Promise<IQueryResult> => {
+const createLabel = async (name: string): Promise<IQueryResult> => {
   try {
-    const newLabel = await labelCreate(labelName);
+    const newLabel = await labelCreate(name);
 
     return {
       status: 'success',
@@ -22,9 +22,9 @@ const createLabel = async (labelName: string): Promise<IQueryResult> => {
   }
 };
 
-const getLabel = async (labelId: string): Promise<IQueryResult> => {
+const getLabel = async (id: string): Promise<IQueryResult> => {
   try {
-    const label = await labelFind(labelId);
+    const label = await labelFind(id);
 
     return {
       status: 'success',
@@ -43,9 +43,9 @@ const getLabel = async (labelId: string): Promise<IQueryResult> => {
   }
 };
 
-const getLabelCards = async (labelId: string): Promise<IQueryResult> => {
+const getLabelCards = async (id: string): Promise<IQueryResult> => {
   try {
-    const { cards } = await labelFind(labelId);
+    const { cards } = await labelFind(id);
 
     return {
       status: 'success',
@@ -84,9 +84,9 @@ const getLabels = async (): Promise<IQueryResult> => {
   }
 };
 
-const patchLabel = async ({ labelId, labelName }: IPatchLabel): Promise<IQueryResult> => {
+const patchLabel = async ({ id, name }: IPatchLabel): Promise<IQueryResult> => {
   try {
-    const label = await labelUpdate({ labelId, labelName });
+    const label = await labelUpdate({ id, name });
 
     return {
       status: 'success',

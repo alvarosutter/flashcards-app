@@ -8,47 +8,38 @@ datasource db {
 }
 
 model Card {
-  cardId       String          @id @default(uuid()) @db.Uuid
-  createdAt    DateTime        @default(now()) @db.Timestamp(6)
-  updatedAt    DateTime        @updatedAt @db.Timestamp(6)
-  cardName     String          @db.VarChar(255)
+  id           String          @id @default(uuid()) 
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  name         String          @unique 
   content      String
-  deckId       String          @db.Uuid
-  deck         Deck            @relation(fields: [deckId], references: [deckId], onDelete: Cascade, onUpdate: NoAction)
+  deckId       String          
+  deck         Deck            @relation(fields: [deckId], references: [id], onDelete: Cascade, onUpdate: NoAction)
   labels       LabelsOnCards[]
-
-  @@unique(fields: [cardId], name: "card_id")
-  @@unique(fields: [cardName], name: "card_name")
 }
 
 model Deck {
-  deckId    String   @id @default(uuid()) @db.Uuid
-  createdAt DateTime @default(now()) @db.Timestamp(6)
-  updatedAt DateTime @updatedAt @db.Timestamp(6)
-  deckName  String   @db.VarChar(255)
-  archived  Boolean  @default(false)
+  id        String    @id @default(uuid()) 
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  name      String    @unique 
+  archived  Boolean   @default(false)
   cards     Card[]
-
-  @@unique(fields: [deckId], name: "deck_id")
-  @@unique(fields: [deckName], name: "deck_name")
 }
 
 model Label {
-  labelId   String          @id @default(uuid()) @db.Uuid
-  createdAt DateTime        @default(now()) @db.Timestamp(6)
-  updatedAt DateTime        @updatedAt @db.Timestamp(6)
-  labelName String          @db.VarChar(255)
+  id        String            @id @default(uuid()) 
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  name      String            @unique 
   cards     LabelsOnCards[]
-
-  @@unique(fields: [labelId], name: "label_id")
-  @@unique(fields: [labelName], name: "label_name")
 }
 
 model LabelsOnCards {
-  card    Card   @relation(fields: [cardId], references: [cardId], onDelete: Cascade)
-  cardId  String @db.Uuid
-  label   Label  @relation(fields: [labelId], references: [labelId], onDelete: Cascade)
-  labelId String @db.Uuid
+  card    Card   @relation(fields: [cardId], references: [id], onDelete: Cascade)
+  cardId  String 
+  label   Label  @relation(fields: [labelId], references: [id], onDelete: Cascade)
+  labelId String 
 
   @@id([cardId, labelId])
 }

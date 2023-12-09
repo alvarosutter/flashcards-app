@@ -8,7 +8,7 @@ describe('Create Label', () => {
   describe('Given all is working correctly', () => {
     it('should create a new label', async () => {
       const input = {
-        labelName: 'my label',
+        name: 'my label',
       };
       const label = {
         ...labelData,
@@ -20,7 +20,7 @@ describe('Create Label', () => {
       };
 
       jest.spyOn(LabelDatabase, 'labelCreate').mockResolvedValueOnce(label);
-      const result: IQueryResult = await createLabel(input.labelName);
+      const result: IQueryResult = await createLabel(input.name);
       expect(result).toEqual(expected);
     });
   });
@@ -30,7 +30,7 @@ describe('Get Label', () => {
   describe('Given all is working correctly', () => {
     it('should get the label', async () => {
       const input = {
-        labelId: '5d332513-6d80-4457-b799-bd1cbcf68f25',
+        id: '5d332513-6d80-4457-b799-bd1cbcf68f25',
       };
       const label = {
         ...labelData,
@@ -42,7 +42,7 @@ describe('Get Label', () => {
       };
 
       jest.spyOn(LabelDatabase, 'labelFind').mockResolvedValueOnce(label);
-      const result: IQueryResult = await getLabel(input.labelId);
+      const result: IQueryResult = await getLabel(input.id);
       expect(result).toEqual(expected);
     });
   });
@@ -52,7 +52,7 @@ describe('Get Label Cards', () => {
   describe('Given all is working correctly', () => {
     it('should get the label cards', async () => {
       const input = {
-        labelId: '5d332513-6d80-4457-b799-bd1cbcf68f25',
+        id: '5d332513-6d80-4457-b799-bd1cbcf68f25',
       };
       const label = {
         ...labelData,
@@ -65,7 +65,7 @@ describe('Get Label Cards', () => {
       };
 
       jest.spyOn(LabelDatabase, 'labelFind').mockResolvedValueOnce(label);
-      const result: IQueryResult = await getLabelCards(input.labelId);
+      const result: IQueryResult = await getLabelCards(input.id);
       expect(result).toEqual(expected);
     });
   });
@@ -95,8 +95,8 @@ describe('Patch Label', () => {
   describe('Given all is working correctly', () => {
     it('should update the label', async () => {
       const input = {
-        labelId: '5d332513-6d80-4457-b799-bd1cbcf68f25',
-        labelName: 'my label',
+        id: '5d332513-6d80-4457-b799-bd1cbcf68f25',
+        name: 'my label',
       };
       const label = {
         ...labelData,
@@ -118,7 +118,7 @@ describe('Delete Label', () => {
   describe('Given all is working correctly', () => {
     it('should delete the label', async () => {
       const input = {
-        labelId: '5d332513-6d80-4457-b799-bd1cbcf68f25',
+        id: '5d332513-6d80-4457-b799-bd1cbcf68f25',
       };
 
       const expected: IQueryResult = {
@@ -126,7 +126,7 @@ describe('Delete Label', () => {
       };
 
       jest.spyOn(LabelDatabase, 'labelDelete').mockResolvedValueOnce();
-      const result: IQueryResult = await deleteLabel(input.labelId);
+      const result: IQueryResult = await deleteLabel(input.id);
       expect(result).toEqual(expected);
     });
   });

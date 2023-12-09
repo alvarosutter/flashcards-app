@@ -1,18 +1,18 @@
 interface ICard {
-  cardId: string;
+  id: string;
   createdAt: Date;
   updatedAt: Date;
-  cardName: string;
+  name: string;
   content: string;
   deckId: string;
   labels: ILabelsOnCards[];
 }
 
 interface ILabel {
-  labelId: string;
+  id: string;
   createdAt: Date;
   updatedAt: Date;
-  labelName: string;
+  name: string;
   cards: ILabelsOnCards[];
 }
 

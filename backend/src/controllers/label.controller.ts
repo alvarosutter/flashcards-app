@@ -4,9 +4,9 @@ import { ILabel } from '../types/label';
 
 const addLabel = async (req: Request, res: Response) => {
   try {
-    const { labelName } = req.body as ILabel;
+    const { name } = req.body as ILabel;
 
-    const { statusCode, ...queryResult } = await createLabel(labelName);
+    const { statusCode, ...queryResult } = await createLabel(name);
     return res.status(statusCode ?? 201).send(queryResult);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -26,9 +26,9 @@ const listLabels = async (_: Request, res: Response) => {
 
 const listLabel = async (req: Request, res: Response) => {
   try {
-    const { labelId } = req.params;
+    const { id } = req.params;
 
-    const { statusCode, ...queryResult } = await getLabel(labelId);
+    const { statusCode, ...queryResult } = await getLabel(id);
     return res.status(statusCode ?? 200).send(queryResult);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -38,9 +38,9 @@ const listLabel = async (req: Request, res: Response) => {
 
 const listLabelCards = async (req: Request, res: Response) => {
   try {
-    const { labelId } = req.params;
+    const { id } = req.params;
 
-    const { statusCode, ...queryResult } = await getLabelCards(labelId);
+    const { statusCode, ...queryResult } = await getLabelCards(id);
     return res.status(statusCode ?? 200).send(queryResult);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -50,10 +50,10 @@ const listLabelCards = async (req: Request, res: Response) => {
 
 const updateLabel = async (req: Request, res: Response) => {
   try {
-    const { labelId } = req.params;
-    const { labelName } = req.body as ILabel;
+    const { id } = req.params;
+    const { name } = req.body as ILabel;
 
-    const { statusCode, ...queryResult } = await patchLabel({ labelId, labelName });
+    const { statusCode, ...queryResult } = await patchLabel({ id, name });
     return res.status(statusCode ?? 200).send(queryResult);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -63,8 +63,8 @@ const updateLabel = async (req: Request, res: Response) => {
 
 const removeLabel = async (req: Request, res: Response) => {
   try {
-    const { labelId } = req.params;
-    const { statusCode, ...queryResult } = await deleteLabel(labelId);
+    const { id } = req.params;
+    const { statusCode, ...queryResult } = await deleteLabel(id);
     if (statusCode) {
       return res.status(statusCode).send(queryResult);
     }

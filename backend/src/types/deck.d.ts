@@ -1,22 +1,22 @@
 import { ICard } from './card';
 
 interface IDeck {
-  deckId: string;
+  id: string;
   createdAt: Date;
   updatedAt: Date;
-  deckName: string;
+  name: string;
   archived: boolean;
   cards: ICard[];
 }
 
 interface ICreateDeck {
-  deckName: string;
+  name: string;
   archived: boolean;
 }
 
 interface IPatchDeck {
-  deckId: string;
-  deckName: string;
+  id: string;
+  name: string;
   archived: boolean;
 }
 

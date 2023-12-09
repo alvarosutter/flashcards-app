@@ -10,7 +10,7 @@ describe('Add Label', () => {
   describe('Given all is working correctly', () => {
     it('should create a new label', async () => {
       const input = {
-        labelName: 'my label',
+        name: 'my label',
       };
       const expected: IQueryResult = {
         status: 'success',
@@ -28,7 +28,7 @@ describe('Add Label', () => {
   describe('Given the server is not connected to the database', () => {
     it('should return an error', async () => {
       const input = {
-        labelName: 'my label',
+        name: 'my label',
       };
       const expected: IQueryResult = {
         status: 'failure',
@@ -50,7 +50,7 @@ describe('Add Label', () => {
   describe('Given something went wrong during adding a new label', () => {
     it('should return an error', async () => {
       const input = {
-        labelName: 'my label',
+        name: 'my label',
       };
       const expected = new Error('Error');
 
@@ -68,7 +68,7 @@ describe('Add Label', () => {
 describe('List Label Cards', () => {
   describe('Given everything is working correctly', () => {
     it('should return the label', async () => {
-      const labelId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'success',
         total: labelData.cards.length,
@@ -78,7 +78,7 @@ describe('List Label Cards', () => {
       const labelServiceMock = jest.spyOn(LabelService, 'getLabelCards').mockResolvedValueOnce(expected);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app).get(`/api/v1/labels/${labelId}/cards`);
+      const { statusCode, body: responseBody } = await supertest(app).get(`/api/v1/labels/${id}/cards`);
 
       expect(statusCode).toBe(200);
       expect(JSON.stringify(responseBody)).toEqual(JSON.stringify(expected));
@@ -87,16 +87,16 @@ describe('List Label Cards', () => {
   });
   describe('Given the server is not connected to the database', () => {
     it('should return an error', async () => {
-      const labelId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'failure',
       };
 
       jest.spyOn(LabelService, 'getLabelCards').mockRejectedValueOnce(expected);
 
-      await supertest(app).get(`/api/v1/labels/${labelId}/cards`);
+      await supertest(app).get(`/api/v1/labels/${id}/cards`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body } = await supertest(app).get(`/api/v1/labels/${labelId}/cards`);
+      const { statusCode, body } = await supertest(app).get(`/api/v1/labels/${id}/cards`);
 
       const responseBody = body as IQueryResult;
 
@@ -109,12 +109,12 @@ describe('List Label Cards', () => {
   });
   describe('Given something went wrong during updating the label', () => {
     it('should return an error', async () => {
-      const labelId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected = new Error('Error');
 
       jest.spyOn(LabelService, 'getLabelCards').mockRejectedValueOnce(expected);
 
-      const { statusCode, text } = await supertest(app).get(`/api/v1/labels/${labelId}/cards`);
+      const { statusCode, text } = await supertest(app).get(`/api/v1/labels/${id}/cards`);
 
       expect(statusCode).toBe(500);
       expect(text).toStrictEqual(expected.message);
@@ -125,16 +125,16 @@ describe('List Label Cards', () => {
 describe('List Label', () => {
   describe('Given everything is working correctly', () => {
     it('should return the label', async () => {
-      const labelId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'success',
-        data: { ...labelData, labelId },
+        data: { ...labelData, id },
       };
 
       const labelServiceMock = jest.spyOn(LabelService, 'getLabel').mockResolvedValueOnce(expected);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app).get(`/api/v1/labels/${labelId}`);
+      const { statusCode, body: responseBody } = await supertest(app).get(`/api/v1/labels/${id}`);
 
       expect(statusCode).toBe(200);
       expect(JSON.stringify(responseBody)).toEqual(JSON.stringify(expected));
@@ -143,16 +143,16 @@ describe('List Label', () => {
   });
   describe('Given the server is not connected to the database', () => {
     it('should return an error', async () => {
-      const labelId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'failure',
       };
 
       jest.spyOn(LabelService, 'getLabel').mockRejectedValueOnce(expected);
 
-      await supertest(app).get(`/api/v1/labels/${labelId}`);
+      await supertest(app).get(`/api/v1/labels/${id}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body } = await supertest(app).get(`/api/v1/labels/${labelId}`);
+      const { statusCode, body } = await supertest(app).get(`/api/v1/labels/${id}`);
 
       const responseBody = body as IQueryResult;
 
@@ -165,12 +165,12 @@ describe('List Label', () => {
   });
   describe('Given something went wrong during updating the label', () => {
     it('should return an error', async () => {
-      const labelId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected = new Error('Error');
 
       jest.spyOn(LabelService, 'getLabel').mockRejectedValueOnce(expected);
 
-      const { statusCode, text } = await supertest(app).get(`/api/v1/labels/${labelId}`);
+      const { statusCode, text } = await supertest(app).get(`/api/v1/labels/${id}`);
 
       expect(statusCode).toBe(500);
       expect(text).toStrictEqual(expected.message);
@@ -182,9 +182,8 @@ describe('Update Label', () => {
   describe('Given the input is valid', () => {
     it('should update the label data', async () => {
       const input = {
-        labelId: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
-        labelName: 'my label',
-        archived: true,
+        id: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
+        name: 'my label',
       };
       const expected: IQueryResult = {
         status: 'success',
@@ -194,9 +193,7 @@ describe('Update Label', () => {
       const labelServiceMock = jest.spyOn(LabelService, 'patchLabel').mockResolvedValueOnce(expected);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app)
-        .patch(`/api/v1/labels/${input.labelId}`)
-        .send(input);
+      const { statusCode, body: responseBody } = await supertest(app).patch(`/api/v1/labels/${input.id}`).send(input);
 
       expect(statusCode).toBe(200);
       expect(JSON.stringify(responseBody)).toEqual(JSON.stringify(expected));
@@ -205,16 +202,16 @@ describe('Update Label', () => {
   });
   describe('Given the server is not connected to the database', () => {
     it('should return an error', async () => {
-      const labelId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'failure',
       };
 
       jest.spyOn(LabelService, 'patchLabel').mockRejectedValueOnce(expected);
 
-      await supertest(app).patch(`/api/v1/labels/${labelId}`);
+      await supertest(app).patch(`/api/v1/labels/${id}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body } = await supertest(app).patch(`/api/v1/labels/${labelId}`);
+      const { statusCode, body } = await supertest(app).patch(`/api/v1/labels/${id}`);
 
       const responseBody = body as IQueryResult;
 
@@ -227,12 +224,12 @@ describe('Update Label', () => {
   });
   describe('Given something went wrong during updating the label', () => {
     it('should return an error', async () => {
-      const labelId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected = new Error('Error');
 
       jest.spyOn(LabelService, 'patchLabel').mockRejectedValueOnce(expected);
 
-      const { statusCode, text } = await supertest(app).patch(`/api/v1/labels/${labelId}`);
+      const { statusCode, text } = await supertest(app).patch(`/api/v1/labels/${id}`);
 
       expect(statusCode).toBe(500);
       expect(text).toStrictEqual(expected.message);
@@ -243,7 +240,7 @@ describe('Update Label', () => {
 describe('Remove Label', () => {
   describe('Given all is working correctly', () => {
     it('should delete the label', async () => {
-      const labelId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'success',
       };
@@ -251,7 +248,7 @@ describe('Remove Label', () => {
       jest.spyOn(LabelService, 'deleteLabel').mockResolvedValueOnce(expected);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app).delete(`/api/v1/labels/${labelId}`);
+      const { statusCode, body: responseBody } = await supertest(app).delete(`/api/v1/labels/${id}`);
 
       expect(statusCode).toBe(204);
       expect(responseBody).toEqual({});
@@ -259,16 +256,16 @@ describe('Remove Label', () => {
   });
   describe('Given the server is not connected to the database', () => {
     it('should return an error', async () => {
-      const labelId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'failure',
       };
 
       jest.spyOn(LabelService, 'deleteLabel').mockRejectedValueOnce(expected);
 
-      await supertest(app).delete(`/api/v1/labels/${labelId}`);
+      await supertest(app).delete(`/api/v1/labels/${id}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body } = await supertest(app).delete(`/api/v1/labels/${labelId}`);
+      const { statusCode, body } = await supertest(app).delete(`/api/v1/labels/${id}`);
 
       const responseBody = body as IQueryResult;
 
@@ -280,12 +277,12 @@ describe('Remove Label', () => {
   });
   describe('Given something went wrong during removing the label', () => {
     it('should return an error', async () => {
-      const labelId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected = new Error('Error');
 
       jest.spyOn(LabelService, 'deleteLabel').mockRejectedValueOnce(expected);
 
-      const { statusCode, text } = await supertest(app).delete(`/api/v1/labels/${labelId}`);
+      const { statusCode, text } = await supertest(app).delete(`/api/v1/labels/${id}`);
 
       expect(statusCode).toBe(500);
       expect(text).toStrictEqual(expected.message);

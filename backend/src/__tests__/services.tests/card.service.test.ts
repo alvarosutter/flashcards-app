@@ -8,7 +8,7 @@ describe('Create Card', () => {
   describe('Given all is working correctly', () => {
     it('should create a new card', async () => {
       const input = {
-        cardName: 'my card',
+        name: 'my card',
         content: 'my content',
         deckId: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
       };
@@ -32,7 +32,7 @@ describe('Get Card', () => {
   describe('Given all is working correctly', () => {
     it('should get the card', async () => {
       const input = {
-        cardId: '9dbaccb9-cab7-4846-9122-d005fd53755c',
+        id: '9dbaccb9-cab7-4846-9122-d005fd53755c',
       };
       const card = {
         ...cardData,
@@ -44,7 +44,7 @@ describe('Get Card', () => {
       };
 
       jest.spyOn(CardDatabase, 'cardFind').mockResolvedValueOnce(card);
-      const result: IQueryResult = await getCard(input.cardId);
+      const result: IQueryResult = await getCard(input.id);
       expect(result).toEqual(expected);
     });
   });
@@ -54,7 +54,7 @@ describe('Get Card Labels', () => {
   describe('Given all is working correctly', () => {
     it('should get the card labels', async () => {
       const input = {
-        cardId: '9dbaccb9-cab7-4846-9122-d005fd53755c',
+        id: '9dbaccb9-cab7-4846-9122-d005fd53755c',
       };
       const card = {
         ...cardData,
@@ -67,7 +67,7 @@ describe('Get Card Labels', () => {
       };
 
       jest.spyOn(CardDatabase, 'cardFind').mockResolvedValueOnce(card);
-      const result: IQueryResult = await getCardLabels(input.cardId);
+      const result: IQueryResult = await getCardLabels(input.id);
       expect(result).toEqual(expected);
     });
   });
@@ -97,8 +97,8 @@ describe('Patch Card', () => {
   describe('Given all is working correctly', () => {
     it('should update the card', async () => {
       const input = {
-        cardId: '9dbaccb9-cab7-4846-9122-d005fd53755c',
-        cardName: 'my card',
+        id: '9dbaccb9-cab7-4846-9122-d005fd53755c',
+        name: 'my card',
         content: 'my content',
       };
       const card = {
@@ -121,7 +121,7 @@ describe('Delete Card', () => {
   describe('Given all is working correctly', () => {
     it('should delete the card', async () => {
       const input = {
-        cardId: '9dbaccb9-cab7-4846-9122-d005fd53755c',
+        id: '9dbaccb9-cab7-4846-9122-d005fd53755c',
       };
 
       const expected: IQueryResult = {
@@ -129,7 +129,7 @@ describe('Delete Card', () => {
       };
 
       jest.spyOn(CardDatabase, 'cardDelete').mockResolvedValueOnce();
-      const result: IQueryResult = await deleteCard(input.cardId);
+      const result: IQueryResult = await deleteCard(input.id);
       expect(result).toEqual(expected);
     });
   });

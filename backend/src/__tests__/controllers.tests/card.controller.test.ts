@@ -10,7 +10,7 @@ describe('Add Card', () => {
   describe('Given all is working correctly', () => {
     it('should create a new card', async () => {
       const input = {
-        cardName: 'my card',
+        name: 'my card',
       };
       const expected: IQueryResult = {
         status: 'success',
@@ -28,7 +28,7 @@ describe('Add Card', () => {
   describe('Given the server is not connected to the database', () => {
     it('should return an error', async () => {
       const input = {
-        cardName: 'my card',
+        name: 'my card',
       };
       const expected: IQueryResult = {
         status: 'failure',
@@ -50,7 +50,7 @@ describe('Add Card', () => {
   describe('Given something went wrong during adding a new card', () => {
     it('should return an error', async () => {
       const input = {
-        cardName: 'my card',
+        name: 'my card',
       };
       const expected = new Error('Error');
 
@@ -68,7 +68,7 @@ describe('Add Card', () => {
 describe('List Card Cards', () => {
   describe('Given everything is working correctly', () => {
     it('should return the card', async () => {
-      const cardId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'success',
         total: cardData.labels.length,
@@ -78,7 +78,7 @@ describe('List Card Cards', () => {
       const cardServiceMock = jest.spyOn(CardService, 'getCardLabels').mockResolvedValueOnce(expected);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app).get(`/api/v1/cards/${cardId}/labels`);
+      const { statusCode, body: responseBody } = await supertest(app).get(`/api/v1/cards/${id}/labels`);
 
       expect(statusCode).toBe(200);
       expect(JSON.stringify(responseBody)).toEqual(JSON.stringify(expected));
@@ -87,16 +87,16 @@ describe('List Card Cards', () => {
   });
   describe('Given the server is not connected to the database', () => {
     it('should return an error', async () => {
-      const cardId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'failure',
       };
 
       jest.spyOn(CardService, 'getCardLabels').mockRejectedValueOnce(expected);
 
-      await supertest(app).get(`/api/v1/cards/${cardId}/labels`);
+      await supertest(app).get(`/api/v1/cards/${id}/labels`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body } = await supertest(app).get(`/api/v1/cards/${cardId}/labels`);
+      const { statusCode, body } = await supertest(app).get(`/api/v1/cards/${id}/labels`);
 
       const responseBody = body as IQueryResult;
 
@@ -109,12 +109,12 @@ describe('List Card Cards', () => {
   });
   describe('Given something went wrong during updating the card', () => {
     it('should return an error', async () => {
-      const cardId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected = new Error('Error');
 
       jest.spyOn(CardService, 'getCardLabels').mockRejectedValueOnce(expected);
 
-      const { statusCode, text } = await supertest(app).get(`/api/v1/cards/${cardId}/labels`);
+      const { statusCode, text } = await supertest(app).get(`/api/v1/cards/${id}/labels`);
 
       expect(statusCode).toBe(500);
       expect(text).toStrictEqual(expected.message);
@@ -125,16 +125,16 @@ describe('List Card Cards', () => {
 describe('List Card', () => {
   describe('Given everything is working correctly', () => {
     it('should return the card', async () => {
-      const cardId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'success',
-        data: { ...cardData, cardId },
+        data: { ...cardData, id },
       };
 
       const cardServiceMock = jest.spyOn(CardService, 'getCard').mockResolvedValueOnce(expected);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app).get(`/api/v1/cards/${cardId}`);
+      const { statusCode, body: responseBody } = await supertest(app).get(`/api/v1/cards/${id}`);
 
       expect(statusCode).toBe(200);
       expect(JSON.stringify(responseBody)).toEqual(JSON.stringify(expected));
@@ -143,16 +143,16 @@ describe('List Card', () => {
   });
   describe('Given the server is not connected to the database', () => {
     it('should return an error', async () => {
-      const cardId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'failure',
       };
 
       jest.spyOn(CardService, 'getCard').mockRejectedValueOnce(expected);
 
-      await supertest(app).get(`/api/v1/cards/${cardId}`);
+      await supertest(app).get(`/api/v1/cards/${id}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body } = await supertest(app).get(`/api/v1/cards/${cardId}`);
+      const { statusCode, body } = await supertest(app).get(`/api/v1/cards/${id}`);
 
       const responseBody = body as IQueryResult;
 
@@ -165,12 +165,12 @@ describe('List Card', () => {
   });
   describe('Given something went wrong during updating the card', () => {
     it('should return an error', async () => {
-      const cardId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected = new Error('Error');
 
       jest.spyOn(CardService, 'getCard').mockRejectedValueOnce(expected);
 
-      const { statusCode, text } = await supertest(app).get(`/api/v1/cards/${cardId}`);
+      const { statusCode, text } = await supertest(app).get(`/api/v1/cards/${id}`);
 
       expect(statusCode).toBe(500);
       expect(text).toStrictEqual(expected.message);
@@ -182,9 +182,8 @@ describe('Update Card', () => {
   describe('Given the input is valid', () => {
     it('should update the card data', async () => {
       const input = {
-        cardId: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
-        cardName: 'my card',
-        archived: true,
+        id: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
+        name: 'my card',
       };
       const expected: IQueryResult = {
         status: 'success',
@@ -194,9 +193,7 @@ describe('Update Card', () => {
       const cardServiceMock = jest.spyOn(CardService, 'patchCard').mockResolvedValueOnce(expected);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app)
-        .patch(`/api/v1/cards/${input.cardId}`)
-        .send(input);
+      const { statusCode, body: responseBody } = await supertest(app).patch(`/api/v1/cards/${input.id}`).send(input);
 
       expect(statusCode).toBe(200);
       expect(JSON.stringify(responseBody)).toEqual(JSON.stringify(expected));
@@ -205,16 +202,16 @@ describe('Update Card', () => {
   });
   describe('Given the server is not connected to the database', () => {
     it('should return an error', async () => {
-      const cardId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'failure',
       };
 
       jest.spyOn(CardService, 'patchCard').mockRejectedValueOnce(expected);
 
-      await supertest(app).patch(`/api/v1/cards/${cardId}`);
+      await supertest(app).patch(`/api/v1/cards/${id}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body } = await supertest(app).patch(`/api/v1/cards/${cardId}`);
+      const { statusCode, body } = await supertest(app).patch(`/api/v1/cards/${id}`);
 
       const responseBody = body as IQueryResult;
 
@@ -227,12 +224,12 @@ describe('Update Card', () => {
   });
   describe('Given something went wrong during updating the card', () => {
     it('should return an error', async () => {
-      const cardId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected = new Error('Error');
 
       jest.spyOn(CardService, 'patchCard').mockRejectedValueOnce(expected);
 
-      const { statusCode, text } = await supertest(app).patch(`/api/v1/cards/${cardId}`);
+      const { statusCode, text } = await supertest(app).patch(`/api/v1/cards/${id}`);
 
       expect(statusCode).toBe(500);
       expect(text).toStrictEqual(expected.message);
@@ -243,7 +240,7 @@ describe('Update Card', () => {
 describe('Remove Card', () => {
   describe('Given all is working correctly', () => {
     it('should delete the card', async () => {
-      const cardId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'success',
       };
@@ -251,7 +248,7 @@ describe('Remove Card', () => {
       jest.spyOn(CardService, 'deleteCard').mockResolvedValueOnce(expected);
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app).delete(`/api/v1/cards/${cardId}`);
+      const { statusCode, body: responseBody } = await supertest(app).delete(`/api/v1/cards/${id}`);
 
       expect(statusCode).toBe(204);
       expect(responseBody).toEqual({});
@@ -259,16 +256,16 @@ describe('Remove Card', () => {
   });
   describe('Given the server is not connected to the database', () => {
     it('should return an error', async () => {
-      const cardId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected: IQueryResult = {
         status: 'failure',
       };
 
       jest.spyOn(CardService, 'deleteCard').mockRejectedValueOnce(expected);
 
-      await supertest(app).delete(`/api/v1/cards/${cardId}`);
+      await supertest(app).delete(`/api/v1/cards/${id}`);
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body } = await supertest(app).delete(`/api/v1/cards/${cardId}`);
+      const { statusCode, body } = await supertest(app).delete(`/api/v1/cards/${id}`);
 
       const responseBody = body as IQueryResult;
 
@@ -280,12 +277,12 @@ describe('Remove Card', () => {
   });
   describe('Given something went wrong during removing the card', () => {
     it('should return an error', async () => {
-      const cardId = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
+      const id = '07d840a2-0dec-4fdb-862d-ccb3536fbde8';
       const expected = new Error('Error');
 
       jest.spyOn(CardService, 'deleteCard').mockRejectedValueOnce(expected);
 
-      const { statusCode, text } = await supertest(app).delete(`/api/v1/cards/${cardId}`);
+      const { statusCode, text } = await supertest(app).delete(`/api/v1/cards/${id}`);
 
       expect(statusCode).toBe(500);
       expect(text).toStrictEqual(expected.message);

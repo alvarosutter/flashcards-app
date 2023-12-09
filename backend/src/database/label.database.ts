@@ -1,19 +1,19 @@
 import { ILabel, IPatchLabel } from '../types/label';
 import prisma from '../utils/prismaClient.utils';
 
-const labelCreate = async (labelName: string): Promise<ILabel> => {
+const labelCreate = async (name: string): Promise<ILabel> => {
   const label = await prisma.label.create({
     data: {
-      labelName,
+      name,
     },
   });
   return label as ILabel;
 };
 
-const labelFind = async (labelId: string): Promise<ILabel> => {
+const labelFind = async (id: string): Promise<ILabel> => {
   const label = await prisma.label.findUniqueOrThrow({
     where: {
-      labelId,
+      id,
     },
     include: { cards: { select: { card: { include: { labels: { select: { label: true } } } } } } },
   });
@@ -27,21 +27,21 @@ const labelFindMany = async (): Promise<ILabel[]> => {
   return labels as ILabel[];
 };
 
-const labelUpdate = async ({ labelId, labelName }: IPatchLabel): Promise<ILabel> => {
+const labelUpdate = async ({ id, name }: IPatchLabel): Promise<ILabel> => {
   const label = await prisma.label.update({
-    where: { labelId },
+    where: { id },
     include: { cards: { select: { card: { include: { labels: { select: { label: true } } } } } } },
     data: {
-      labelName,
+      name,
     },
   });
   return label as ILabel;
 };
 
-const labelDelete = async (labelId: string) => {
+const labelDelete = async (id: string) => {
   await prisma.label.delete({
     where: {
-      labelId,
+      id,
     },
   });
 };

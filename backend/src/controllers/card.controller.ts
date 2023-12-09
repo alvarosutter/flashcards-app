@@ -3,14 +3,14 @@ import { createCard, deleteCard, getCard, getCardLabels, getCards, patchCard } f
 
 const addCard = async (req: Request, res: Response) => {
   try {
-    const { cardName, content, deckId, labels } = req.body as {
-      cardName: string;
+    const { name, content, deckId, labels } = req.body as {
+      name: string;
       content: string;
       deckId: string;
       labels: string[];
     };
 
-    const { statusCode, ...queryResult } = await createCard({ cardName, content, deckId, labels });
+    const { statusCode, ...queryResult } = await createCard({ name, content, deckId, labels });
     return res.status(statusCode ?? 201).send(queryResult);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -30,9 +30,9 @@ const listCards = async (_: Request, res: Response) => {
 
 const listCard = async (req: Request, res: Response) => {
   try {
-    const { cardId } = req.params;
+    const { id } = req.params;
 
-    const { statusCode, ...queryResult } = await getCard(cardId);
+    const { statusCode, ...queryResult } = await getCard(id);
     return res.status(statusCode ?? 200).send(queryResult);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -42,9 +42,9 @@ const listCard = async (req: Request, res: Response) => {
 
 const listCardLabels = async (req: Request, res: Response) => {
   try {
-    const { cardId } = req.params;
+    const { id } = req.params;
 
-    const { statusCode, ...queryResult } = await getCardLabels(cardId);
+    const { statusCode, ...queryResult } = await getCardLabels(id);
     return res.status(statusCode ?? 200).send(queryResult);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -54,15 +54,15 @@ const listCardLabels = async (req: Request, res: Response) => {
 
 const updateCard = async (req: Request, res: Response) => {
   try {
-    const { cardId } = req.params;
-    const { cardName, content, labels } = req.body as {
-      cardName: string;
+    const { id } = req.params;
+    const { name, content, labels } = req.body as {
+      name: string;
       content: string;
       deckId: string;
       labels: string[];
     };
 
-    const { statusCode, ...queryResult } = await patchCard({ cardId, cardName, content, labels });
+    const { statusCode, ...queryResult } = await patchCard({ id, name, content, labels });
     return res.status(statusCode ?? 200).send(queryResult);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -72,8 +72,8 @@ const updateCard = async (req: Request, res: Response) => {
 
 const removeCard = async (req: Request, res: Response) => {
   try {
-    const { cardId } = req.params;
-    const { statusCode, ...queryResult } = await deleteCard(cardId);
+    const { id } = req.params;
+    const { statusCode, ...queryResult } = await deleteCard(id);
     if (statusCode) {
       return res.status(statusCode).send(queryResult);
     }

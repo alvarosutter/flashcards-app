@@ -12,9 +12,9 @@ const labelRouter = Router({ mergeParams: true });
 
 labelRouter.post('/', addLabel);
 labelRouter.get('/', listLabels);
-labelRouter.get('/:labelId', listLabel);
-labelRouter.get('/:labelId/cards', listLabelCards);
-labelRouter.patch('/:labelId', updateLabel);
-labelRouter.delete('/:labelId', removeLabel);
+labelRouter.get('/:id', listLabel);
+labelRouter.get('/:id/cards', listLabelCards);
+labelRouter.patch('/:id', updateLabel);
+labelRouter.delete('/:id', removeLabel);
 
 export default labelRouter;

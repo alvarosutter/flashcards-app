@@ -4,9 +4,9 @@ import { IDeck } from '../types/deck';
 
 const addDeck = async (req: Request, res: Response) => {
   try {
-    const { deckName, archived } = req.body as IDeck;
+    const { name, archived } = req.body as IDeck;
 
-    const { statusCode, ...queryResult } = await createDeck({ deckName, archived });
+    const { statusCode, ...queryResult } = await createDeck({ name, archived });
     return res.status(statusCode ?? 201).send(queryResult);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -26,9 +26,9 @@ const listDecks = async (_: Request, res: Response) => {
 
 const listDeck = async (req: Request, res: Response) => {
   try {
-    const { deckId } = req.params;
+    const { id } = req.params;
 
-    const { statusCode, ...queryResult } = await getDeck(deckId);
+    const { statusCode, ...queryResult } = await getDeck(id);
     return res.status(statusCode ?? 200).send(queryResult);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -38,9 +38,9 @@ const listDeck = async (req: Request, res: Response) => {
 
 const listDeckCards = async (req: Request, res: Response) => {
   try {
-    const { deckId } = req.params;
+    const { id } = req.params;
 
-    const { statusCode, ...queryResult } = await getDeckCards(deckId);
+    const { statusCode, ...queryResult } = await getDeckCards(id);
     return res.status(statusCode ?? 200).send(queryResult);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -50,10 +50,10 @@ const listDeckCards = async (req: Request, res: Response) => {
 
 const updateDeck = async (req: Request, res: Response) => {
   try {
-    const { deckId } = req.params;
-    const { deckName, archived } = req.body as IDeck;
+    const { id } = req.params;
+    const { name, archived } = req.body as IDeck;
 
-    const { statusCode, ...queryResult } = await patchDeck({ deckId, deckName, archived });
+    const { statusCode, ...queryResult } = await patchDeck({ id, name, archived });
     return res.status(statusCode ?? 200).send(queryResult);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
@@ -63,8 +63,8 @@ const updateDeck = async (req: Request, res: Response) => {
 
 const removeDeck = async (req: Request, res: Response) => {
   try {
-    const { deckId } = req.params;
-    const { statusCode, ...queryResult } = await deleteDeck(deckId);
+    const { id } = req.params;
+    const { statusCode, ...queryResult } = await deleteDeck(id);
     if (statusCode) {
       return res.status(statusCode).send(queryResult);
     }

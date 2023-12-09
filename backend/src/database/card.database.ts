@@ -4,7 +4,7 @@ import prisma from '../utils/prismaClient.utils';
 const getLabelsFromDB = async (reqLabels: string[]) => {
   const labels = await prisma.label.findMany({
     where: {
-      labelName: { in: reqLabels },
+      name: { in: reqLabels },
     },
     include: { cards: { select: { card: { include: { labels: { select: { label: true } } } } } } },
   });
@@ -14,7 +14,7 @@ const getLabelsFromDB = async (reqLabels: string[]) => {
 const assignLabelsToCard = async (labels: string[], cardId: string) => {
   const labelsToAssign = await getLabelsFromDB(labels);
   const cardLabels = labelsToAssign.map((label) => ({
-    labelId: label.labelId,
+    labelId: label.id,
     cardId,
   }));
 
@@ -23,15 +23,15 @@ const assignLabelsToCard = async (labels: string[], cardId: string) => {
 
 const removeLabelsFromCard = async (labels: string[], cardId: string) => {
   const labelsToRemove = await getLabelsFromDB(labels);
-  const labelsIds = labelsToRemove.map((label) => label.labelId);
+  const labelsIds = labelsToRemove.map((label) => label.id);
 
   await prisma.labelsOnCards.deleteMany({ where: { cardId, labelId: { in: labelsIds } } });
 };
 
-const cardCreate = async ({ cardName, content, deckId }: ICreateCard): Promise<ICard> => {
+const cardCreate = async ({ name, content, deckId }: ICreateCard): Promise<ICard> => {
   const card = await prisma.card.create({
     data: {
-      cardName,
+      name,
       content,
       deckId,
     },
@@ -41,10 +41,10 @@ const cardCreate = async ({ cardName, content, deckId }: ICreateCard): Promise<I
   return card as ICard;
 };
 
-const cardFind = async (cardId: string): Promise<ICard> => {
+const cardFind = async (id: string): Promise<ICard> => {
   const card = await prisma.card.findUniqueOrThrow({
     where: {
-      cardId,
+      id,
     },
     include: { labels: { select: { label: true } } },
   });
@@ -58,22 +58,22 @@ const cardFindMany = async (): Promise<ICard[]> => {
   return cards as ICard[];
 };
 
-const cardUpdate = async ({ cardId, cardName }: IPatchCard): Promise<ICard> => {
+const cardUpdate = async ({ id, name }: IPatchCard): Promise<ICard> => {
   const card = await prisma.card.update({
-    where: { cardId },
+    where: { id },
     include: { labels: { select: { label: true } } },
     data: {
-      cardName,
+      name,
     },
   });
 
   return card as ICard;
 };
 
-const cardDelete = async (cardId: string) => {
+const cardDelete = async (id: string) => {
   await prisma.card.delete({
     where: {
-      cardId,
+      id,
     },
   });
 };

@@ -4,9 +4,9 @@ import IQueryResult from '../types/queryResult';
 import { mapDeckCards } from '../utils/mapCards.utils';
 import getPrismaError from '../utils/prismaError.utils';
 
-const createDeck = async ({ deckName, archived }: ICreateDeck): Promise<IQueryResult> => {
+const createDeck = async ({ name, archived }: ICreateDeck): Promise<IQueryResult> => {
   try {
-    const newDeck = await deckCreate({ deckName, archived });
+    const newDeck = await deckCreate({ name, archived });
 
     return {
       status: 'success',
@@ -22,9 +22,9 @@ const createDeck = async ({ deckName, archived }: ICreateDeck): Promise<IQueryRe
   }
 };
 
-const getDeck = async (deckId: string): Promise<IQueryResult> => {
+const getDeck = async (id: string): Promise<IQueryResult> => {
   try {
-    const deck = await deckFind(deckId);
+    const deck = await deckFind(id);
 
     return {
       status: 'success',
@@ -43,9 +43,9 @@ const getDeck = async (deckId: string): Promise<IQueryResult> => {
   }
 };
 
-const getDeckCards = async (deckId: string): Promise<IQueryResult> => {
+const getDeckCards = async (id: string): Promise<IQueryResult> => {
   try {
-    const { cards } = await deckFind(deckId);
+    const { cards } = await deckFind(id);
 
     return {
       status: 'success',
@@ -84,9 +84,9 @@ const getDecks = async (): Promise<IQueryResult> => {
   }
 };
 
-const patchDeck = async ({ deckId, deckName, archived }: IPatchDeck): Promise<IQueryResult> => {
+const patchDeck = async ({ id, name, archived }: IPatchDeck): Promise<IQueryResult> => {
   try {
-    const deck = await deckUpdate({ deckId, deckName, archived });
+    const deck = await deckUpdate({ id, name, archived });
 
     return {
       status: 'success',

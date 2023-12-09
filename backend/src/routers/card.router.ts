@@ -5,9 +5,9 @@ const cardRouter = Router({ mergeParams: true });
 
 cardRouter.post('/', addCard);
 cardRouter.get('/', listCards);
-cardRouter.get('/:cardId', listCard);
-cardRouter.get('/:cardId/labels', listCardLabels);
-cardRouter.patch('/:cardId', updateCard);
-cardRouter.delete('/:cardId', removeCard);
+cardRouter.get('/:id', listCard);
+cardRouter.get('/:id/labels', listCardLabels);
+cardRouter.patch('/:id', updateCard);
+cardRouter.delete('/:id', removeCard);
 
 export default cardRouter;
