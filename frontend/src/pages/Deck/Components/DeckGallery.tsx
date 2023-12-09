@@ -24,7 +24,7 @@ function DeckGallery({ decks, setEditDeck, setDeleteDeck, setSelectedDeck }: Dec
     <Gallery>
       {decks.map((deck) => (
         <DeckGalleryItem
-          key={deck.deckName}
+          key={deck.name}
           deck={deck}
           setEditDeck={setEditDeck}
           setDeleteDeck={setDeleteDeck}

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { DangerButton, Form, FormButton, FormError } from '../../../components/form';
+import { DangerButton, Form, CancelButton, FormError } from '../../../components/form';
 import { Label } from '../../../services/Flashcards/flashcardsUtils';
 import { deleteLabel } from '../../../services/Flashcards/label.services';
 
@@ -14,7 +14,7 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
   width: 100%;
   margin: 25px 0 15px;
   padding: 0;
@@ -31,17 +31,17 @@ function DeleteLabelForm({ label, onSubmitForm, onCancel }: DeleteLabelFormProps
 
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await deleteLabel(label?.labelId)
+    await deleteLabel(label?.id)
       .then(() => onSubmitForm())
       .catch(() => setFormError('Label does not exists'));
   };
 
   return (
     <Form onSubmit={submitHandler} onBlur={() => setFormError(undefined)}>
-      <Text>Are you sure you want to delete &apos;{label?.labelName}&apos; ?</Text>
+      <Text>Are you sure you want to delete &apos;{label?.name}&apos; ?</Text>
       <ButtonContainer>
-        <FormButton onClick={onCancel}>No</FormButton>
-        <DangerButton type="submit">Yes</DangerButton>
+        <CancelButton onClick={onCancel}>Cancel</CancelButton>
+        <DangerButton type="submit">Delete</DangerButton>
       </ButtonContainer>
       {formError && <FormError>{formError}</FormError>}
     </Form>

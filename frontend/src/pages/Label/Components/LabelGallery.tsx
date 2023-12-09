@@ -24,7 +24,7 @@ function LabelGallery({ labels, setEditLabel, setDeleteLabel, setSelectedLabel }
     <Gallery>
       {labels.map((label) => (
         <LabelGalleryItem
-          key={label.labelName}
+          key={label.name}
           label={label}
           setEditLabel={setEditLabel}
           setDeleteLabel={setDeleteLabel}

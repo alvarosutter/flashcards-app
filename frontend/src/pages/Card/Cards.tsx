@@ -43,11 +43,12 @@ function Cards({ item, goBack }: CardsProps) {
 
   async function fetchCards() {
     let cardsData: Card[] = [];
+
     if (isDeck(item)) {
-      cardsData = await getDeckCards(item.deckId);
+      cardsData = await getDeckCards(item.id);
     }
     if (isLabel(item)) {
-      cardsData = await getLabelCards(item.labelId);
+      cardsData = await getLabelCards((item as Label).id);
     }
     setCards(cardsData);
     sortCards(sortValue);
@@ -57,18 +58,14 @@ function Cards({ item, goBack }: CardsProps) {
     if (isDeck(item)) {
       setPageType('deck');
       const res = await getLabels();
-      const data = res
-        .map((e) => ({ label: e.labelName, value: e.labelId }))
-        .sort((a, b) => a.label.localeCompare(b.label));
+      const data = res.map((e) => ({ label: e.name, value: e.id })).sort((a, b) => a.label.localeCompare(b.label));
       data.unshift({ label: 'All', value: 'All' });
       setFilterData(data);
     }
     if (isLabel(item)) {
       setPageType('label');
       const res = await getDecks();
-      const data = res
-        .map((e) => ({ label: e.deckName, value: e.deckId }))
-        .sort((a, b) => a.label.localeCompare(b.label));
+      const data = res.map((e) => ({ label: e.name, value: e.id })).sort((a, b) => a.label.localeCompare(b.label));
       data.unshift({ label: 'All', value: 'All' });
       setFilterData(data);
     }
@@ -77,7 +74,7 @@ function Cards({ item, goBack }: CardsProps) {
   function filterCards(arr: Card[]) {
     const labelId = filterValue.value;
     if (labelId !== 'All') {
-      return arr.filter((card) => card.labels?.find((label) => label.labelId === labelId));
+      return arr.filter((card) => card.labels?.find((label) => label.id === labelId));
     }
     return arr;
   }
@@ -138,7 +135,7 @@ function Cards({ item, goBack }: CardsProps) {
                 setAddCardVisible(false);
               }}
             >
-              <AddCardForm onSubmitForm={handleOnSubmitAddCard} deckName={item.deckName} deckId={item.deckId} />
+              <AddCardForm onSubmitForm={handleOnSubmitAddCard} deckName={item.name} deckId={item.id} />
             </Modal>
           )}
           <Modal

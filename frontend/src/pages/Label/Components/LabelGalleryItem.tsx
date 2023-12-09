@@ -8,10 +8,10 @@ const Box = styled.div`
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: center;
-  background-color: ${({ theme }) => theme.colors.inputBg};
+  background-color: ${({ theme }) => theme.colors.primary};
   box-shadow:
     rgba(0, 0, 0, 0.16) 0px 1px 4px,
-    ${({ theme }) => theme.colors.itemShadow} 0px 0px 0px 3px;
+    ${({ theme }) => theme.colors.primaryDarker} 0px 0px 0px 3px;
   width: 135px;
   min-height: max-content;
   margin: 15px 15px;
@@ -70,7 +70,7 @@ interface LabelGalleryItemProps {
 }
 
 function LabelGalleryItem({ label, setEditLabel, setDeleteLabel, setSelectedLabel }: LabelGalleryItemProps) {
-  const { labelName, cards } = label;
+  const { name, cards } = label;
   return (
     <Box
       onClick={() => {
@@ -86,7 +86,7 @@ function LabelGalleryItem({ label, setEditLabel, setDeleteLabel, setSelectedLabe
         />
       </InfoBox>
       <NameBox>
-        <Name>{labelName}</Name>
+        <Name>{name}</Name>
       </NameBox>
       <InfoBox>
         <LabelInfo>cards: {cards.length}</LabelInfo>

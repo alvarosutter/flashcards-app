@@ -21,8 +21,8 @@ export async function getCards(): Promise<Card[]> {
   throw new Error(json.message);
 }
 
-export async function getCard(cardId: string): Promise<Card> {
-  const response = await get(`${url}/${cardId}`);
+export async function getCard(id: string): Promise<Card> {
+  const response = await get(`${url}/${id}`);
   const json: ResJsonSuccess | ResJsonFail = (await response.json()) as ResJson;
   if (json.status === 'success') {
     return json.data as Card;
@@ -30,8 +30,8 @@ export async function getCard(cardId: string): Promise<Card> {
   throw new Error(json.message);
 }
 
-export async function getCardLabels(cardId: string): Promise<Label[]> {
-  const response = await get(`${url}/${cardId}/labels`);
+export async function getCardLabels(id: string): Promise<Label[]> {
+  const response = await get(`${url}/${id}/labels`);
   const json: ResJsonSuccess | ResJsonFail = (await response.json()) as ResJson;
   if (json.status === 'success') {
     return json.data as Label[];
@@ -39,8 +39,8 @@ export async function getCardLabels(cardId: string): Promise<Label[]> {
   throw new Error(json.message);
 }
 
-export async function patchCard(cardId: string, body: object): Promise<Card> {
-  const response = await patch(`${url}/${cardId}`, body);
+export async function patchCard(id: string, body: object): Promise<Card> {
+  const response = await patch(`${url}/${id}`, body);
   const json: ResJsonSuccess | ResJsonFail = (await response.json()) as ResJson;
   if (json.status === 'success') {
     return json.data as Card;
@@ -48,8 +48,8 @@ export async function patchCard(cardId: string, body: object): Promise<Card> {
   throw new Error(json.message);
 }
 
-export async function deleteCard(cardId: string): Promise<null> {
-  const response = await remove(`${url}/${cardId}`);
+export async function deleteCard(id: string): Promise<null> {
+  const response = await remove(`${url}/${id}`);
   if (response.status === 204) {
     return null;
   }

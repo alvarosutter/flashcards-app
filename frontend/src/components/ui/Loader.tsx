@@ -3,7 +3,7 @@ import styled from 'styled-components';
 const Loader = styled.div`
   cursor: progress;
   border: 16px solid ${({ theme }) => theme.colors.scrollbarBg};
-  border-top: 16px solid ${({ theme }) => theme.colors.primary};
+  border-top: 16px solid ${({ theme }) => theme.colors.accent};
   border-radius: 50%;
   width: 30px;
   height: 30px;

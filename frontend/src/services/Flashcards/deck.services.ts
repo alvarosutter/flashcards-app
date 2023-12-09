@@ -21,8 +21,8 @@ export async function getDecks(): Promise<Deck[]> {
   throw new Error(json.message);
 }
 
-export async function getDeck(deckId: string): Promise<Deck> {
-  const response = await get(`${url}/${deckId}`);
+export async function getDeck(id: string): Promise<Deck> {
+  const response = await get(`${url}/${id}`);
   const json: ResJsonSuccess | ResJsonFail = (await response.json()) as ResJson;
   if (json.status === 'success') {
     return json.data as Deck;
@@ -30,8 +30,8 @@ export async function getDeck(deckId: string): Promise<Deck> {
   throw new Error(json.message);
 }
 
-export async function getDeckCards(deckId: string): Promise<Card[]> {
-  const response = await get(`${url}/${deckId}/cards`);
+export async function getDeckCards(id: string): Promise<Card[]> {
+  const response = await get(`${url}/${id}/cards`);
   const json: ResJsonSuccess | ResJsonFail = (await response.json()) as ResJson;
   if (json.status === 'success') {
     return json.data as Card[];
@@ -39,8 +39,8 @@ export async function getDeckCards(deckId: string): Promise<Card[]> {
   throw new Error(json.message);
 }
 
-export async function patchDeck(deckId: string, body: object): Promise<Deck> {
-  const response = await patch(`${url}/${deckId}`, body);
+export async function patchDeck(id: string, body: object): Promise<Deck> {
+  const response = await patch(`${url}/${id}`, body);
   const json: ResJsonSuccess | ResJsonFail = (await response.json()) as ResJson;
   if (json.status === 'success') {
     return json.data as Deck;
@@ -48,8 +48,8 @@ export async function patchDeck(deckId: string, body: object): Promise<Deck> {
   throw new Error(json.message);
 }
 
-export async function deleteDeck(deckId: string): Promise<null> {
-  const response = await remove(`${url}/${deckId}`);
+export async function deleteDeck(id: string): Promise<null> {
+  const response = await remove(`${url}/${id}`);
   if (response.status === 204) {
     return null;
   }

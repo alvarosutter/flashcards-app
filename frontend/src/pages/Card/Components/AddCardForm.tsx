@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { useTheme } from 'styled-components';
 import { StylesConfig } from 'react-select';
-import { Form, FormButton, FormError, FormTextAreaInput, FormTextInput } from '../../../components/form';
+import { Form, ActionButton, FormError, FormTextAreaInput, FormTextInput } from '../../../components/form';
 import Select, { Option } from '../../../components/dashboard/Select';
 import useLoader from '../../../hooks/useLoader';
 import { createCard } from '../../../services/Flashcards/card.services';
@@ -26,7 +26,7 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
     control: (provided) => ({
       ...provided,
       color: theme.colors.altText,
-      background: theme.colors.inputBg,
+      background: theme.colors.modalInputBg,
       border: 'none',
       boxShadow: 'none',
       fontSize: 'inherit',
@@ -44,7 +44,7 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
 
     menu: (provided) => ({
       ...provided,
-      background: theme.colors.inputBg,
+      background: theme.colors.modalInputBg,
       boxShadow: `0 0 0 1px ${theme.colors.primary}`,
       fontSize: 'inherit',
       fontFamily: theme.fonts.btnFont,
@@ -52,7 +52,7 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
 
     option: (provided) => ({
       ...provided,
-      background: theme.colors.inputBg,
+      background: theme.colors.modalInputBg,
       '&:hover': {
         background: '#6b6b6b',
       },
@@ -63,10 +63,10 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
 
   async function fetchData() {
     const labelsData = await getLabels();
-    setLabels(labelsData.map((label) => ({ label: label.labelName, value: label.labelId })));
+    setLabels(labelsData.map((label) => ({ label: label.name, value: label.id })));
   }
 
-  async function addCardHandler(card: { cardName: string; content: string }) {
+  async function addCardHandler(card: { name: string; content: string }) {
     await createCard(card);
   }
 
@@ -76,7 +76,7 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
     const content = contentInputRef.current?.value;
 
     const card = {
-      cardName: name!,
+      name: name!,
       content: content!,
       deckId,
       labels: selectedLabels,
@@ -133,9 +133,9 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
         }}
       />
       {formError && <FormError>{formError}</FormError>}
-      <FormButton style={{ margin: '25px 0 15px' }} type="submit">
+      <ActionButton style={{ margin: '25px 0 15px' }} type="submit">
         Add Card
-      </FormButton>
+      </ActionButton>
     </Form>
   );
 }

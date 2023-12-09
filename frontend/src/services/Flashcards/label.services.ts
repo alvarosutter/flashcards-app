@@ -21,8 +21,8 @@ export async function getLabels(): Promise<Label[]> {
   throw new Error(json.message);
 }
 
-export async function getLabel(labelId: string): Promise<Label> {
-  const response = await get(`${url}/${labelId}`);
+export async function getLabel(id: string): Promise<Label> {
+  const response = await get(`${url}/${id}`);
   const json: ResJsonSuccess | ResJsonFail = (await response.json()) as ResJson;
   if (json.status === 'success') {
     return json.data as Label;
@@ -30,8 +30,8 @@ export async function getLabel(labelId: string): Promise<Label> {
   throw new Error(json.message);
 }
 
-export async function getLabelCards(labelId: string): Promise<Card[]> {
-  const response = await get(`${url}/${labelId}/cards`);
+export async function getLabelCards(id: string): Promise<Card[]> {
+  const response = await get(`${url}/${id}/cards`);
   const json: ResJsonSuccess | ResJsonFail = (await response.json()) as ResJson;
   if (json.status === 'success') {
     return json.data as Card[];
@@ -39,8 +39,8 @@ export async function getLabelCards(labelId: string): Promise<Card[]> {
   throw new Error(json.message);
 }
 
-export async function patchLabel(labelId: string, body: object): Promise<Label> {
-  const response = await patch(`${url}/${labelId}`, body);
+export async function patchLabel(id: string, body: object): Promise<Label> {
+  const response = await patch(`${url}/${id}`, body);
   const json: ResJsonSuccess | ResJsonFail = (await response.json()) as ResJson;
   if (json.status === 'success') {
     return json.data as Label;
@@ -48,8 +48,8 @@ export async function patchLabel(labelId: string, body: object): Promise<Label> 
   throw new Error(json.message);
 }
 
-export async function deleteLabel(labelId: string): Promise<null> {
-  const response = await remove(`${url}/${labelId}`);
+export async function deleteLabel(id: string): Promise<null> {
+  const response = await remove(`${url}/${id}`);
   if (response.status === 204) {
     return null;
   }

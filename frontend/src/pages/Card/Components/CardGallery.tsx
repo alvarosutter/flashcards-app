@@ -20,7 +20,7 @@ function CardGallery({ cards, setSelectedCard }: CardGalleryProps) {
   return (
     <Gallery>
       {cards.map((card) => (
-        <CardGalleryItem key={card.cardName} card={card} setSelectedCard={setSelectedCard} />
+        <CardGalleryItem key={card.name} card={card} setSelectedCard={setSelectedCard} />
       ))}
     </Gallery>
   );

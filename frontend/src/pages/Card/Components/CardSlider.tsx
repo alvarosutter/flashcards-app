@@ -26,7 +26,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   align-content: center;
-  background-color: ${({ theme }) => theme.colors.headerBg};
+  background-color: ${({ theme }) => theme.colors.cardBg};
   border-radius: 5px;
   box-shadow:
     rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
@@ -53,7 +53,7 @@ const ExitButton = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.small};
   font-weight: ${({ theme }) => theme.fontWeights.normal};
   &:hover {
-    filter: brightness(1.2);
+    color: ${({ theme }) => theme.colors.danger};
     cursor: pointer;
   }
 `;
@@ -67,7 +67,6 @@ const MiddleBox = styled.div`
   width: inherit;
   &:hover {
     cursor: pointer;
-    filter: brightness(1.1);
   }
 `;
 
@@ -81,7 +80,7 @@ const ChangeCardButton = styled.button`
   border: none;
   height: 100%;
   &:hover {
-    filter: brightness(1.3);
+    color: ${({ theme }) => theme.colors.accent};
     cursor: pointer;
   }
 `;
@@ -142,7 +141,7 @@ const CardInfo = styled.div`
   }
   /* Handle */
   ::-webkit-scrollbar-thumb {
-    background: ${({ theme }) => theme.colors.altText};
+    background: ${({ theme }) => theme.colors.scrollbar};
   }
   /* Handle on hover */
   ::-webkit-scrollbar-thumb:hover {
@@ -243,7 +242,7 @@ function CardSlider({ cards, position, isOpen, onCancel, onEdit }: CardSliderPro
                 />
               </svg>
             </ChangeCardButton>
-            {isFront ? <Title>{current?.cardName}</Title> : <Text>{current?.content}</Text>}
+            {isFront ? <Title>{current?.name}</Title> : <Text>{current?.content}</Text>}
             <ChangeCardButton
               title="Next Card"
               style={cards.length === 1 || cards.length - 1 === index ? { visibility: 'hidden' } : {}}
@@ -262,7 +261,7 @@ function CardSlider({ cards, position, isOpen, onCancel, onEdit }: CardSliderPro
             </ChangeCardButton>
           </MiddleBox>
           <BottomBox>
-            <CardInfo>{current.labels.map((label) => label.labelName).join(', ')}</CardInfo>
+            <CardInfo>{current.labels.map((label) => label.name).join(', ')}</CardInfo>
             <CardNumber>
               {index + 1}/{cards.length}
             </CardNumber>

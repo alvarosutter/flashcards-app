@@ -7,13 +7,20 @@ import useLoader from '../../../hooks/useLoader';
 import { getLabels } from '../../../services/Flashcards/label.services';
 import { getDecks } from '../../../services/Flashcards/deck.services';
 import { deleteCard, patchCard } from '../../../services/Flashcards/card.services';
-import { DangerButton, Form, FormButton, FormError, FormTextAreaInput, FormTextInput } from '../../../components/form';
+import {
+  DangerButton,
+  Form,
+  ActionButton,
+  FormError,
+  FormTextAreaInput,
+  FormTextInput,
+} from '../../../components/form';
 
 const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
   width: 100%;
   margin: 25px 0 15px;
   padding: 0;
@@ -39,7 +46,7 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
     control: (provided) => ({
       ...provided,
       color: theme.colors.altText,
-      background: theme.colors.inputBg,
+      background: theme.colors.modalInputBg,
       border: 'none',
       boxShadow: 'none',
       fontSize: 'inherit',
@@ -57,7 +64,7 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
 
     menu: (provided) => ({
       ...provided,
-      background: theme.colors.inputBg,
+      background: theme.colors.modalInputBg,
       boxShadow: `0 0 0 1px ${theme.colors.primary}`,
       fontSize: 'inherit',
       fontFamily: theme.fonts.btnFont,
@@ -65,7 +72,7 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
 
     option: (provided) => ({
       ...provided,
-      background: theme.colors.inputBg,
+      background: theme.colors.modalInputBg,
       '&:hover': {
         background: '#6b6b6b',
       },
@@ -76,18 +83,18 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
 
   async function fetchData() {
     const labelsData = await getLabels();
-    setLabels(labelsData.map((label) => ({ label: label.labelName, value: label.labelId })));
+    setLabels(labelsData.map((label) => ({ label: label.name, value: label.id })));
     const decksData = await getDecks();
-    setDecks(decksData.map((deck) => ({ label: deck.deckName, value: deck.deckId })));
+    setDecks(decksData.map((deck) => ({ label: deck.name, value: deck.id })));
   }
 
-  async function editCardHandler(editedCard: { cardName: string; content: string }) {
-    await patchCard(card.cardId, editedCard);
+  async function editCardHandler(editedCard: { name: string; content: string }) {
+    await patchCard(card.id, editedCard);
   }
 
   const deleteCardHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await deleteCard(card.cardId)
+    await deleteCard(card.id)
       .then(() => onSubmitForm())
       .catch(() => setFormError('Name is invalid or already exists'));
   };
@@ -99,7 +106,7 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
 
     const editedCard = {
       deckId: cardDeck,
-      cardName: name!,
+      name: name!,
       content: content!,
       labels: selectedLabels,
     };
@@ -132,7 +139,7 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
             type="text"
             ref={nameInputRef}
             maxLength={25}
-            defaultValue={card.cardName}
+            defaultValue={card.name}
             required
           />
         </div>
@@ -162,7 +169,7 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
       />
       <Select
         selectLabel="Labels"
-        defaultValue={labels.filter((label) => card.labels.some((l) => label.value === l.labelId))}
+        defaultValue={labels.filter((label) => card.labels.some((l) => label.value === l.id))}
         style={customStyles}
         options={labels}
         name="select-card-labels"
@@ -177,7 +184,7 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
       {formError && <FormError>{formError}</FormError>}
       <ButtonContainer>
         <DangerButton onClick={deleteCardHandler}>Delete Card</DangerButton>
-        <FormButton type="submit">Edit Card</FormButton>
+        <ActionButton type="submit">Edit Card</ActionButton>
       </ButtonContainer>
     </Form>
   );

@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Form, FormButton, FormError, FormTextInput } from '../../../components/form';
+import { ActionButton, CancelButton, Form, FormError, FormTextInput } from '../../../components/form';
 import { Label } from '../../../services/Flashcards/flashcardsUtils';
 import { patchLabel } from '../../../services/Flashcards/label.services';
 
@@ -25,8 +25,8 @@ function EditLabelForm({ label, onSubmitForm, onCancel }: EditLabelFormProps) {
   const [formError, setFormError] = useState<undefined | string>();
   const nameInputRef = useRef<HTMLInputElement>(null);
 
-  async function editLabelHandler(editedLabel: { labelName: string }) {
-    await patchLabel(label.labelId, editedLabel);
+  async function editLabelHandler(editedLabel: { name: string }) {
+    await patchLabel(label.id, editedLabel);
   }
 
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -34,7 +34,7 @@ function EditLabelForm({ label, onSubmitForm, onCancel }: EditLabelFormProps) {
     const name = nameInputRef.current?.value;
 
     const editedLabel = {
-      labelName: name!,
+      name: name!,
     };
 
     await editLabelHandler(editedLabel)
@@ -50,13 +50,13 @@ function EditLabelForm({ label, onSubmitForm, onCancel }: EditLabelFormProps) {
         ref={nameInputRef}
         type="text"
         maxLength={15}
-        defaultValue={label.labelName}
+        defaultValue={label.name}
         required
       />
       {formError && <FormError>{formError}</FormError>}
       <ButtonContainer>
-        <FormButton onClick={onCancel}>Cancel</FormButton>
-        <FormButton type="submit">Edit Label</FormButton>
+        <CancelButton onClick={onCancel}>Cancel</CancelButton>
+        <ActionButton type="submit">Edit Label</ActionButton>
       </ButtonContainer>
     </Form>
   );

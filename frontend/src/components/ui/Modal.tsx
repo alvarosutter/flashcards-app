@@ -23,7 +23,7 @@ const ModalHolder = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
   gap: 5px;
-  background-color: ${({ theme }) => theme.colors.headerBg};
+  background-color: ${({ theme }) => theme.colors.modalBg};
   border-radius: 5px;
   box-shadow:
     rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
@@ -31,6 +31,7 @@ const ModalHolder = styled.div`
   min-width: 30%;
   max-width: 90%;
   margin: 0;
+  padding: 0 15px;
 `;
 
 const ModalCloseButton = styled.p`

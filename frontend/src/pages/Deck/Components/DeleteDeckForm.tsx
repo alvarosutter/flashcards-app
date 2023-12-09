@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import styled from 'styled-components';
-import { DangerButton, Form, FormButton, FormError } from '../../../components/form';
+import { DangerButton, Form, CancelButton, FormError } from '../../../components/form';
 import { deleteDeck } from '../../../services/Flashcards/deck.services';
 import { Deck } from '../../../services/Flashcards/flashcardsUtils';
 
@@ -14,7 +14,7 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
   width: 100%;
   margin: 25px 0 15px;
   padding: 0;
@@ -31,17 +31,17 @@ function DeleteDeckForm({ deck, onSubmitForm, onCancel }: DeleteDeckFormProps) {
 
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await deleteDeck(deck?.deckId)
+    await deleteDeck(deck?.id)
       .then(() => onSubmitForm())
       .catch(() => setFormError('Deck does not exists'));
   };
 
   return (
     <Form onSubmit={submitHandler} onBlur={() => setFormError(undefined)}>
-      <Text>Are you sure you want to delete &apos;{deck?.deckName}&apos; ?</Text>
+      <Text>Are you sure you want to delete &apos;{deck?.name}&apos; ?</Text>
       <ButtonContainer>
-        <FormButton onClick={onCancel}>No</FormButton>
-        <DangerButton type="submit">Yes</DangerButton>
+        <CancelButton onClick={onCancel}>Cancel</CancelButton>
+        <DangerButton type="submit">Delete</DangerButton>
       </ButtonContainer>
       {formError && <FormError>{formError}</FormError>}
     </Form>

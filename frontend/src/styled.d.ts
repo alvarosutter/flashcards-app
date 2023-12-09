@@ -5,22 +5,23 @@ declare module 'styled-components' {
     name: string;
     colors: {
       background: string;
-      headerBg: string;
-      footerBg: string;
-      inputBg: string;
+      scrollbar: string;
+      scrollbarBg: string;
+      modalBg: string;
+      modalInputBg: string;
       primaryText: string;
       altText: string;
       primary: string;
       primaryDarker: string;
       onPrimary: string;
-      secondary: string;
-      onSecondary: string;
+      accent: string;
       button: string;
+      buttonDarker: string;
       onButton: string;
       danger: string;
+      dangerDarker: string;
       onDanger: string;
-      scrollbarBg: string;
-      itemShadow: string;
+      cardBg: string;
     };
     fonts: {
       headersFont: 'Poppins';

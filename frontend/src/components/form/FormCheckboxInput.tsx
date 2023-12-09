@@ -22,9 +22,7 @@ const Label = styled.label`
 
 const Checkbox = styled.input`
   align-self: center;
-  accent-color: ${({ theme }) => theme.colors.primary};
-  color: ${({ theme }) => theme.colors.primaryText};
-  background-color: ${({ theme }) => theme.colors.inputBg};
+  accent-color: ${({ theme }) => theme.colors.accent};
   height: 35px;
   width: 35px;
   margin: 0;

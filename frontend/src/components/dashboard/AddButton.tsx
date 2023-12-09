@@ -10,7 +10,7 @@ const Button = styled.button`
   margin-left: auto;
   &:hover {
     cursor: pointer;
-    color: ${(styledProps) => styledProps.theme.colors.primary};
+    color: ${(styledProps) => styledProps.theme.colors.accent};
   }
 `;
 

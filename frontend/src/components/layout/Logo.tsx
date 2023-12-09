@@ -13,7 +13,7 @@ const LogoStyle = styled.p`
 `;
 
 const LogoHighlight = styled.span`
-  color: ${({ theme }) => theme.colors.primary};
+  color: ${({ theme }) => theme.colors.accent};
 `;
 
 function Logo() {

@@ -27,7 +27,7 @@ const Title = styled.p`
 `;
 
 const FilterButton = styled.button`
-  color: ${({ theme }) => theme.colors.primaryText};
+  color: ${({ theme }) => theme.colors.onButton};
   background-color: ${({ theme }) => theme.colors.button};
   border: none;
   outline: none;
@@ -43,7 +43,7 @@ const FilterButton = styled.button`
   &:hover {
     cursor: pointer;
     transform: scale(0.98);
-    filter: brightness(1.1);
+    background-color: ${({ theme }) => theme.colors.buttonDarker};
   }
 `;
 
@@ -81,14 +81,14 @@ function DashboardBar({ title, sortItems, filterItems, filterCards, addItem, goB
   const customStyles: StylesConfig<Option> = {
     control: (provided, state) => ({
       ...provided,
-      background: theme.colors.headerBg,
+      background: theme.colors.button,
       border: 'none',
       width: '107px',
       height: 'fit-content',
       padding: '0px',
       margin: '0px',
       cursor: 'pointer',
-      boxShadow: state.isFocused ? `0 0 0 1px ${theme.colors.primary}` : 'none',
+      boxShadow: state.isFocused ? `0 0 0 1px ${theme.colors.buttonDarker}` : 'none',
       fontSize: 'inherit',
       fontFamily: theme.fonts.btnFont,
     }),
@@ -96,8 +96,8 @@ function DashboardBar({ title, sortItems, filterItems, filterCards, addItem, goB
     menu: (provided) => ({
       ...provided,
       minWidth: 'fit-content',
-      background: theme.colors.inputBg,
-      boxShadow: `0 0 0 1px ${theme.colors.primary}`,
+      background: theme.colors.buttonDarker,
+      boxShadow: `0 0 0 1px ${theme.colors.buttonDarker}`,
       fontSize: 'inherit',
       fontFamily: theme.fonts.btnFont,
       cursor: 'pointer',
@@ -106,7 +106,7 @@ function DashboardBar({ title, sortItems, filterItems, filterCards, addItem, goB
     option: (provided) => ({
       ...provided,
       minWidth: 'fit-content',
-      background: theme.colors.inputBg,
+      background: theme.colors.buttonDarker,
       '&:hover': {
         filter: 'brightness(1.5)',
       },

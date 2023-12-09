@@ -21,7 +21,7 @@ const Label = styled.label`
 
 const Text = styled.input`
   color: ${({ theme }) => theme.colors.primaryText};
-  background-color: ${({ theme }) => theme.colors.inputBg};
+  background-color: ${({ theme }) => theme.colors.modalInputBg};
   border: none;
   font-family: ${({ theme }) => theme.fonts.textFont}, sans-serif;
   font-weight: ${({ theme }) => theme.fontWeights.light};

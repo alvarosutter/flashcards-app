@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 
 const FormError = styled.div`
-  color: #ffffff;
-  background: rgba(255, 92, 92, 0.5);
-  border: 1px solid rgba(255, 92, 92);
+  color: ${({ theme }) => theme.colors.onDanger};
+  background: ${({ theme }) => theme.colors.dangerDarker};
+  border: 1px solid ${({ theme }) => theme.colors.danger};
   border-radius: 5px;
   width: auto;
   height: auto;

@@ -31,7 +31,7 @@ const OutsideLink = styled.a`
   margin: auto 0;
   vertical-align: middle;
   &:hover {
-    color: ${({ theme }) => theme.colors.primaryText};
+    color: ${({ theme }) => theme.colors.accent};
     cursor: pointer;
   }
 `;

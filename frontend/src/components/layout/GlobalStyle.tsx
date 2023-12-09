@@ -26,11 +26,11 @@ const GlobalStyle = createGlobalStyle`
     }
     /* Handle */
     ::-webkit-scrollbar-thumb {
-      background: ${({ theme }) => theme.colors.primaryDarker};
+      background: ${({ theme }) => theme.colors.scrollbar};
     }
     /* Handle on hover */
     ::-webkit-scrollbar-thumb:hover {
-      background: ${({ theme }) => theme.colors.primary};
+      background: ${({ theme }) => theme.colors.primaryDarker};
     }
   }
 `;

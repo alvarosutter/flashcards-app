@@ -9,7 +9,7 @@ const Button = styled.button`
   border: none;
   &:hover {
     cursor: pointer;
-    color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.accent};
   }
 `;
 

@@ -6,10 +6,10 @@ const Box = styled.div`
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: center;
-  background-color: ${({ theme }) => theme.colors.inputBg};
+  background-color: ${({ theme }) => theme.colors.primary};
   box-shadow:
     rgba(0, 0, 0, 0.16) 0px 1px 4px,
-    ${({ theme }) => theme.colors.itemShadow} 0px 0px 0px 3px;
+    ${({ theme }) => theme.colors.primaryDarker} 0px 0px 0px 3px;
   width: 170px;
   height: 170px;
   margin: 15px 15px;
@@ -92,7 +92,7 @@ interface CardGalleryItemProps {
 }
 
 function CardGalleryItem({ card, setSelectedCard }: CardGalleryItemProps) {
-  const { cardName, labels } = card;
+  const { name, labels } = card;
   return (
     <Box
       onClick={() => {
@@ -100,10 +100,10 @@ function CardGalleryItem({ card, setSelectedCard }: CardGalleryItemProps) {
       }}
     >
       <NameBox>
-        <Name>{cardName}</Name>
+        <Name>{name}</Name>
       </NameBox>
       <InfoBox>
-        <CardInfo>{labels.map((label) => label.labelName).join(', ')}</CardInfo>
+        <CardInfo>{labels.map((label) => label.name).join(', ')}</CardInfo>
       </InfoBox>
     </Box>
   );

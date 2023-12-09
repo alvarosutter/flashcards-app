@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { Form, FormButton, FormError, FormTextInput } from '../../../components/form';
+import { ActionButton, CancelButton, Form, FormError, FormTextInput } from '../../../components/form';
 import { patchDeck } from '../../../services/Flashcards/deck.services';
 import { Deck } from '../../../services/Flashcards/flashcardsUtils';
 import FormCheckboxInput from '../../../components/form/FormCheckboxInput';
@@ -9,7 +9,7 @@ const ButtonContainer = styled.div`
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: space-evenly;
+  justify-content: space-between;
   width: 100%;
   margin: 25px 0 15px;
   padding: 0;
@@ -25,8 +25,8 @@ function EditDeckForm({ deck, onSubmitForm, onCancel }: EditDeckFormProps) {
   const nameInputRef = useRef<HTMLInputElement>(null);
   const archivedInputRef = useRef<HTMLInputElement>(null);
 
-  async function editDeckHandler(editedDeck: { deckName: string; archived: boolean }) {
-    await patchDeck(deck.deckId, editedDeck);
+  async function editDeckHandler(editedDeck: { name: string; archived: boolean }) {
+    await patchDeck(deck.id, editedDeck);
   }
 
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -35,7 +35,7 @@ function EditDeckForm({ deck, onSubmitForm, onCancel }: EditDeckFormProps) {
     const archived = archivedInputRef.current?.checked;
 
     const editedDeck = {
-      deckName: name!,
+      name: name!,
       archived: archived!,
     };
 
@@ -60,7 +60,7 @@ function EditDeckForm({ deck, onSubmitForm, onCancel }: EditDeckFormProps) {
           ref={nameInputRef}
           type="text"
           maxLength={15}
-          defaultValue={deck.deckName}
+          defaultValue={deck.name}
           required
         />
         <FormCheckboxInput
@@ -73,10 +73,10 @@ function EditDeckForm({ deck, onSubmitForm, onCancel }: EditDeckFormProps) {
         {formError && <FormError>{formError}</FormError>}
       </Form>
       <ButtonContainer>
-        <FormButton onClick={onCancel}>Cancel</FormButton>
-        <FormButton form="editDeck" type="submit">
+        <CancelButton onClick={onCancel}>Cancel</CancelButton>
+        <ActionButton form="editDeck" type="submit">
           Edit Deck
-        </FormButton>
+        </ActionButton>
       </ButtonContainer>
     </>
   );

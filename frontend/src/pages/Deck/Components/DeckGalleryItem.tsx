@@ -8,15 +8,14 @@ const Box = styled.div`
   flex-direction: column;
   flex-wrap: nowrap;
   justify-content: center;
-  background-color: ${({ theme }) => theme.colors.inputBg};
+  background-color: ${({ theme }) => theme.colors.primary};
   box-shadow:
     rgba(0, 0, 0, 0.16) 0px 1px 4px,
-    ${({ theme }) => theme.colors.itemShadow} 0px 0px 0px 3px;
+    ${({ theme }) => theme.colors.primaryDarker} 0px 0px 0px 3px;
   width: 150px;
   height: 200px;
   margin: 15px 15px;
   &:hover {
-    filter: brightness(1.1);
     transform: scale(0.99);
     cursor: pointer;
   }
@@ -70,7 +69,7 @@ interface DeckGalleryItemProps {
 }
 
 function DeckGalleryItem({ deck, setEditDeck, setDeleteDeck, setSelectedDeck }: DeckGalleryItemProps) {
-  const { deckName, cards } = deck;
+  const { name, cards } = deck;
   return (
     <Box
       onClick={() => {
@@ -86,7 +85,7 @@ function DeckGalleryItem({ deck, setEditDeck, setDeleteDeck, setSelectedDeck }: 
         />
       </InfoBox>
       <NameBox>
-        <Name>{deckName}</Name>
+        <Name>{name}</Name>
       </NameBox>
       <InfoBox>
         <DeckInfo>cards: {cards.length}</DeckInfo>

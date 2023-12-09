@@ -25,7 +25,7 @@ const NavList = styled.ul`
 `;
 
 const NavLink = styled(Link)`
-  color: ${({ theme }) => theme.colors.altText};
+  color: ${({ theme }) => theme.colors.primaryText};
   font-family: ${({ theme }) => theme.fonts.altFont}, sans-serif;
   font-size: ${({ theme }) => theme.fontSizes.xsmall};
   font-weight: ${({ theme }) => theme.fontWeights.light};
@@ -36,7 +36,7 @@ const NavLink = styled(Link)`
   height: min-content;
   &:hover {
     cursor: pointer;
-    filter: brightness(1.5);
+    color: ${({ theme }) => theme.colors.accent};
   }
 `;
 
@@ -50,7 +50,7 @@ const DarkModeButton = styled.div`
   margin-inline-end: 5px;
   &:hover {
     cursor: pointer;
-    filter: brightness(1.5);
+    color: ${({ theme }) => theme.colors.accent};
   }
 `;
 

@@ -49,10 +49,12 @@ interface MySelectProps {
   onChange: (option: Option | readonly Option[] | null) => void;
   selectLabel?: string;
 }
+
 function MySelect({
   style = {},
   options,
-  defaultValue = { label: '', value: '' },
+  // eslint-disable-next-line react/require-default-props
+  defaultValue,
   name,
   isMulti,
   isSearchable,
@@ -78,20 +80,10 @@ function MySelect({
   const selectWithLabel = (
     <Wrapper>
       <SelectLabel>{selectLabel}</SelectLabel>
-      <Select
-        styles={style}
-        formatOptionLabel={formatOptionLabel}
-        options={options}
-        defaultValue={defaultValue}
-        name={name}
-        isMulti={isMulti}
-        isSearchable={isSearchable}
-        isClearable={isClearable}
-        isDisabled={isDisabled}
-        onChange={onChange}
-      />
+      {select}
     </Wrapper>
   );
+
   return selectLabel ? selectWithLabel : select;
 }
 

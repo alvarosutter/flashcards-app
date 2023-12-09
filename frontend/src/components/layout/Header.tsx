@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const HeaderStyle = styled.header`
-  background-color: ${({ theme }) => theme.colors.headerBg};
+  background-color: ${({ theme }) => theme.colors.background};
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;

@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { Form, FormButton, FormError, FormTextInput } from '../../../components/form';
+import { Form, ActionButton, FormError, FormTextInput } from '../../../components/form';
 import { createDeck } from '../../../services/Flashcards/deck.services';
 import FormCheckboxInput from '../../../components/form/FormCheckboxInput';
 
@@ -12,7 +12,7 @@ function AddDeckForm({ onSubmitForm }: AddDeckFormProps) {
   const nameInputRef = useRef<HTMLInputElement>(null);
   const archivedInputRef = useRef<HTMLInputElement>(null);
 
-  async function addDeckHandler(deck: { deckName: string; archived: boolean }) {
+  async function addDeckHandler(deck: { name: string; archived: boolean }) {
     await createDeck(deck);
   }
 
@@ -22,7 +22,7 @@ function AddDeckForm({ onSubmitForm }: AddDeckFormProps) {
     const archived = archivedInputRef.current?.checked;
 
     const deck = {
-      deckName: name!,
+      name: name!,
       archived: archived!,
     };
 
@@ -43,9 +43,9 @@ function AddDeckForm({ onSubmitForm }: AddDeckFormProps) {
         <FormCheckboxInput label="Archived" name="deck-archived" ref={archivedInputRef} type="checkbox" />
         {formError && <FormError>{formError}</FormError>}
       </Form>
-      <FormButton form="addDeck" style={{ margin: '25px 0 15px' }} type="submit">
+      <ActionButton form="addDeck" style={{ margin: '25px 0 15px' }} type="submit">
         Add Deck
-      </FormButton>
+      </ActionButton>
     </>
   );
 }

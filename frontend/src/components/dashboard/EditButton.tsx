@@ -10,7 +10,7 @@ const Button = styled.button`
   padding: 7px;
   &:hover {
     cursor: pointer;
-    color: ${({ theme }) => theme.colors.primary};
+    color: ${({ theme }) => theme.colors.accent};
   }
 `;
 
