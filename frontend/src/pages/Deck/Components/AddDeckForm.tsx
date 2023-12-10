@@ -1,7 +1,6 @@
-import { useRef, useState } from 'react';
-import { Form, ActionButton, FormError, FormTextInput } from '../../../components/form';
+import { useState, useRef } from 'react';
+import { Form, TextInput, CheckboxInput, FormError, ActionButton } from '../../../components/form';
 import { createDeck } from '../../../services/Flashcards/deck.services';
-import FormCheckboxInput from '../../../components/form/FormCheckboxInput';
 
 interface AddDeckFormProps {
   onSubmitForm: () => void;
@@ -39,8 +38,8 @@ function AddDeckForm({ onSubmitForm }: AddDeckFormProps) {
         onBlur={() => setFormError(undefined)}
         style={{ flexDirection: 'row' }}
       >
-        <FormTextInput label="Name" name="deck-name" ref={nameInputRef} type="text" maxLength={15} required autoFocus />
-        <FormCheckboxInput label="Archived" name="deck-archived" ref={archivedInputRef} type="checkbox" />
+        <TextInput label="Name" name="deck-name" ref={nameInputRef} type="text" maxLength={15} required autoFocus />
+        <CheckboxInput label="Archived" name="deck-archived" ref={archivedInputRef} type="checkbox" />
         {formError && <FormError>{formError}</FormError>}
       </Form>
       <ActionButton form="addDeck" style={{ margin: '25px 0 15px' }} type="submit">

@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { createLabel } from '../../../services/Flashcards/label.services';
-import { Form, ActionButton, FormError, FormTextInput } from '../../../components/form';
+import { Form, ActionButton, FormError, TextInput } from '../../../components/form';
 
 interface AddLabelFormProps {
   onSubmitForm: () => void;
@@ -29,7 +29,7 @@ function AddLabelForm({ onSubmitForm }: AddLabelFormProps) {
 
   return (
     <Form onSubmit={submitHandler} onBlur={() => setFormError(undefined)}>
-      <FormTextInput label="Name" name="label-name" ref={nameInputRef} type="text" maxLength={15} required autoFocus />
+      <TextInput label="Name" name="label-name" ref={nameInputRef} type="text" maxLength={15} required autoFocus />
       {formError && <FormError>{formError}</FormError>}
       <ActionButton style={{ margin: '25px 0 15px' }} type="submit">
         Add Label

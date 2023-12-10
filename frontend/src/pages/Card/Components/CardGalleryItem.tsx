@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Card } from '../../../services/Flashcards/flashcardsUtils';
+import { Card } from '../../../types';
 
 const Box = styled.div`
   display: flex;

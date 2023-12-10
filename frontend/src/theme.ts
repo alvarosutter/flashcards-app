@@ -60,7 +60,7 @@ export const lightTheme: DefaultTheme = {
     altText: '#2a2d36',
     primary: '#c9d4f3',
     primaryDarker: '#bccaf0',
-    onPrimary: '#dfe2ec',
+    onPrimary: '#131620',
     accent: '#08829b',
     button: '#d9dada',
     buttonDarker: '#c6c7c8',

@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import EditButton from '../../../components/dashboard/EditButton';
-import TrashButton from '../../../components/dashboard/TrashButton';
-import { Label } from '../../../services/Flashcards/flashcardsUtils';
+import { DeleteButton, EditButton } from '../../../components/item';
+import { Label } from '../../../types';
 
 const Box = styled.div`
   display: flex;
@@ -78,7 +77,7 @@ function LabelGalleryItem({ label, setEditLabel, setDeleteLabel, setSelectedLabe
       }}
     >
       <InfoBox>
-        <TrashButton
+        <DeleteButton
           onClick={(e) => {
             e.stopPropagation();
             setDeleteLabel(label);

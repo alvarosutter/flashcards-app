@@ -1,4 +1,4 @@
-import { forwardRef, InputHTMLAttributes, Ref } from 'react';
+import { forwardRef, Ref, TextareaHTMLAttributes } from 'react';
 import styled from 'styled-components';
 
 const InputWrapper = styled.div`
@@ -19,29 +19,32 @@ const Label = styled.label`
   padding: 0;
 `;
 
-const Text = styled.input`
+const TextArea = styled.textarea`
   color: ${({ theme }) => theme.colors.primaryText};
   background-color: ${({ theme }) => theme.colors.modalInputBg};
   border: none;
-  font-family: ${({ theme }) => theme.fonts.textFont}, sans-serif;
+  font-family: ${({ theme }) => theme.fonts.btnFont}, sans-serif;
   font-weight: ${({ theme }) => theme.fontWeights.light};
   font-size: ${({ theme }) => theme.fontSizes.small};
-  height: 35px;
+  width: 100%;
+  height: 200px;
   margin: 0;
   padding: 5px 10px;
 `;
 
-interface IFormInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface ITextAreaInputProps extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label: string;
   name: string;
 }
 
-const FormTextInput = forwardRef(({ label, name, ...restProps }: IFormInputProps, ref: Ref<HTMLInputElement>) => (
-  <InputWrapper>
-    <Label htmlFor={name}>{label}</Label>
-    <Text id={name} {...restProps} ref={ref} />
-  </InputWrapper>
-));
-FormTextInput.displayName = 'FormTextInput';
+const TextAreaInput = forwardRef(
+  ({ label, name, ...restProps }: ITextAreaInputProps, ref: Ref<HTMLTextAreaElement>) => (
+    <InputWrapper>
+      <Label htmlFor={name}>{label}</Label>
+      <TextArea id={name} {...restProps} ref={ref} />
+    </InputWrapper>
+  ),
+);
+TextAreaInput.displayName = 'TextAreaInput';
 
-export default FormTextInput;
+export default TextAreaInput;

@@ -1,5 +1,6 @@
 import { get, patch, post, remove } from '../../lib/API/fetchApi';
-import { URL, Card, Deck, ResJson, ResJsonFail, ResJsonSuccess } from './flashcardsUtils';
+import URL from '../../pages/utils/url';
+import { Deck, Card, ResJsonSuccess, ResJsonFail, ResJson } from '../../types';
 
 const url = `${URL}/decks`;
 

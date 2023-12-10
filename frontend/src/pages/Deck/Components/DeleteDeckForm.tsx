@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { DangerButton, Form, CancelButton, FormError } from '../../../components/form';
 import { deleteDeck } from '../../../services/Flashcards/deck.services';
-import { Deck } from '../../../services/Flashcards/flashcardsUtils';
+import { Deck } from '../../../types';
 
 const Text = styled.div`
   color: ${({ theme }) => theme.colors.primaryText};

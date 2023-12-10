@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useState } from 'react';
-import DashboardBar from '../../components/dashboard/DashboardBar';
 import Modal from '../../components/ui/Modal';
-import { Option } from '../../components/dashboard/Select';
 import { useArray, useLoader, useLocalStorage } from '../../hooks';
 import { getDecks } from '../../services/Flashcards/deck.services';
-import { Deck, sortOptions } from '../../services/Flashcards/flashcardsUtils';
 import AddDeckForm from './Components/AddDeckForm';
 import DeckGallery from './Components/DeckGallery';
 import DeleteDeckForm from './Components/DeleteDeckForm';
 import EditDeckForm from './Components/EditDeckForm';
 import Cards from '../Card/Cards';
+import { Deck, SelectOption } from '../../types';
+import DeckDashboardBar from './Components/DeckDashboardBar';
+import sortOptions from '../utils/sortOptions';
 
 interface IDecksArray {
   array: Deck[];
@@ -21,7 +21,7 @@ function DeckPage() {
   const [sortValue, setSortValue] = useLocalStorage('deck-sort', {
     label: sortOptions[0].label,
     value: sortOptions[0].value,
-  }) as [Option, React.Dispatch<React.SetStateAction<Option>>];
+  }) as [SelectOption, React.Dispatch<React.SetStateAction<SelectOption>>];
   const [showArchived, setShowArchived] = useLocalStorage('show-archived', true) as [
     boolean,
     React.Dispatch<React.SetStateAction<boolean>>,
@@ -33,7 +33,7 @@ function DeckPage() {
   const [selectedDeck, setSelectedDeck] = useState<Deck | null>(null);
   const { isLoading, setLoading, getLoader } = useLoader();
 
-  function sortDecks(sortOption: Option) {
+  function sortDecks(sortOption: SelectOption) {
     const option = sortOptions.filter((o) => o.value === sortOption?.value);
     sort(option[0].func);
   }
@@ -90,27 +90,19 @@ function DeckPage() {
       {isLoading && getLoader()}
       {!isLoading && !selectedDeck && (
         <>
-          <DashboardBar
-            title="Decks"
-            sortItems={{
-              options: sortOptions.map((option) => ({
-                label: option.label,
-                value: option.value,
-              })),
-              defaultOption: sortValue,
-              onChange: (option) => {
-                setSortValue(option as Option);
-                sortDecks(option as Option);
-              },
-            }}
-            filterItems={{
-              name: 'Archived',
-              value: showArchived,
-              onClick: (value) => {
-                setShowArchived(value);
-              },
-            }}
+          <DeckDashboardBar
             addItem={() => setAddDeckVisible(true)}
+            options={sortOptions.map((option) => ({
+              label: option.label,
+              value: option.value,
+            }))}
+            defaultValue={sortValue}
+            onChange={(option) => {
+              setSortValue(option as SelectOption);
+              sortDecks(option as SelectOption);
+            }}
+            value={showArchived}
+            onClick={(value) => setShowArchived(value)}
           />
           <DeckGallery
             decks={showArchived ? decks : decks.filter((deck) => deck.archived === false)}

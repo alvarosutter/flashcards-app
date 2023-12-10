@@ -15,32 +15,33 @@ const Label = styled.label`
   font-family: ${({ theme }) => theme.fonts.headersFont}, sans-serif;
   font-weight: ${({ theme }) => theme.fontWeights.normal};
   font-size: ${({ theme }) => theme.fontSizes.small};
-  text-align: center;
   margin: 0;
   padding: 0;
 `;
 
-const Checkbox = styled.input`
-  align-self: center;
-  accent-color: ${({ theme }) => theme.colors.accent};
+const Text = styled.input`
+  color: ${({ theme }) => theme.colors.primaryText};
+  background-color: ${({ theme }) => theme.colors.modalInputBg};
+  border: none;
+  font-family: ${({ theme }) => theme.fonts.textFont}, sans-serif;
+  font-weight: ${({ theme }) => theme.fontWeights.light};
+  font-size: ${({ theme }) => theme.fontSizes.small};
   height: 35px;
-  width: 35px;
   margin: 0;
-  padding: 0;
-  cursor: pointer;
+  padding: 5px 10px;
 `;
 
-interface IFormInputProps extends InputHTMLAttributes<HTMLInputElement> {
+interface ITextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   name: string;
 }
 
-const FormCheckboxInput = forwardRef(({ label, name, ...restProps }: IFormInputProps, ref: Ref<HTMLInputElement>) => (
+const TextInput = forwardRef(({ label, name, ...restProps }: ITextInputProps, ref: Ref<HTMLInputElement>) => (
   <InputWrapper>
     <Label htmlFor={name}>{label}</Label>
-    <Checkbox id={name} {...restProps} ref={ref} />
+    <Text id={name} {...restProps} ref={ref} />
   </InputWrapper>
 ));
-FormCheckboxInput.displayName = 'FormCheckboxInput';
+TextInput.displayName = 'TextInput';
 
-export default FormCheckboxInput;
+export default TextInput;

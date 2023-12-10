@@ -4,7 +4,7 @@
   "description": "Backend for the flashcard-app. Basic server with Rest API for the resources Deck, Card and Label.",
   "main": "index.js",
   "scripts": {
-    "start": "tsc-watch --outDir ./dist --onSuccess \"node ./dist/index.js\"",
+    "start": "tsc-watch --outDir ./dist --onSuccess \"node ./dist/src/index.js\"",
     "build": "tsc -b .",
     "test": "jest -i --config ./jest.config.ts --verbose .*.test.ts",
     "lint": "eslint \"./src/**/*.{js,jsx,ts,tsx,json}\" --parser-options={tsconfigRootDir:null}",

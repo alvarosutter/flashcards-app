@@ -1,15 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
-import DashboardBar from '../../components/dashboard/DashboardBar';
 import Modal from '../../components/ui/Modal';
-import { Option } from '../../components/dashboard/Select';
 import { getDeckCards, getDecks } from '../../services/Flashcards/deck.services';
-import { Card, Deck, isDeck, isLabel, Label, sortOptions } from '../../services/Flashcards/flashcardsUtils';
 import { getLabelCards, getLabels } from '../../services/Flashcards/label.services';
 import AddCardForm from './Components/AddCardForm';
 import CardGallery from './Components/CardGallery';
 import CardSlider from './Components/CardSlider';
 import EditCardForm from './Components/EditCardForm';
 import { useArray, useLoader, useLocalStorage } from '../../hooks';
+import { Card, Deck, Label, SelectOption } from '../../types';
+import CardDashboardBar from './Components/CardDashboardBar';
+import sortOptions from '../utils/sortOptions';
+import { isDeck, isLabel } from '../utils/typeGuards';
 
 interface CardsProps {
   item: Deck | Label;
@@ -27,16 +28,16 @@ function Cards({ item, goBack }: CardsProps) {
   const [sortValue, setSortValue] = useLocalStorage('card-sort', {
     label: sortOptions[0].label,
     value: sortOptions[0].value,
-  }) as [{ label: string; value: string }, (value: Option | null) => void];
-  const [filterValue, setFilterValue] = useState<Option>({ label: 'All', value: 'All' });
-  const [filterData, setFilterData] = useState<Option[]>([]);
+  }) as [{ label: string; value: string }, (value: SelectOption | null) => void];
+  const [filterValue, setFilterValue] = useState<SelectOption>({ label: 'All', value: 'All' });
+  const [filterData, setFilterData] = useState<SelectOption[]>([]);
   const [pageType, setPageType] = useState<'deck' | 'label'>('deck');
   const [addCardVisible, setAddCardVisible] = useState(false);
   const [editCard, setEditCard] = useState<Card | null>(null);
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
   const { isLoading, setLoading, getLoader } = useLoader();
 
-  function sortCards(sortOption: Option) {
+  function sortCards(sortOption: SelectOption) {
     const option = sortOptions.filter((o) => o.value === sortOption?.value);
     sort(option[0].func);
   }
@@ -104,26 +105,22 @@ function Cards({ item, goBack }: CardsProps) {
       {isLoading && getLoader()}
       {!isLoading && (
         <>
-          <DashboardBar
-            sortItems={{
-              options: sortOptions.map((option) => ({
-                label: option.label,
-                value: option.value,
-              })),
-              defaultOption: sortValue,
-              onChange: (option) => {
-                setSortValue(option as Option);
-                sortCards(option as Option);
-              },
-            }}
-            filterCards={{
-              options: filterData,
-              defaultOption: filterValue,
-              onChange: (value) => {
-                setFilterValue(value as Option);
-              },
-            }}
+          <CardDashboardBar
             addItem={pageType === 'deck' ? () => setAddCardVisible(true) : undefined}
+            sortOptions={sortOptions.map((option) => ({
+              label: option.label,
+              value: option.value,
+            }))}
+            sortDefaultValue={sortValue}
+            onChangeSort={(option) => {
+              setSortValue(option as SelectOption);
+              sortCards(option as SelectOption);
+            }}
+            filterOptions={filterData}
+            filterDefaultValue={filterValue}
+            onChangeFilter={(value) => {
+              setFilterValue(value as SelectOption);
+            }}
             goBack={goBack}
           />
           <CardGallery cards={filterCards(cards)} setSelectedCard={setSelectedCard} />

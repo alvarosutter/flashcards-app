@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Deck, Card, Label } from '../services/Flashcards/flashcardsUtils';
+import { Deck, Card, Label } from '../types';
 
 function useArray(defaultValue: Array<Deck | Card | Label>) {
   const [array, setArray] = useState(defaultValue);

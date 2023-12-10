@@ -1,9 +1,8 @@
-import { useRef, useState } from 'react';
+import { useState, useRef } from 'react';
 import styled from 'styled-components';
-import { ActionButton, CancelButton, Form, FormError, FormTextInput } from '../../../components/form';
+import { ActionButton, CancelButton, CheckboxInput, Form, FormError, TextInput } from '../../../components/form';
 import { patchDeck } from '../../../services/Flashcards/deck.services';
-import { Deck } from '../../../services/Flashcards/flashcardsUtils';
-import FormCheckboxInput from '../../../components/form/FormCheckboxInput';
+import { Deck } from '../../../types';
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -54,7 +53,7 @@ function EditDeckForm({ deck, onSubmitForm, onCancel }: EditDeckFormProps) {
           flexDirection: 'row',
         }}
       >
-        <FormTextInput
+        <TextInput
           label="Name"
           name="deck-name"
           ref={nameInputRef}
@@ -63,7 +62,7 @@ function EditDeckForm({ deck, onSubmitForm, onCancel }: EditDeckFormProps) {
           defaultValue={deck.name}
           required
         />
-        <FormCheckboxInput
+        <CheckboxInput
           label="Archived"
           name="deck-archived"
           ref={archivedInputRef}

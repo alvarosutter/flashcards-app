@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Deck } from '../../../services/Flashcards/flashcardsUtils';
+import { Deck } from '../../../types';
 import DeckGalleryItem from './DeckGalleryItem';
 
 const Gallery = styled.div`

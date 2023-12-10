@@ -1,8 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import DashboardBar from '../../components/dashboard/DashboardBar';
 import { useArray, useLoader, useLocalStorage } from '../../hooks';
-import { Label, sortOptions } from '../../services/Flashcards/flashcardsUtils';
-import { Option } from '../../components/dashboard/Select';
 import { getLabels } from '../../services/Flashcards/label.services';
 import LabelGallery from './Components/LabelGallery';
 import Modal from '../../components/ui/Modal';
@@ -10,6 +7,9 @@ import AddLabelForm from './Components/AddLabelForm';
 import EditLabelForm from './Components/EditLabelForm';
 import DeleteLabelForm from './Components/DeleteLabelForm';
 import Cards from '../Card/Cards';
+import { Label, SelectOption } from '../../types';
+import LabelDashboardBar from './Components/LabelDashboardBar';
+import sortOptions from '../utils/sortOptions';
 
 interface ILabelsArray {
   array: Label[];
@@ -22,7 +22,7 @@ function LabelPage() {
   const [sortValue, setSortValue] = useLocalStorage('label-sort', {
     label: sortOptions[0].label,
     value: sortOptions[0].value,
-  }) as [Option, React.Dispatch<React.SetStateAction<Option>>];
+  }) as [SelectOption, React.Dispatch<React.SetStateAction<SelectOption>>];
   const [showEmpty, setShowEmpty] = useLocalStorage('show-empty', true) as [
     boolean,
     React.Dispatch<React.SetStateAction<boolean>>,
@@ -33,7 +33,7 @@ function LabelPage() {
   const [selectedLabel, setSelectedLabel] = useState<Label | null>(null);
   const { isLoading, setLoading, getLoader } = useLoader();
 
-  function sortLabels(sortOption: Option) {
+  function sortLabels(sortOption: SelectOption) {
     const option = sortOptions.filter((o) => o.value === sortOption?.value);
     sort(option[0].func);
   }
@@ -75,27 +75,19 @@ function LabelPage() {
       {isLoading && getLoader()}
       {!isLoading && !selectedLabel && (
         <>
-          <DashboardBar
-            title="Labels"
-            sortItems={{
-              options: sortOptions.map((option) => ({
-                label: option.label,
-                value: option.value,
-              })),
-              defaultOption: sortValue,
-              onChange: (value) => {
-                setSortValue(value as Option);
-                sortLabels(value as Option);
-              },
-            }}
-            filterItems={{
-              name: 'Empty',
-              value: showEmpty as boolean,
-              onClick: (value) => {
-                setShowEmpty(value);
-              },
-            }}
+          <LabelDashboardBar
             addItem={() => setAddLabelVisible(true)}
+            options={sortOptions.map((option) => ({
+              label: option.label,
+              value: option.value,
+            }))}
+            defaultValue={sortValue}
+            onChange={(option) => {
+              setSortValue(option as SelectOption);
+              sortLabels(option as SelectOption);
+            }}
+            value={showEmpty}
+            onClick={(value) => setShowEmpty(value)}
           />
           <LabelGallery
             labels={showEmpty ? labels : labels.filter((label) => label.cards?.length !== 0)}

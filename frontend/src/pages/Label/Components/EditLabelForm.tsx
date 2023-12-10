@@ -1,8 +1,8 @@
 import { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { ActionButton, CancelButton, Form, FormError, FormTextInput } from '../../../components/form';
-import { Label } from '../../../services/Flashcards/flashcardsUtils';
+import { ActionButton, CancelButton, Form, FormError, TextInput } from '../../../components/form';
 import { patchLabel } from '../../../services/Flashcards/label.services';
+import { Label } from '../../../types';
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -44,7 +44,7 @@ function EditLabelForm({ label, onSubmitForm, onCancel }: EditLabelFormProps) {
 
   return (
     <Form onSubmit={submitHandler} onBlur={() => setFormError(undefined)}>
-      <FormTextInput
+      <TextInput
         label="Name"
         name="label-name"
         ref={nameInputRef}

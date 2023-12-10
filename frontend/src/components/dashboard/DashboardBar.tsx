@@ -1,6 +1,4 @@
-import styled, { useTheme } from 'styled-components';
-import { StylesConfig } from 'react-select';
-import Select, { Option } from './Select';
+import styled from 'styled-components';
 import AddButton from './AddButton';
 import GoBackButton from './GoBackButton';
 
@@ -26,27 +24,6 @@ const Title = styled.p`
   margin: 0;
 `;
 
-const FilterButton = styled.button`
-  color: ${({ theme }) => theme.colors.onButton};
-  background-color: ${({ theme }) => theme.colors.button};
-  border: none;
-  outline: none;
-  border-radius: 5px;
-  font-family: ${({ theme }) => theme.fonts.headersFont}, sans-serif;
-  font-weight: ${({ theme }) => theme.fontWeights.light};
-  font-size: inherit;
-  width: 110px;
-  height: fit-content;
-  margin: 0;
-  padding: 7px 5px 3px;
-  text-align: center;
-  &:hover {
-    cursor: pointer;
-    transform: scale(0.98);
-    background-color: ${({ theme }) => theme.colors.buttonDarker};
-  }
-`;
-
 const Divider = styled.div`
   border-bottom: 1px solid ${({ theme }) => theme.colors.primary};
   width: 100%;
@@ -55,106 +32,18 @@ const Divider = styled.div`
 
 interface IDashboardBarProps {
   title?: string;
-  sortItems?: {
-    options: Option[];
-    defaultOption: Option;
-    onChange: (option: Option | readonly Option[] | null) => void;
-  };
-  filterItems?: {
-    value: boolean;
-    name: string;
-    onClick: (value: boolean) => void;
-  };
-  filterCards?: {
-    options: Option[];
-    defaultOption: Option;
-    onChange: (option: Option | readonly Option[] | null) => void;
-  };
   addItem?: () => void;
   goBack?: () => void;
+  children: React.ReactNode | React.ReactNode[];
 }
 
-// eslint-disable-next-line react/require-default-props
-function DashboardBar({ title, sortItems, filterItems, filterCards, addItem, goBack }: IDashboardBarProps) {
-  const theme = useTheme();
-  /** Custom Style for React-Select */
-  const customStyles: StylesConfig<Option> = {
-    control: (provided, state) => ({
-      ...provided,
-      background: theme.colors.button,
-      border: 'none',
-      width: '107px',
-      height: 'fit-content',
-      padding: '0px',
-      margin: '0px',
-      cursor: 'pointer',
-      boxShadow: state.isFocused ? `0 0 0 1px ${theme.colors.buttonDarker}` : 'none',
-      fontSize: 'inherit',
-      fontFamily: theme.fonts.btnFont,
-    }),
-
-    menu: (provided) => ({
-      ...provided,
-      minWidth: 'fit-content',
-      background: theme.colors.buttonDarker,
-      boxShadow: `0 0 0 1px ${theme.colors.buttonDarker}`,
-      fontSize: 'inherit',
-      fontFamily: theme.fonts.btnFont,
-      cursor: 'pointer',
-    }),
-
-    option: (provided) => ({
-      ...provided,
-      minWidth: 'fit-content',
-      background: theme.colors.buttonDarker,
-      '&:hover': {
-        filter: 'brightness(1.5)',
-      },
-      fontSize: 'inherit',
-      fontFamily: theme.fonts.btnFont,
-      cursor: 'pointer',
-    }),
-  };
-
+function DashboardBar({ title = '', children, addItem = undefined, goBack = undefined }: IDashboardBarProps) {
   return (
     <>
       <Container>
         {goBack && <GoBackButton title="Go back" onClick={() => goBack()} />}
         {title && <Title>{title}</Title>}
-        {sortItems && (
-          <Select
-            style={customStyles}
-            defaultValue={sortItems.defaultOption}
-            options={sortItems.options}
-            name="Sort"
-            isMulti={false}
-            isSearchable={false}
-            isClearable={false}
-            isDisabled={false}
-            onChange={sortItems.onChange}
-          />
-        )}
-        {filterItems && (
-          <FilterButton
-            onClick={() => filterItems.onClick(!filterItems.value)}
-            title={`${filterItems.value ? 'Hide' : 'Show'} ${filterItems.name}`}
-          >
-            {filterItems.value ? 'Hide' : 'Show'} {filterItems.name}
-          </FilterButton>
-        )}
-        {filterCards && (
-          <Select
-            style={customStyles}
-            defaultValue={filterCards.defaultOption}
-            options={filterCards.options}
-            name="Filter Cards"
-            isMulti={false}
-            isSearchable
-            isClearable={false}
-            isDisabled={false}
-            onChange={filterCards.onChange}
-          />
-        )}
+        {children}
         {addItem && <AddButton title={`Add ${title?.slice(0, -1) || 'Card'}`} onClick={() => addItem()} />}
       </Container>
       <Divider />

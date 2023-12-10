@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import { Label } from '../../../services/Flashcards/flashcardsUtils';
 
 import LabelGalleryItem from './LabelGalleryItem';
+import { Label } from '../../../types';
 
 const Gallery = styled.div`
   flex: 1;

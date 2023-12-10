@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { Card } from '../../../services/Flashcards/flashcardsUtils';
+import { Card } from '../../../types';
 import CardGalleryItem from './CardGalleryItem';
 
 const Gallery = styled.div`

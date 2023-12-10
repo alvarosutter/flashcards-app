@@ -1,8 +1,8 @@
 import { useState } from 'react';
 import styled from 'styled-components';
 import { DangerButton, Form, CancelButton, FormError } from '../../../components/form';
-import { Label } from '../../../services/Flashcards/flashcardsUtils';
 import { deleteLabel } from '../../../services/Flashcards/label.services';
+import { Label } from '../../../types';
 
 const Text = styled.div`
   color: ${({ theme }) => theme.colors.primaryText};

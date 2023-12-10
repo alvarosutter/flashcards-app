@@ -1,20 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
-import styled, { useTheme } from 'styled-components';
-import { StylesConfig } from 'react-select';
-import { Card } from '../../../services/Flashcards/flashcardsUtils';
-import Select, { Option } from '../../../components/dashboard/Select';
+import styled from 'styled-components';
 import useLoader from '../../../hooks/useLoader';
 import { getLabels } from '../../../services/Flashcards/label.services';
 import { getDecks } from '../../../services/Flashcards/deck.services';
 import { deleteCard, patchCard } from '../../../services/Flashcards/card.services';
-import {
-  DangerButton,
-  Form,
-  ActionButton,
-  FormError,
-  FormTextAreaInput,
-  FormTextInput,
-} from '../../../components/form';
+import { DangerButton, Form, ActionButton, FormError, TextAreaInput, TextInput } from '../../../components/form';
+import { Card, SelectOption } from '../../../types';
+import LabelsSelect from './LabelsSelect';
+import DeckSelect from './DeckSelect';
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -34,52 +27,12 @@ interface EditCardFormProps {
 function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
   const [formError, setFormError] = useState<undefined | string>();
   const [cardDeck, setCardDeck] = useState(card.deckId);
-  const [labels, setLabels] = useState<Option[]>([]);
-  const [decks, setDecks] = useState<Option[]>([]);
+  const [labels, setLabels] = useState<SelectOption[]>([]);
+  const [decks, setDecks] = useState<SelectOption[]>([]);
   const { isLoading, setLoading, getLoader } = useLoader();
   const nameInputRef = useRef<HTMLInputElement>(null);
   const contentInputRef = useRef<HTMLTextAreaElement>(null);
   const selectedLabels: string[] = [];
-
-  const theme = useTheme();
-  const customStyles: StylesConfig<Option> = {
-    control: (provided) => ({
-      ...provided,
-      color: theme.colors.altText,
-      background: theme.colors.modalInputBg,
-      border: 'none',
-      boxShadow: 'none',
-      fontSize: 'inherit',
-      fontFamily: theme.fonts.btnFont,
-    }),
-
-    multiValue: (provided) => ({
-      ...provided,
-      color: theme.colors.primaryText,
-      backgroundColor: '#6b6b6b',
-      borderRadius: '5px',
-      fontSize: 'inherit',
-      fontFamily: theme.fonts.btnFont,
-    }),
-
-    menu: (provided) => ({
-      ...provided,
-      background: theme.colors.modalInputBg,
-      boxShadow: `0 0 0 1px ${theme.colors.primary}`,
-      fontSize: 'inherit',
-      fontFamily: theme.fonts.btnFont,
-    }),
-
-    option: (provided) => ({
-      ...provided,
-      background: theme.colors.modalInputBg,
-      '&:hover': {
-        background: '#6b6b6b',
-      },
-      fontSize: 'inherit',
-      fontFamily: theme.fonts.btnFont,
-    }),
-  };
 
   async function fetchData() {
     const labelsData = await getLabels();
@@ -133,7 +86,7 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
     <Form onSubmit={submitHandler} onBlur={() => setFormError(undefined)}>
       <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', margin: '0', padding: '0' }}>
         <div>
-          <FormTextInput
+          <TextInput
             label="Title"
             name="card-name"
             type="text"
@@ -144,21 +97,16 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
           />
         </div>
         <div>
-          <Select
-            selectLabel="Deck"
-            defaultValue={decks.find((deck) => deck.value === card.deckId)}
-            style={customStyles}
+          <DeckSelect
+            defaultValue={decks.find((deck) => deck.value === card.deckId)!}
             options={decks}
-            name="select-card-deck"
-            isMulti={false}
-            isSearchable={false}
-            isClearable={false}
-            isDisabled={false}
-            onChange={(option: readonly Option[] | Option | null) => setCardDeck((option as Option).value)}
+            onChange={(option: readonly SelectOption[] | SelectOption | null) =>
+              setCardDeck((option as SelectOption).value)
+            }
           />
         </div>
       </div>
-      <FormTextAreaInput
+      <TextAreaInput
         label="Text"
         name="card-content"
         defaultValue={card.content}
@@ -167,19 +115,19 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
         cols={60}
         required
       />
-      <Select
-        selectLabel="Labels"
-        defaultValue={labels.filter((label) => card.labels.some((l) => label.value === l.id))}
-        style={customStyles}
+      <LabelsSelect
         options={labels}
-        name="select-card-labels"
-        isMulti
-        isSearchable
-        isClearable
-        isDisabled={false}
-        onChange={(option: readonly Option[] | Option | null) => {
-          (option as Option[]).map((label: Option) => selectedLabels.push(label.label));
+        onChange={(option: readonly SelectOption[] | SelectOption | null) => {
+          if (Array.isArray(option)) {
+            // eslint-disable-next-line array-callback-return
+            (option as SelectOption[]).map((label: SelectOption) => {
+              selectedLabels.push(label.label);
+            });
+          } else {
+            selectedLabels.push((option as SelectOption).label);
+          }
         }}
+        defaultValue={labels.filter((label) => card.labels.some((l) => label.value === l.id))}
       />
       {formError && <FormError>{formError}</FormError>}
       <ButtonContainer>

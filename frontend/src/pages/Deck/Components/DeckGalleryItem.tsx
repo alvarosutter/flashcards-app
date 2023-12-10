@@ -1,7 +1,6 @@
 import styled from 'styled-components';
-import EditButton from '../../../components/dashboard/EditButton';
-import TrashButton from '../../../components/dashboard/TrashButton';
-import { Deck } from '../../../services/Flashcards/flashcardsUtils';
+import { Deck } from '../../../types';
+import { DeleteButton, EditButton } from '../../../components/item';
 
 const Box = styled.div`
   display: flex;
@@ -77,7 +76,7 @@ function DeckGalleryItem({ deck, setEditDeck, setDeleteDeck, setSelectedDeck }: 
       }}
     >
       <InfoBox>
-        <TrashButton
+        <DeleteButton
           onClick={(e) => {
             e.stopPropagation();
             setDeleteDeck(deck);
