@@ -1,5 +1,6 @@
 import { useRef, useState } from 'react';
-import { createLabel } from '../../../services/Flashcards/label.services';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { createLabel } from '../../../services/FlashcardsApi/label.services';
 import { Form, ActionButton, FormError, TextInput } from '../../../components/form';
 
 interface AddLabelFormProps {
@@ -10,9 +11,14 @@ function AddLabelForm({ onSubmitForm }: AddLabelFormProps) {
   const [formError, setFormError] = useState<undefined | string>();
   const nameInputRef = useRef<HTMLInputElement>(null);
 
-  async function addLabelHandler(label: { name: string }) {
-    await createLabel(label);
-  }
+  const queryClient = useQueryClient();
+  const { mutateAsync: createLabelMutation } = useMutation({
+    mutationFn: createLabel,
+    onSuccess: async (label) => {
+      await queryClient.setQueryData(['labels', label.id], label);
+      await queryClient.invalidateQueries({ queryKey: ['labels'], exact: true });
+    },
+  });
 
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -22,9 +28,8 @@ function AddLabelForm({ onSubmitForm }: AddLabelFormProps) {
       name: name!,
     };
 
-    await addLabelHandler(label)
-      .then(() => onSubmitForm())
-      .catch(() => setFormError('Name is invalid or already exists'));
+    await createLabelMutation(label);
+    onSubmitForm();
   };
 
   return (

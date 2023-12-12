@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import AddButton from './AddButton';
-import GoBackButton from './GoBackButton';
 
 const Container = styled.div`
   display: flex;
@@ -33,15 +32,13 @@ const Divider = styled.div`
 interface IDashboardBarProps {
   title?: string;
   addItem?: () => void;
-  goBack?: () => void;
   children: React.ReactNode | React.ReactNode[];
 }
 
-function DashboardBar({ title = '', children, addItem = undefined, goBack = undefined }: IDashboardBarProps) {
+function DashboardBar({ title = '', children, addItem = undefined }: IDashboardBarProps) {
   return (
     <>
       <Container>
-        {goBack && <GoBackButton title="Go back" onClick={() => goBack()} />}
         {title && <Title>{title}</Title>}
         {children}
         {addItem && <AddButton title={`Add ${title?.slice(0, -1) || 'Card'}`} onClick={() => addItem()} />}

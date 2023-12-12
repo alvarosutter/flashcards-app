@@ -1,33 +1,36 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Form, ActionButton, FormError, TextAreaInput, TextInput } from '../../../components/form';
-import useLoader from '../../../hooks/useLoader';
-import { createCard } from '../../../services/Flashcards/card.services';
-import { getLabels } from '../../../services/Flashcards/label.services';
-import { SelectOption } from '../../../types';
+import { createCard } from '../../../services/FlashcardsApi/card.services';
+import { Label, SelectOption } from '../../../types';
 import LabelsSelect from './LabelsSelect';
+import mapToSelectOptions from '../../../utils/mapToSelectOptions';
 
 interface AddCardFormProps {
   deckName: string;
   deckId: string;
+  labels: Label[];
   onSubmitForm: () => void;
 }
 
-function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
+function AddCardForm({ deckName, deckId, labels, onSubmitForm }: AddCardFormProps) {
   const [formError, setFormError] = useState<undefined | string>();
-  const [labels, setLabels] = useState<SelectOption[]>([]);
-  const { isLoading, setLoading, getLoader } = useLoader();
+  const selectLabels = mapToSelectOptions(labels);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const contentInputRef = useRef<HTMLTextAreaElement>(null);
-  const selectedLabels: string[] = [];
+  let selectedLabels: string[] = [];
 
-  async function fetchData() {
-    const labelsData = await getLabels();
-    setLabels(labelsData.map((label) => ({ label: label.name, value: label.id })));
-  }
-
-  async function addCardHandler(card: { name: string; content: string }) {
-    await createCard(card);
-  }
+  const queryClient = useQueryClient();
+  const { mutateAsync: createCardMutation } = useMutation({
+    mutationFn: createCard,
+    onSuccess: async (card) => {
+      await queryClient.setQueryData(['deck-cards', deckName], [card]);
+      await queryClient.invalidateQueries({ queryKey: ['deck-cards', deckName], exact: true });
+      await queryClient.invalidateQueries({ queryKey: ['decks'], exact: true });
+      await queryClient.invalidateQueries({ queryKey: ['label-cards'] });
+      await queryClient.invalidateQueries({ queryKey: ['labels'], exact: true });
+    },
+  });
 
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -41,24 +44,14 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
       labels: selectedLabels,
     };
 
-    await addCardHandler(card)
-      .then(() => onSubmitForm())
-      .catch(() => setFormError('Some Input is invalid, missing or name already exists'));
+    await createCardMutation(card);
+    onSubmitForm();
   };
 
-  useEffect(() => {
-    fetchData()
-      .then(() => {
-        setLoading(false);
-      })
-      .catch(() => {
-        throw Error('Error when fetching data');
-      });
-  }, []);
+  const handleSelectOnChange = (option: readonly SelectOption[] | SelectOption | null) => {
+    selectedLabels = [...(option as SelectOption[]).map((o) => o.label)];
+  };
 
-  if (isLoading) {
-    return getLoader();
-  }
   return (
     <Form onSubmit={submitHandler} onBlur={() => setFormError(undefined)}>
       <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', margin: '0', padding: '0' }}>
@@ -70,13 +63,7 @@ function AddCardForm({ deckName, deckId, onSubmitForm }: AddCardFormProps) {
         </div>
       </div>
       <TextAreaInput label="Text" name="card-content" ref={contentInputRef} rows={4} cols={60} required />
-      <LabelsSelect
-        options={labels}
-        onChange={(option: readonly SelectOption[] | SelectOption | null) => {
-          (option as SelectOption[]).map((label: SelectOption) => selectedLabels.push(label.label));
-        }}
-        defaultValue={[]}
-      />
+      <LabelsSelect options={selectLabels} onChange={handleSelectOnChange} defaultValue={[]} />
       {formError && <FormError>{formError}</FormError>}
       <ActionButton style={{ margin: '25px 0 15px' }} type="submit">
         Add Card

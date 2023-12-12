@@ -1,6 +1,7 @@
 import { useState, useRef } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Form, TextInput, CheckboxInput, FormError, ActionButton } from '../../../components/form';
-import { createDeck } from '../../../services/Flashcards/deck.services';
+import { createDeck } from '../../../services/FlashcardsApi/deck.services';
 
 interface AddDeckFormProps {
   onSubmitForm: () => void;
@@ -11,9 +12,14 @@ function AddDeckForm({ onSubmitForm }: AddDeckFormProps) {
   const nameInputRef = useRef<HTMLInputElement>(null);
   const archivedInputRef = useRef<HTMLInputElement>(null);
 
-  async function addDeckHandler(deck: { name: string; archived: boolean }) {
-    await createDeck(deck);
-  }
+  const queryClient = useQueryClient();
+  const { mutateAsync: createDeckMutation } = useMutation({
+    mutationFn: createDeck,
+    onSuccess: async (deck) => {
+      await queryClient.setQueryData(['decks', deck.id], deck);
+      await queryClient.invalidateQueries({ queryKey: ['decks'], exact: true });
+    },
+  });
 
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -25,9 +31,8 @@ function AddDeckForm({ onSubmitForm }: AddDeckFormProps) {
       archived: archived!,
     };
 
-    await addDeckHandler(deck)
-      .then(() => onSubmitForm())
-      .catch(() => setFormError('Name is invalid or already exists'));
+    await createDeckMutation(deck);
+    onSubmitForm();
   };
 
   return (

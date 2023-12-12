@@ -1,13 +1,11 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
-import useLoader from '../../../hooks/useLoader';
-import { getLabels } from '../../../services/Flashcards/label.services';
-import { getDecks } from '../../../services/Flashcards/deck.services';
-import { deleteCard, patchCard } from '../../../services/Flashcards/card.services';
-import { DangerButton, Form, ActionButton, FormError, TextAreaInput, TextInput } from '../../../components/form';
-import { Card, SelectOption } from '../../../types';
+import { patchCard } from '../../../services/FlashcardsApi/card.services';
+import { Form, ActionButton, FormError, TextAreaInput, TextInput, CancelButton } from '../../../components/form';
+import { Card, Deck, Label, SelectOption } from '../../../types';
 import LabelsSelect from './LabelsSelect';
-import DeckSelect from './DeckSelect';
+import mapToSelectOptions from '../../../utils/mapToSelectOptions';
 
 const ButtonContainer = styled.div`
   display: flex;
@@ -22,66 +20,50 @@ const ButtonContainer = styled.div`
 interface EditCardFormProps {
   card: Card;
   onSubmitForm: () => void;
+  labels: Label[];
+  decks: Deck[];
+  onCancel: () => void;
 }
 
-function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
+function EditCardForm({ card, onSubmitForm, labels, decks, onCancel }: EditCardFormProps) {
   const [formError, setFormError] = useState<undefined | string>();
-  const [cardDeck, setCardDeck] = useState(card.deckId);
-  const [labels, setLabels] = useState<SelectOption[]>([]);
-  const [decks, setDecks] = useState<SelectOption[]>([]);
-  const { isLoading, setLoading, getLoader } = useLoader();
+  const cardDeck = decks.find((deck) => deck.id === card.deckId)!;
+  const selectLabels = mapToSelectOptions(labels);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const contentInputRef = useRef<HTMLTextAreaElement>(null);
-  const selectedLabels: string[] = [];
+  let selectedLabels: string[] = card.labels.map((label) => label.name);
 
-  async function fetchData() {
-    const labelsData = await getLabels();
-    setLabels(labelsData.map((label) => ({ label: label.name, value: label.id })));
-    const decksData = await getDecks();
-    setDecks(decksData.map((deck) => ({ label: deck.name, value: deck.id })));
-  }
+  const queryClient = useQueryClient();
 
-  async function editCardHandler(editedCard: { name: string; content: string }) {
-    await patchCard(card.id, editedCard);
-  }
-
-  const deleteCardHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-    await deleteCard(card.id)
-      .then(() => onSubmitForm())
-      .catch(() => setFormError('Name is invalid or already exists'));
-  };
-
+  const { mutateAsync: patchCardMutation } = useMutation({
+    mutationFn: (body: { name: string; content: string; labels: string[] }) => patchCard(card.id, body),
+    onSuccess: async (editedCard) => {
+      await queryClient.setQueryData(['deck-cards', cardDeck.name], [editedCard]);
+      await queryClient.invalidateQueries({ queryKey: ['deck-cards', cardDeck.name], exact: true });
+      await queryClient.invalidateQueries({ queryKey: ['decks'], exact: true });
+      await queryClient.invalidateQueries({ queryKey: ['label-cards'] });
+      await queryClient.invalidateQueries({ queryKey: ['labels'], exact: true });
+    },
+  });
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const name = nameInputRef.current?.value;
     const content = contentInputRef.current?.value;
 
     const editedCard = {
-      deckId: cardDeck,
-      name: name!,
-      content: content!,
+      name: name ?? card.name,
+      content: content ?? card.content,
       labels: selectedLabels,
     };
 
-    await editCardHandler(editedCard)
-      .then(() => onSubmitForm())
-      .catch(() => setFormError('Name is invalid or already exists'));
+    await patchCardMutation(editedCard);
+    onSubmitForm();
   };
 
-  useEffect(() => {
-    fetchData()
-      .then(() => {
-        setLoading(false);
-      })
-      .catch(() => {
-        throw Error('Error when fetching data');
-      });
-  }, []);
+  const handleSelectOnChange = (option: readonly SelectOption[] | SelectOption | null) => {
+    selectedLabels = [...(option as SelectOption[]).map((o) => o.label)];
+  };
 
-  if (isLoading) {
-    return getLoader();
-  }
   return (
     <Form onSubmit={submitHandler} onBlur={() => setFormError(undefined)}>
       <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', margin: '0', padding: '0' }}>
@@ -97,13 +79,7 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
           />
         </div>
         <div>
-          <DeckSelect
-            defaultValue={decks.find((deck) => deck.value === card.deckId)!}
-            options={decks}
-            onChange={(option: readonly SelectOption[] | SelectOption | null) =>
-              setCardDeck((option as SelectOption).value)
-            }
-          />
+          <TextInput label="Deck" name="deck-name" type="text" value={cardDeck.name} readOnly />
         </div>
       </div>
       <TextAreaInput
@@ -116,22 +92,13 @@ function EditCardForm({ card, onSubmitForm }: EditCardFormProps) {
         required
       />
       <LabelsSelect
-        options={labels}
-        onChange={(option: readonly SelectOption[] | SelectOption | null) => {
-          if (Array.isArray(option)) {
-            // eslint-disable-next-line array-callback-return
-            (option as SelectOption[]).map((label: SelectOption) => {
-              selectedLabels.push(label.label);
-            });
-          } else {
-            selectedLabels.push((option as SelectOption).label);
-          }
-        }}
-        defaultValue={labels.filter((label) => card.labels.some((l) => label.value === l.id))}
+        options={selectLabels}
+        onChange={handleSelectOnChange}
+        defaultValue={mapToSelectOptions(card.labels)}
       />
       {formError && <FormError>{formError}</FormError>}
       <ButtonContainer>
-        <DangerButton onClick={deleteCardHandler}>Delete Card</DangerButton>
+        <CancelButton onClick={onCancel}>Cancel</CancelButton>
         <ActionButton type="submit">Edit Card</ActionButton>
       </ButtonContainer>
     </Form>

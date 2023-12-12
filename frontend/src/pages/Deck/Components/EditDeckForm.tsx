@@ -1,7 +1,8 @@
 import { useState, useRef } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { ActionButton, CancelButton, CheckboxInput, Form, FormError, TextInput } from '../../../components/form';
-import { patchDeck } from '../../../services/Flashcards/deck.services';
+import { patchDeck } from '../../../services/FlashcardsApi/deck.services';
 import { Deck } from '../../../types';
 
 const ButtonContainer = styled.div`
@@ -13,6 +14,7 @@ const ButtonContainer = styled.div`
   margin: 25px 0 15px;
   padding: 0;
 `;
+
 interface EditDeckFormProps {
   deck: Deck;
   onSubmitForm: () => void;
@@ -24,9 +26,14 @@ function EditDeckForm({ deck, onSubmitForm, onCancel }: EditDeckFormProps) {
   const nameInputRef = useRef<HTMLInputElement>(null);
   const archivedInputRef = useRef<HTMLInputElement>(null);
 
-  async function editDeckHandler(editedDeck: { name: string; archived: boolean }) {
-    await patchDeck(deck.id, editedDeck);
-  }
+  const queryClient = useQueryClient();
+  const { mutateAsync: patchDeckMutation } = useMutation({
+    mutationFn: (body: { name: string; archived: boolean }) => patchDeck(deck.id, body),
+    onSuccess: async (editedDeck) => {
+      await queryClient.setQueryData(['decks', editedDeck.id], editedDeck);
+      await queryClient.invalidateQueries({ queryKey: ['decks'], exact: true });
+    },
+  });
 
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -38,9 +45,8 @@ function EditDeckForm({ deck, onSubmitForm, onCancel }: EditDeckFormProps) {
       archived: archived!,
     };
 
-    await editDeckHandler(editedDeck)
-      .then(() => onSubmitForm())
-      .catch(() => setFormError('Name is invalid or already exists'));
+    await patchDeckMutation(editedDeck);
+    onSubmitForm();
   };
 
   return (

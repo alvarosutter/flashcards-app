@@ -58,12 +58,13 @@ const cardFindMany = async (): Promise<ICard[]> => {
   return cards as ICard[];
 };
 
-const cardUpdate = async ({ id, name }: IPatchCard): Promise<ICard> => {
+const cardUpdate = async ({ id, name, content }: IPatchCard): Promise<ICard> => {
   const card = await prisma.card.update({
     where: { id },
     include: { labels: { select: { label: true } } },
     data: {
       name,
+      content,
     },
   });
 

@@ -1,4 +1,4 @@
-import { Deck, Card, Label } from '../../types';
+import { Deck, Card, Label } from '../types';
 
 const sortOptions = [
   {
@@ -29,4 +29,9 @@ const sortOptions = [
   },
 ];
 
-export default sortOptions;
+const sortDefaultOption = {
+  label: sortOptions[0].label,
+  value: sortOptions[0].value,
+};
+
+export { sortOptions, sortDefaultOption };

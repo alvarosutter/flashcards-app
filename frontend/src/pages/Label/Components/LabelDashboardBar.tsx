@@ -1,6 +1,4 @@
-import DashboardBar from '../../../components/dashboard/DashboardBar';
-import FilterButton from '../../../components/dashboard/FilterButton';
-import SortSelect from '../../../components/dashboard/SortSelect';
+import { DashboardBar, FilterButton, SortSelect } from '../../../components/dashboard';
 import { SelectOption } from '../../../types';
 
 interface ILabelDashboardBarProps {

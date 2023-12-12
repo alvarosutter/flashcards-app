@@ -1,32 +1,35 @@
 import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Deck } from '../../../types';
-import { deleteDeck } from '../../../services/FlashcardsApi/deck.services';
+import { deleteCard } from '../../../services/FlashcardsApi/card.services';
 import { DeleteForm } from '../../../components/form';
+import { Card, Deck } from '../../../types';
 
-interface DeleteDeckFormProps {
-  deck: Deck;
+interface DeleteCardFormProps {
+  card: Card;
+  decks: Deck[];
   onSubmitForm: () => void;
   onCancel: () => void;
 }
 
-function DeleteDeckForm({ deck, onSubmitForm, onCancel }: DeleteDeckFormProps) {
+function DeleteCardForm({ card, decks, onSubmitForm, onCancel }: DeleteCardFormProps) {
   const [formError, setFormError] = useState<undefined | string>();
+  const cardDeck = decks.find((deck) => deck.id === card.deckId)!;
 
   const queryClient = useQueryClient();
-  const { mutateAsync: deleteDeckMutation } = useMutation({
-    mutationFn: deleteDeck,
+
+  const { mutateAsync: deleteCardMutation } = useMutation({
+    mutationFn: deleteCard,
     onSuccess: async () => {
       await queryClient.invalidateQueries({ queryKey: ['decks'], exact: true });
+      await queryClient.invalidateQueries({ queryKey: ['deck-cards', cardDeck.name], exact: true });
       await queryClient.invalidateQueries({ queryKey: ['label-cards'] });
       await queryClient.invalidateQueries({ queryKey: ['labels'], exact: true });
     },
   });
+  const submitHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
 
-  const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    await deleteDeckMutation(deck.id);
+    await deleteCardMutation(card.id);
     onSubmitForm();
   };
 
@@ -36,9 +39,9 @@ function DeleteDeckForm({ deck, onSubmitForm, onCancel }: DeleteDeckFormProps) {
       onBlur={() => setFormError(undefined)}
       onCancel={onCancel}
       formError={formError}
-      name={deck.name}
+      name={card.name}
     />
   );
 }
 
-export default DeleteDeckForm;
+export default DeleteCardForm;

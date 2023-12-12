@@ -1,7 +1,8 @@
 import { useRef, useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import styled from 'styled-components';
 import { ActionButton, CancelButton, Form, FormError, TextInput } from '../../../components/form';
-import { patchLabel } from '../../../services/Flashcards/label.services';
+import { patchLabel } from '../../../services/FlashcardsApi/label.services';
 import { Label } from '../../../types';
 
 const ButtonContainer = styled.div`
@@ -25,10 +26,14 @@ function EditLabelForm({ label, onSubmitForm, onCancel }: EditLabelFormProps) {
   const [formError, setFormError] = useState<undefined | string>();
   const nameInputRef = useRef<HTMLInputElement>(null);
 
-  async function editLabelHandler(editedLabel: { name: string }) {
-    await patchLabel(label.id, editedLabel);
-  }
-
+  const queryClient = useQueryClient();
+  const { mutateAsync: patchLabelMutation } = useMutation({
+    mutationFn: (body: { name: string }) => patchLabel(label.id, body),
+    onSuccess: async (editedLabel) => {
+      await queryClient.setQueryData(['labels', editedLabel.id], editedLabel);
+      await queryClient.invalidateQueries({ queryKey: ['labels'], exact: true });
+    },
+  });
   const submitHandler = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const name = nameInputRef.current?.value;
@@ -37,9 +42,8 @@ function EditLabelForm({ label, onSubmitForm, onCancel }: EditLabelFormProps) {
       name: name!,
     };
 
-    await editLabelHandler(editedLabel)
-      .then(() => onSubmitForm())
-      .catch(() => setFormError('Name is invalid or already exists'));
+    await patchLabelMutation(editedLabel);
+    onSubmitForm();
   };
 
   return (

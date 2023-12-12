@@ -20,7 +20,7 @@ function useLocalStorage(key: string, initialValue: string | number | boolean | 
     localStorage.removeItem(key);
   }, []);
 
-  return [value, setValue, remove];
+  return { value, setValue, remove };
 }
 
 export default useLocalStorage;

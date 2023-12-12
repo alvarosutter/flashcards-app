@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 
 import { Card } from '../../../types';
-import { EditButton } from '../../../components/item';
+import { DeleteButton, EditButton } from '../../../components/item';
 
 const SliderOverlay = styled.div`
   display: flex;
@@ -54,7 +54,6 @@ const ExitButton = styled.div`
   font-size: ${({ theme }) => theme.fontSizes.small};
   font-weight: ${({ theme }) => theme.fontWeights.normal};
   &:hover {
-    color: ${({ theme }) => theme.colors.danger};
     cursor: pointer;
   }
 `;
@@ -166,9 +165,10 @@ interface CardSliderProps {
   isOpen: boolean;
   onCancel: () => void;
   onEdit: (card: Card) => void;
+  onDelete: (card: Card) => void;
 }
 
-function CardSlider({ cards, position, isOpen, onCancel, onEdit }: CardSliderProps) {
+function CardSlider({ cards, position, isOpen, onCancel, onEdit, onDelete }: CardSliderProps) {
   const [isFront, setIsFront] = useState(true);
   const [index, setIndex] = useState(position);
   const [current, setCurrent] = useState<Card>(cards[position]);
@@ -217,14 +217,35 @@ function CardSlider({ cards, position, isOpen, onCancel, onEdit }: CardSliderPro
       <SliderOverlay>
         <Container onClick={(e) => e.stopPropagation()} style={!isFront ? { filter: 'brightness(1.2)' } : {}}>
           <TopBox>
-            <EditButton
-              onClick={(e) => {
-                e.stopPropagation();
-                onCancel();
-                onEdit(current);
-              }}
-            />
-            <ExitButton onClick={onCancel}>&times;</ExitButton>
+            <div style={{ display: 'flex', flexDirection: 'row' }}>
+              <EditButton
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onCancel();
+                  onEdit(current);
+                }}
+              />
+              <DeleteButton
+                style={{ fontSize: '1.3rem', textAlign: 'center', margin: 'auto' }}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onCancel();
+                  onDelete(current);
+                }}
+              />
+            </div>
+            <ExitButton onClick={onCancel}>
+              <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 16 16">
+                <path
+                  fillRule="evenodd"
+                  d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z"
+                />
+                <path
+                  fillRule="evenodd"
+                  d="M15.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 0 0-.708.708L14.293 7.5H5.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"
+                />
+              </svg>
+            </ExitButton>
           </TopBox>
           <MiddleBox onClick={() => setIsFront((prev) => !prev)}>
             <ChangeCardButton
