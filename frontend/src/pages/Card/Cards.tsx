@@ -18,7 +18,7 @@ interface CardsProps {
 }
 
 function Cards({ item, goBack }: CardsProps) {
-  const { value: sortValue, setValue: setSortValue } = useLocalStorage('deck-sort', sortDefaultOption) as SortOption;
+  const { value: sortValue, setValue: setSortValue } = useLocalStorage('card-sort', sortDefaultOption) as SortOption;
   const type = isDeck(item) ? 'deck' : 'label';
   const { cards, status: cardsStatus, error: cardsQueryError } = useCards({ id: item.id, type, name: item.name });
   const { labels, status: labelsStatus, error: labelsQueryError } = useLabels();

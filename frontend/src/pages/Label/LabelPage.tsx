@@ -11,10 +11,10 @@ import DeleteLabelForm from './Components/DeleteLabelForm';
 import Cards from '../Card/Cards';
 
 function LabelPage() {
-  const { value: sortValue, setValue: setSortValue } = useLocalStorage('deck-sort', {
+  const { value: sortValue, setValue: setSortValue } = useLocalStorage('label-sort', {
     ...sortDefaultOption,
   }) as SortOption;
-  const { value: showEmpty, setValue: setShowEmpty } = useLocalStorage('show-archived', true) as FilterValue;
+  const { value: showEmpty, setValue: setShowEmpty } = useLocalStorage('show-empty', true) as FilterValue;
   const { labels, status, error: queryError } = useLabels();
   const [addLabelVisible, setAddLabelVisible] = useState(false);
   const [editLabel, setEditLabel] = useState<Label | null>(null);

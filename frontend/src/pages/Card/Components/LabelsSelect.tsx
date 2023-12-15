@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import { styled, useTheme } from 'styled-components';
 import { ISelectProps } from '../../../types';
 import SelectStyle from './SelectStyle';
 import Select from '../../../components/ui/Select';
@@ -23,13 +23,14 @@ const Label = styled.label`
 
 function LabelsSelect({ options, defaultValue, onChange }: ISelectProps) {
   const selectStyle = SelectStyle();
+  const theme = useTheme();
 
   return (
     <Wrapper>
       <Label>Labels</Label>
       <Select
         defaultValue={defaultValue}
-        style={selectStyle}
+        style={theme.name === 'dark' ? selectStyle : {}}
         options={options}
         name="select-card-labels"
         isMulti

@@ -41,6 +41,7 @@ function MySelectStyle() {
       fontSize: 'inherit',
       fontFamily: theme.fonts.btnFont,
       cursor: 'pointer',
+      borderRadius: '5px',
     }),
 
     option: (provided) => ({
@@ -48,11 +49,23 @@ function MySelectStyle() {
       minWidth: 'fit-content',
       background: theme.colors.buttonDarker,
       '&:hover': {
-        filter: 'brightness(1.5)',
+        background: theme.colors.button,
+        borderTop: `1px solid ${theme.colors.accent}`,
+        borderBottom: `1px solid ${theme.colors.accent}`,
       },
       fontSize: 'inherit',
       fontFamily: theme.fonts.btnFont,
       cursor: 'pointer',
+    }),
+
+    dropdownIndicator: (provided) => ({
+      ...provided,
+      color: theme.colors.primaryText,
+    }),
+
+    indicatorSeparator: (provided) => ({
+      ...provided,
+      display: 'none',
     }),
   };
 
