@@ -1,6 +1,12 @@
-import { labelCreate, labelDelete, labelFind, labelFindMany, labelUpdate } from '../database/label.database';
-import { IPatchLabel } from '../types/label';
-import IQueryResult from '../types/queryResult';
+import {
+  labelCreate,
+  labelDelete,
+  labelFind,
+  labelFindMany,
+  labelUpdate,
+} from '../database/label.database';
+import type { PatchLabel } from '../types/label';
+import type IQueryResult from '../types/queryResult';
 import { mapLabelCards } from '../utils/mapCards.utils';
 import getPrismaError from '../utils/prismaError.utils';
 
@@ -84,7 +90,7 @@ const getLabels = async (): Promise<IQueryResult> => {
   }
 };
 
-const patchLabel = async ({ id, name }: IPatchLabel): Promise<IQueryResult> => {
+const patchLabel = async ({ id, name }: PatchLabel): Promise<IQueryResult> => {
   try {
     const label = await labelUpdate({ id, name });
 

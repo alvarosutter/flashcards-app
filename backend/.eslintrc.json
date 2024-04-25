@@ -1,0 +1,31 @@
+{
+  "extends": ["prettier", "airbnb-base", "airbnb-typescript/base"],
+  "plugins": ["@typescript-eslint", "prettier", "jest"],
+  "parserOptions": {
+    "project": "**/tsconfig.json"
+  },
+  "rules": {
+    "prettier/prettier": "error",
+    "no-console": "warn",
+    "@typescript-eslint/array-type": ["error", { "default": "generic" }],
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", ["sibling", "parent"], "index", "unknown"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
+    "@typescript-eslint/consistent-type-imports": "error",
+    "object-curly-newline": "off",
+    // Jest
+    "jest/no-disabled-tests": "warn",
+    "jest/no-focused-tests": "error",
+    "jest/no-identical-title": "error",
+    "jest/prefer-to-have-length": "warn",
+    "jest/valid-expect": "error"
+  }
+}

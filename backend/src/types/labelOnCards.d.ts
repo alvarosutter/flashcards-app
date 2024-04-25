@@ -1,26 +1,26 @@
-interface ICard {
+interface Card {
   id: string;
   createdAt: Date;
   updatedAt: Date;
   name: string;
   content: string;
   deckId: string;
-  labels: ILabelsOnCards[];
+  labels: Array<LabelsOnCards>;
 }
 
-interface ILabel {
+interface Label {
   id: string;
   createdAt: Date;
   updatedAt: Date;
   name: string;
-  cards: ILabelsOnCards[];
+  cards: Array<LabelsOnCards>;
 }
 
-interface ILabelsOnCards {
-  card: ICard;
+interface LabelsOnCards {
+  card: Card;
   cardId: string;
-  label: ILabel;
+  label: Label;
   labelId: string;
 }
 
-export default ILabelsOnCards;
+export default LabelsOnCards;

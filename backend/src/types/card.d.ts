@@ -1,27 +1,27 @@
-import ILabelsOnCards from './labelOnCards';
+import type LabelsOnCards from './labelOnCards';
 
-interface ICard {
+type Card = {
   id: string;
   createdAt: Date;
   updatedAt: Date;
   name: string;
   content: string;
   deckId: string;
-  labels: ILabelsOnCards[];
-}
+  labels: Array<LabelsOnCards>;
+};
 
-interface ICreateCard {
+type CreateCard = {
   name: string;
   content: string;
   deckId: string;
-  labels?: string[];
-}
+  labels?: Array<string>;
+};
 
-interface IPatchCard {
+type PatchCard = {
   id: string;
   name: string;
   content: string;
-  labels?: string[];
-}
+  labels?: Array<string>;
+};
 
-export { ICard, ICreateCard, IPatchCard };
+export { Card, CreateCard, PatchCard };

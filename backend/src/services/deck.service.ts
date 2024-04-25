@@ -1,10 +1,16 @@
-import { deckCreate, deckDelete, deckFind, deckFindMany, deckUpdate } from '../database/deck.database';
-import { ICreateDeck, IPatchDeck } from '../types/deck';
-import IQueryResult from '../types/queryResult';
+import {
+  deckCreate,
+  deckDelete,
+  deckFind,
+  deckFindMany,
+  deckUpdate,
+} from '../database/deck.database';
+import type { CreateDeck, PatchDeck } from '../types/deck';
+import type IQueryResult from '../types/queryResult';
 import { mapDeckCards } from '../utils/mapCards.utils';
 import getPrismaError from '../utils/prismaError.utils';
 
-const createDeck = async ({ name, archived }: ICreateDeck): Promise<IQueryResult> => {
+const createDeck = async ({ name, archived }: CreateDeck): Promise<IQueryResult> => {
   try {
     const newDeck = await deckCreate({ name, archived });
 
@@ -84,7 +90,7 @@ const getDecks = async (): Promise<IQueryResult> => {
   }
 };
 
-const patchDeck = async ({ id, name, archived }: IPatchDeck): Promise<IQueryResult> => {
+const patchDeck = async ({ id, name, archived }: PatchDeck): Promise<IQueryResult> => {
   try {
     const deck = await deckUpdate({ id, name, archived });
 

@@ -1,11 +1,18 @@
-import { Request, Response } from 'express';
-import { createLabel, deleteLabel, getLabel, getLabelCards, getLabels, patchLabel } from '../services/label.service';
-import { ILabel } from '../types/label';
+import type { Request, Response } from 'express';
+
+import {
+  createLabel,
+  deleteLabel,
+  getLabel,
+  getLabelCards,
+  getLabels,
+  patchLabel,
+} from '../services/label.service';
+import type { Label } from '../types/label';
 
 const addLabel = async (req: Request, res: Response) => {
   try {
-    const { name } = req.body as ILabel;
-
+    const { name } = req.body as Label;
     const { statusCode, ...queryResult } = await createLabel(name);
     return res.status(statusCode ?? 201).send(queryResult);
   } catch (error) {
@@ -27,7 +34,6 @@ const listLabels = async (_: Request, res: Response) => {
 const listLabel = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-
     const { statusCode, ...queryResult } = await getLabel(id);
     return res.status(statusCode ?? 200).send(queryResult);
   } catch (error) {
@@ -39,7 +45,6 @@ const listLabel = async (req: Request, res: Response) => {
 const listLabelCards = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-
     const { statusCode, ...queryResult } = await getLabelCards(id);
     return res.status(statusCode ?? 200).send(queryResult);
   } catch (error) {
@@ -51,8 +56,7 @@ const listLabelCards = async (req: Request, res: Response) => {
 const updateLabel = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-    const { name } = req.body as ILabel;
-
+    const { name } = req.body as Label;
     const { statusCode, ...queryResult } = await patchLabel({ id, name });
     return res.status(statusCode ?? 200).send(queryResult);
   } catch (error) {

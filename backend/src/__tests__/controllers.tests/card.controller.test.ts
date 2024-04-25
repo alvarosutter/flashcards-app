@@ -1,8 +1,9 @@
 import supertest from 'supertest';
-import createServer from '../../utils/server.utils';
+
 import * as CardService from '../../services/card.service';
+import type IQueryResult from '../../types/queryResult';
+import createServer from '../../utils/server.utils';
 import { cardData } from '../helper.tests';
-import IQueryResult from '../../types/queryResult';
 
 const app = createServer();
 
@@ -17,8 +18,10 @@ describe('Add Card', () => {
         data: { ...cardData, ...input },
       };
       const cardServiceMock = jest.spyOn(CardService, 'createCard').mockResolvedValueOnce(expected);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app).post('/api/v1/cards/').send(input);
+
+      const { statusCode, body: responseBody } = await supertest(app)
+        .post('/api/v1/cards/')
+        .send(input);
 
       expect(statusCode).toBe(201);
       expect(JSON.stringify(responseBody)).toEqual(JSON.stringify(expected));
@@ -36,7 +39,7 @@ describe('Add Card', () => {
       const cardServiceMock = jest.spyOn(CardService, 'createCard').mockRejectedValueOnce(expected);
 
       await supertest(app).post('/api/v1/cards/').send(input);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       const { statusCode, body } = await supertest(app).post('/api/v1/cards/').send(input);
 
       const responseBody = body as IQueryResult;
@@ -75,10 +78,13 @@ describe('List Card Cards', () => {
         data: cardData.labels,
       };
 
-      const cardServiceMock = jest.spyOn(CardService, 'getCardLabels').mockResolvedValueOnce(expected);
+      const cardServiceMock = jest
+        .spyOn(CardService, 'getCardLabels')
+        .mockResolvedValueOnce(expected);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app).get(`/api/v1/cards/${id}/labels`);
+      const { statusCode, body: responseBody } = await supertest(app).get(
+        `/api/v1/cards/${id}/labels`,
+      );
 
       expect(statusCode).toBe(200);
       expect(JSON.stringify(responseBody)).toEqual(JSON.stringify(expected));
@@ -95,7 +101,7 @@ describe('List Card Cards', () => {
       jest.spyOn(CardService, 'getCardLabels').mockRejectedValueOnce(expected);
 
       await supertest(app).get(`/api/v1/cards/${id}/labels`);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       const { statusCode, body } = await supertest(app).get(`/api/v1/cards/${id}/labels`);
 
       const responseBody = body as IQueryResult;
@@ -133,7 +139,6 @@ describe('List Card', () => {
 
       const cardServiceMock = jest.spyOn(CardService, 'getCard').mockResolvedValueOnce(expected);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { statusCode, body: responseBody } = await supertest(app).get(`/api/v1/cards/${id}`);
 
       expect(statusCode).toBe(200);
@@ -151,7 +156,7 @@ describe('List Card', () => {
       jest.spyOn(CardService, 'getCard').mockRejectedValueOnce(expected);
 
       await supertest(app).get(`/api/v1/cards/${id}`);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       const { statusCode, body } = await supertest(app).get(`/api/v1/cards/${id}`);
 
       const responseBody = body as IQueryResult;
@@ -192,8 +197,9 @@ describe('Update Card', () => {
 
       const cardServiceMock = jest.spyOn(CardService, 'patchCard').mockResolvedValueOnce(expected);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app).patch(`/api/v1/cards/${input.id}`).send(input);
+      const { statusCode, body: responseBody } = await supertest(app)
+        .patch(`/api/v1/cards/${input.id}`)
+        .send(input);
 
       expect(statusCode).toBe(200);
       expect(JSON.stringify(responseBody)).toEqual(JSON.stringify(expected));
@@ -210,7 +216,7 @@ describe('Update Card', () => {
       jest.spyOn(CardService, 'patchCard').mockRejectedValueOnce(expected);
 
       await supertest(app).patch(`/api/v1/cards/${id}`);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       const { statusCode, body } = await supertest(app).patch(`/api/v1/cards/${id}`);
 
       const responseBody = body as IQueryResult;
@@ -247,7 +253,6 @@ describe('Remove Card', () => {
 
       jest.spyOn(CardService, 'deleteCard').mockResolvedValueOnce(expected);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { statusCode, body: responseBody } = await supertest(app).delete(`/api/v1/cards/${id}`);
 
       expect(statusCode).toBe(204);
@@ -264,7 +269,7 @@ describe('Remove Card', () => {
       jest.spyOn(CardService, 'deleteCard').mockRejectedValueOnce(expected);
 
       await supertest(app).delete(`/api/v1/cards/${id}`);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       const { statusCode, body } = await supertest(app).delete(`/api/v1/cards/${id}`);
 
       const responseBody = body as IQueryResult;
@@ -301,7 +306,6 @@ describe('List Cards', () => {
 
       jest.spyOn(CardService, 'getCards').mockResolvedValueOnce(expected);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { statusCode, body: responseBody } = await supertest(app).get('/api/v1/cards/');
 
       expect(statusCode).toBe(200);
@@ -317,7 +321,7 @@ describe('List Cards', () => {
       jest.spyOn(CardService, 'getCards').mockRejectedValueOnce(expected);
 
       await supertest(app).get('/api/v1/cards/');
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       const { statusCode, body } = await supertest(app).get('/api/v1/cards/');
 
       const responseBody = body as IQueryResult;

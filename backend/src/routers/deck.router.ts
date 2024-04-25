@@ -1,5 +1,13 @@
 import { Router } from 'express';
-import { addDeck, listDeck, listDeckCards, listDecks, removeDeck, updateDeck } from '../controllers/deck.controller';
+
+import {
+  addDeck,
+  listDeck,
+  listDeckCards,
+  listDecks,
+  removeDeck,
+  updateDeck,
+} from '../controllers/deck.controller';
 
 const deckRouter = Router({ mergeParams: true });
 

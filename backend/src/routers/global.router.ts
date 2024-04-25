@@ -1,4 +1,6 @@
-import { Request, Response, Router } from 'express';
+import type { Request, Response } from 'express';
+import { Router } from 'express';
+
 import cardRouter from './card.router';
 import deckRouter from './deck.router';
 import labelRouter from './label.router';

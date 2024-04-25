@@ -1,4 +1,9 @@
-import { Prisma } from '@prisma/client';
+import {
+  PrismaClientKnownRequestError,
+  PrismaClientRustPanicError,
+  PrismaClientUnknownRequestError,
+  PrismaClientValidationError,
+} from '@prisma/client/runtime/library';
 
 interface IPrismaError {
   message: string;
@@ -11,19 +16,19 @@ function getPrismaError(error: unknown): IPrismaError {
     statusCode: 500,
   };
 
-  if (error instanceof Prisma.PrismaClientValidationError) {
+  if (error instanceof PrismaClientValidationError) {
     prismaError.message = 'missing field or incorrect field type provided';
     prismaError.statusCode = 400;
   }
-  if (error instanceof Prisma.PrismaClientUnknownRequestError) {
+  if (error instanceof PrismaClientUnknownRequestError) {
     prismaError.message = error.message;
     prismaError.statusCode = 400;
   }
-  if (error instanceof Prisma.PrismaClientRustPanicError) {
+  if (error instanceof PrismaClientRustPanicError) {
     prismaError.message = error.message;
     prismaError.statusCode = 500;
   }
-  if (error instanceof Prisma.PrismaClientKnownRequestError) {
+  if (error instanceof PrismaClientKnownRequestError) {
     const errorCode = error.code;
     prismaError.statusCode = 400;
     if (errorCode === 'P2002') {

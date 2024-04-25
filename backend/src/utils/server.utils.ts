@@ -1,6 +1,7 @@
 import cors from 'cors';
 import express from 'express';
 import morgan from 'morgan';
+
 import globalRouter from '../routers/global.router';
 
 function createServer() {

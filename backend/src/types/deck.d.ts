@@ -1,23 +1,23 @@
-import { ICard } from './card';
+import type { Card } from './card';
 
-interface IDeck {
+type Deck = {
   id: string;
   createdAt: Date;
   updatedAt: Date;
   name: string;
   archived: boolean;
-  cards: ICard[];
-}
+  cards: Array<Card>;
+};
 
-interface ICreateDeck {
+type CreateDeck = {
   name: string;
   archived: boolean;
-}
+};
 
-interface IPatchDeck {
+type PatchDeck = {
   id: string;
   name: string;
   archived: boolean;
-}
+};
 
-export { IDeck, ICreateDeck, IPatchDeck };
+export { Deck, CreateDeck, PatchDeck };

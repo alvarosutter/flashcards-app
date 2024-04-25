@@ -1,11 +1,11 @@
-import { ICard } from '../types/card';
-import { IDeck } from '../types/deck';
-import { ILabel } from '../types/label';
-import ILabelsOnCards from '../types/labelOnCards';
+import type { Card } from '../types/card';
+import type { Deck } from '../types/deck';
+import type { Label } from '../types/label';
+import type LabelsOnCards from '../types/labelOnCards';
 
 const date = new Date();
 
-export const labelsOnCardsData: ILabelsOnCards = {
+export const labelsOnCardsData: LabelsOnCards = {
   card: {
     id: '9dbaccb9-cab7-4846-9122-d005fd53755c',
     createdAt: date,
@@ -26,7 +26,7 @@ export const labelsOnCardsData: ILabelsOnCards = {
   labelId: '5d332513-6d80-4457-b799-bd1cbcf68f25',
 };
 
-export const cardData: ICard = {
+export const cardData: Card = {
   id: '9dbaccb9-cab7-4846-9122-d005fd53755c',
   createdAt: date,
   updatedAt: date,
@@ -36,7 +36,7 @@ export const cardData: ICard = {
   labels: [labelsOnCardsData],
 };
 
-export const labelData: ILabel = {
+export const labelData: Label = {
   id: '5d332513-6d80-4457-b799-bd1cbcf68f25',
   createdAt: date,
   updatedAt: date,
@@ -44,7 +44,7 @@ export const labelData: ILabel = {
   cards: [labelsOnCardsData],
 };
 
-export const deckData: IDeck = {
+export const deckData: Deck = {
   id: '07d840a2-0dec-4fdb-862d-ccb3536fbde8',
   createdAt: date,
   updatedAt: date,

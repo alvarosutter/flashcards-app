@@ -7,12 +7,12 @@ import {
   cardUpdate,
   removeLabelsFromCard,
 } from '../database/card.database';
-import { ICreateCard, IPatchCard } from '../types/card';
-import IQueryResult from '../types/queryResult';
+import type { CreateCard, PatchCard } from '../types/card';
+import type IQueryResult from '../types/queryResult';
 import mapLabels from '../utils/mapLabels.utils';
 import getPrismaError from '../utils/prismaError.utils';
 
-const createCard = async ({ name, content, deckId, labels }: ICreateCard): Promise<IQueryResult> => {
+const createCard = async ({ name, content, deckId, labels }: CreateCard): Promise<IQueryResult> => {
   try {
     let card = await cardCreate({ name, content, deckId });
 
@@ -101,12 +101,14 @@ const getCards = async (): Promise<IQueryResult> => {
   }
 };
 
-const patchCard = async ({ id, name, content, labels }: IPatchCard): Promise<IQueryResult> => {
+const patchCard = async ({ id, name, content, labels }: PatchCard): Promise<IQueryResult> => {
   try {
     const card = await cardUpdate({ id, name, content });
 
     if (labels) {
-      const labelsToRemove = card.labels.map((e) => e.label.name).filter((labelName) => !labels.includes(labelName));
+      const labelsToRemove = card.labels
+        .map((e) => e.label.name)
+        .filter((labelName) => !labels.includes(labelName));
 
       await removeLabelsFromCard(labelsToRemove, card.id);
       await assignLabelsToCard(labels, card.id);

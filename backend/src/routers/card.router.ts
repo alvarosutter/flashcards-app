@@ -1,5 +1,13 @@
 import { Router } from 'express';
-import { addCard, removeCard, listCard, listCardLabels, listCards, updateCard } from '../controllers/card.controller';
+
+import {
+  addCard,
+  removeCard,
+  listCard,
+  listCardLabels,
+  listCards,
+  updateCard,
+} from '../controllers/card.controller';
 
 const cardRouter = Router({ mergeParams: true });
 

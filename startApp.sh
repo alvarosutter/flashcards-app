@@ -11,7 +11,7 @@ DATABASE_URL="postgresql://admin:pass@db:5432/flashcards?schema=public"
 
 EOF
 # Create tables and prisma client.
-docker-compose run --rm backend npx prisma db push
-docker-compose run --rm backend npx prisma generate
+docker-compose run --rm backend npm run prisma:push
+docker-compose run --rm backend npm run prisma:generate
 # Display containers logs
 docker logs -f backend

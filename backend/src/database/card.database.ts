@@ -1,7 +1,7 @@
-import { ICreateCard, ICard, IPatchCard } from '../types/card';
+import type { CreateCard, Card, PatchCard } from '../types/card';
 import prisma from '../utils/prismaClient.utils';
 
-const getLabelsFromDB = async (reqLabels: string[]) => {
+const getLabelsFromDB = async (reqLabels: Array<string>) => {
   const labels = await prisma.label.findMany({
     where: {
       name: { in: reqLabels },
@@ -11,7 +11,7 @@ const getLabelsFromDB = async (reqLabels: string[]) => {
   return labels;
 };
 
-const assignLabelsToCard = async (labels: string[], cardId: string) => {
+const assignLabelsToCard = async (labels: Array<string>, cardId: string) => {
   const labelsToAssign = await getLabelsFromDB(labels);
   const cardLabels = labelsToAssign.map((label) => ({
     labelId: label.id,
@@ -21,14 +21,14 @@ const assignLabelsToCard = async (labels: string[], cardId: string) => {
   await prisma.labelsOnCards.createMany({ data: cardLabels, skipDuplicates: true });
 };
 
-const removeLabelsFromCard = async (labels: string[], cardId: string) => {
+const removeLabelsFromCard = async (labels: Array<string>, cardId: string) => {
   const labelsToRemove = await getLabelsFromDB(labels);
   const labelsIds = labelsToRemove.map((label) => label.id);
 
   await prisma.labelsOnCards.deleteMany({ where: { cardId, labelId: { in: labelsIds } } });
 };
 
-const cardCreate = async ({ name, content, deckId }: ICreateCard): Promise<ICard> => {
+const cardCreate = async ({ name, content, deckId }: CreateCard): Promise<Card> => {
   const card = await prisma.card.create({
     data: {
       name,
@@ -38,27 +38,27 @@ const cardCreate = async ({ name, content, deckId }: ICreateCard): Promise<ICard
     include: { labels: { select: { label: true } } },
   });
 
-  return card as ICard;
+  return card as Card;
 };
 
-const cardFind = async (id: string): Promise<ICard> => {
+const cardFind = async (id: string): Promise<Card> => {
   const card = await prisma.card.findUniqueOrThrow({
     where: {
       id,
     },
     include: { labels: { select: { label: true } } },
   });
-  return card as ICard;
+  return card as Card;
 };
 
-const cardFindMany = async (): Promise<ICard[]> => {
+const cardFindMany = async (): Promise<Array<Card>> => {
   const cards = await prisma.card.findMany({
     include: { labels: { select: { label: true } } },
   });
-  return cards as ICard[];
+  return cards as Array<Card>;
 };
 
-const cardUpdate = async ({ id, name, content }: IPatchCard): Promise<ICard> => {
+const cardUpdate = async ({ id, name, content }: PatchCard): Promise<Card> => {
   const card = await prisma.card.update({
     where: { id },
     include: { labels: { select: { label: true } } },
@@ -68,7 +68,7 @@ const cardUpdate = async ({ id, name, content }: IPatchCard): Promise<ICard> => 
     },
   });
 
-  return card as ICard;
+  return card as Card;
 };
 
 const cardDelete = async (id: string) => {
@@ -79,4 +79,12 @@ const cardDelete = async (id: string) => {
   });
 };
 
-export { cardCreate, cardFind, cardFindMany, cardUpdate, cardDelete, assignLabelsToCard, removeLabelsFromCard };
+export {
+  cardCreate,
+  cardFind,
+  cardFindMany,
+  cardUpdate,
+  cardDelete,
+  assignLabelsToCard,
+  removeLabelsFromCard,
+};

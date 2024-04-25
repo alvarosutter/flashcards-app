@@ -1,8 +1,9 @@
 import supertest from 'supertest';
-import createServer from '../../utils/server.utils';
+
 import * as DeckService from '../../services/deck.service';
+import type IQueryResult from '../../types/queryResult';
+import createServer from '../../utils/server.utils';
 import { deckData } from '../helper.tests';
-import IQueryResult from '../../types/queryResult';
 
 const app = createServer();
 
@@ -18,8 +19,10 @@ describe('Add Deck', () => {
         data: { ...deckData, ...input },
       };
       const deckServiceMock = jest.spyOn(DeckService, 'createDeck').mockResolvedValueOnce(expected);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app).post('/api/v1/decks/').send(input);
+
+      const { statusCode, body: responseBody } = await supertest(app)
+        .post('/api/v1/decks/')
+        .send(input);
 
       expect(statusCode).toBe(201);
       expect(JSON.stringify(responseBody)).toEqual(JSON.stringify(expected));
@@ -38,7 +41,7 @@ describe('Add Deck', () => {
       const deckServiceMock = jest.spyOn(DeckService, 'createDeck').mockRejectedValueOnce(expected);
 
       await supertest(app).post('/api/v1/decks/').send(input);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       const { statusCode, body } = await supertest(app).post('/api/v1/decks/').send(input);
 
       const responseBody = body as IQueryResult;
@@ -78,10 +81,13 @@ describe('List Deck Cards', () => {
         data: deckData.cards,
       };
 
-      const deckServiceMock = jest.spyOn(DeckService, 'getDeckCards').mockResolvedValueOnce(expected);
+      const deckServiceMock = jest
+        .spyOn(DeckService, 'getDeckCards')
+        .mockResolvedValueOnce(expected);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app).get(`/api/v1/decks/${id}/cards`);
+      const { statusCode, body: responseBody } = await supertest(app).get(
+        `/api/v1/decks/${id}/cards`,
+      );
 
       expect(statusCode).toBe(200);
       expect(JSON.stringify(responseBody)).toEqual(JSON.stringify(expected));
@@ -98,7 +104,7 @@ describe('List Deck Cards', () => {
       jest.spyOn(DeckService, 'getDeckCards').mockRejectedValueOnce(expected);
 
       await supertest(app).get(`/api/v1/decks/${id}/cards`);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       const { statusCode, body } = await supertest(app).get(`/api/v1/decks/${id}/cards`);
 
       const responseBody = body as IQueryResult;
@@ -136,7 +142,6 @@ describe('List Deck', () => {
 
       const deckServiceMock = jest.spyOn(DeckService, 'getDeck').mockResolvedValueOnce(expected);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { statusCode, body: responseBody } = await supertest(app).get(`/api/v1/decks/${id}`);
 
       expect(statusCode).toBe(200);
@@ -154,7 +159,7 @@ describe('List Deck', () => {
       jest.spyOn(DeckService, 'getDeck').mockRejectedValueOnce(expected);
 
       await supertest(app).get(`/api/v1/decks/${id}`);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       const { statusCode, body } = await supertest(app).get(`/api/v1/decks/${id}`);
 
       const responseBody = body as IQueryResult;
@@ -196,8 +201,9 @@ describe('Update Deck', () => {
 
       const deckServiceMock = jest.spyOn(DeckService, 'patchDeck').mockResolvedValueOnce(expected);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app).patch(`/api/v1/decks/${input.id}`).send(input);
+      const { statusCode, body: responseBody } = await supertest(app)
+        .patch(`/api/v1/decks/${input.id}`)
+        .send(input);
 
       expect(statusCode).toBe(200);
       expect(JSON.stringify(responseBody)).toEqual(JSON.stringify(expected));
@@ -214,7 +220,7 @@ describe('Update Deck', () => {
       jest.spyOn(DeckService, 'patchDeck').mockRejectedValueOnce(expected);
 
       await supertest(app).patch(`/api/v1/decks/${id}`);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       const { statusCode, body } = await supertest(app).patch(`/api/v1/decks/${id}`);
 
       const responseBody = body as IQueryResult;
@@ -251,7 +257,6 @@ describe('Remove Deck', () => {
 
       jest.spyOn(DeckService, 'deleteDeck').mockResolvedValueOnce(expected);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { statusCode, body: responseBody } = await supertest(app).delete(`/api/v1/decks/${id}`);
 
       expect(statusCode).toBe(204);
@@ -268,7 +273,7 @@ describe('Remove Deck', () => {
       jest.spyOn(DeckService, 'deleteDeck').mockRejectedValueOnce(expected);
 
       await supertest(app).delete(`/api/v1/decks/${id}`);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       const { statusCode, body } = await supertest(app).delete(`/api/v1/decks/${id}`);
 
       const responseBody = body as IQueryResult;
@@ -305,7 +310,6 @@ describe('List Decks', () => {
 
       jest.spyOn(DeckService, 'getDecks').mockResolvedValueOnce(expected);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { statusCode, body: responseBody } = await supertest(app).get('/api/v1/decks/');
 
       expect(statusCode).toBe(200);
@@ -321,7 +325,7 @@ describe('List Decks', () => {
       jest.spyOn(DeckService, 'getDecks').mockRejectedValueOnce(expected);
 
       await supertest(app).get('/api/v1/decks/');
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       const { statusCode, body } = await supertest(app).get('/api/v1/decks/');
 
       const responseBody = body as IQueryResult;

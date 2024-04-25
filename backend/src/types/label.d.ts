@@ -1,16 +1,16 @@
-import ILabelsOnCards from './labelOnCards';
+import type LabelsOnCards from './labelOnCards';
 
-interface ILabel {
+type Label = {
   id: string;
   createdAt: Date;
   updatedAt: Date;
   name: string;
-  cards: ILabelsOnCards[];
-}
+  cards: Array<LabelsOnCards>;
+};
 
-interface IPatchLabel {
+type PatchLabel = {
   id: string;
   name: string;
-}
+};
 
-export { ILabel, IPatchLabel };
+export { Label, PatchLabel };

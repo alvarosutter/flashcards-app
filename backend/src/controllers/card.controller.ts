@@ -1,5 +1,13 @@
-import { Request, Response } from 'express';
-import { createCard, deleteCard, getCard, getCardLabels, getCards, patchCard } from '../services/card.service';
+import type { Request, Response } from 'express';
+
+import {
+  createCard,
+  deleteCard,
+  getCard,
+  getCardLabels,
+  getCards,
+  patchCard,
+} from '../services/card.service';
 
 const addCard = async (req: Request, res: Response) => {
   try {
@@ -7,9 +15,8 @@ const addCard = async (req: Request, res: Response) => {
       name: string;
       content: string;
       deckId: string;
-      labels: string[];
+      labels: Array<string>;
     };
-
     const { statusCode, ...queryResult } = await createCard({ name, content, deckId, labels });
     return res.status(statusCode ?? 201).send(queryResult);
   } catch (error) {
@@ -31,7 +38,6 @@ const listCards = async (_: Request, res: Response) => {
 const listCard = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-
     const { statusCode, ...queryResult } = await getCard(id);
     return res.status(statusCode ?? 200).send(queryResult);
   } catch (error) {
@@ -43,7 +49,6 @@ const listCard = async (req: Request, res: Response) => {
 const listCardLabels = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
-
     const { statusCode, ...queryResult } = await getCardLabels(id);
     return res.status(statusCode ?? 200).send(queryResult);
   } catch (error) {
@@ -59,9 +64,8 @@ const updateCard = async (req: Request, res: Response) => {
       name: string;
       content: string;
       deckId: string;
-      labels: string[];
+      labels: Array<string>;
     };
-
     const { statusCode, ...queryResult } = await patchCard({ id, name, content, labels });
     return res.status(statusCode ?? 200).send(queryResult);
   } catch (error) {

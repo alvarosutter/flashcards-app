@@ -1,8 +1,9 @@
 import supertest from 'supertest';
-import createServer from '../../utils/server.utils';
+
 import * as LabelService from '../../services/label.service';
+import type IQueryResult from '../../types/queryResult';
+import createServer from '../../utils/server.utils';
 import { labelData } from '../helper.tests';
-import IQueryResult from '../../types/queryResult';
 
 const app = createServer();
 
@@ -16,9 +17,13 @@ describe('Add Label', () => {
         status: 'success',
         data: { ...labelData, ...input },
       };
-      const labelServiceMock = jest.spyOn(LabelService, 'createLabel').mockResolvedValueOnce(expected);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app).post('/api/v1/labels/').send(input);
+      const labelServiceMock = jest
+        .spyOn(LabelService, 'createLabel')
+        .mockResolvedValueOnce(expected);
+
+      const { statusCode, body: responseBody } = await supertest(app)
+        .post('/api/v1/labels/')
+        .send(input);
 
       expect(statusCode).toBe(201);
       expect(JSON.stringify(responseBody)).toEqual(JSON.stringify(expected));
@@ -33,10 +38,12 @@ describe('Add Label', () => {
       const expected: IQueryResult = {
         status: 'failure',
       };
-      const labelServiceMock = jest.spyOn(LabelService, 'createLabel').mockRejectedValueOnce(expected);
+      const labelServiceMock = jest
+        .spyOn(LabelService, 'createLabel')
+        .mockRejectedValueOnce(expected);
 
       await supertest(app).post('/api/v1/labels/').send(input);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       const { statusCode, body } = await supertest(app).post('/api/v1/labels/').send(input);
 
       const responseBody = body as IQueryResult;
@@ -75,10 +82,13 @@ describe('List Label Cards', () => {
         data: labelData.cards,
       };
 
-      const labelServiceMock = jest.spyOn(LabelService, 'getLabelCards').mockResolvedValueOnce(expected);
+      const labelServiceMock = jest
+        .spyOn(LabelService, 'getLabelCards')
+        .mockResolvedValueOnce(expected);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app).get(`/api/v1/labels/${id}/cards`);
+      const { statusCode, body: responseBody } = await supertest(app).get(
+        `/api/v1/labels/${id}/cards`,
+      );
 
       expect(statusCode).toBe(200);
       expect(JSON.stringify(responseBody)).toEqual(JSON.stringify(expected));
@@ -95,7 +105,7 @@ describe('List Label Cards', () => {
       jest.spyOn(LabelService, 'getLabelCards').mockRejectedValueOnce(expected);
 
       await supertest(app).get(`/api/v1/labels/${id}/cards`);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       const { statusCode, body } = await supertest(app).get(`/api/v1/labels/${id}/cards`);
 
       const responseBody = body as IQueryResult;
@@ -133,7 +143,6 @@ describe('List Label', () => {
 
       const labelServiceMock = jest.spyOn(LabelService, 'getLabel').mockResolvedValueOnce(expected);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { statusCode, body: responseBody } = await supertest(app).get(`/api/v1/labels/${id}`);
 
       expect(statusCode).toBe(200);
@@ -151,7 +160,7 @@ describe('List Label', () => {
       jest.spyOn(LabelService, 'getLabel').mockRejectedValueOnce(expected);
 
       await supertest(app).get(`/api/v1/labels/${id}`);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       const { statusCode, body } = await supertest(app).get(`/api/v1/labels/${id}`);
 
       const responseBody = body as IQueryResult;
@@ -190,10 +199,13 @@ describe('Update Label', () => {
         data: { ...labelData, ...input },
       };
 
-      const labelServiceMock = jest.spyOn(LabelService, 'patchLabel').mockResolvedValueOnce(expected);
+      const labelServiceMock = jest
+        .spyOn(LabelService, 'patchLabel')
+        .mockResolvedValueOnce(expected);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app).patch(`/api/v1/labels/${input.id}`).send(input);
+      const { statusCode, body: responseBody } = await supertest(app)
+        .patch(`/api/v1/labels/${input.id}`)
+        .send(input);
 
       expect(statusCode).toBe(200);
       expect(JSON.stringify(responseBody)).toEqual(JSON.stringify(expected));
@@ -210,7 +222,7 @@ describe('Update Label', () => {
       jest.spyOn(LabelService, 'patchLabel').mockRejectedValueOnce(expected);
 
       await supertest(app).patch(`/api/v1/labels/${id}`);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       const { statusCode, body } = await supertest(app).patch(`/api/v1/labels/${id}`);
 
       const responseBody = body as IQueryResult;
@@ -247,8 +259,9 @@ describe('Remove Label', () => {
 
       jest.spyOn(LabelService, 'deleteLabel').mockResolvedValueOnce(expected);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { statusCode, body: responseBody } = await supertest(app).delete(`/api/v1/labels/${id}`);
+      const { statusCode, body: responseBody } = await supertest(app).delete(
+        `/api/v1/labels/${id}`,
+      );
 
       expect(statusCode).toBe(204);
       expect(responseBody).toEqual({});
@@ -264,7 +277,7 @@ describe('Remove Label', () => {
       jest.spyOn(LabelService, 'deleteLabel').mockRejectedValueOnce(expected);
 
       await supertest(app).delete(`/api/v1/labels/${id}`);
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       const { statusCode, body } = await supertest(app).delete(`/api/v1/labels/${id}`);
 
       const responseBody = body as IQueryResult;
@@ -301,7 +314,6 @@ describe('List Labels', () => {
 
       jest.spyOn(LabelService, 'getLabels').mockResolvedValueOnce(expected);
 
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       const { statusCode, body: responseBody } = await supertest(app).get('/api/v1/labels/');
 
       expect(statusCode).toBe(200);
@@ -317,7 +329,7 @@ describe('List Labels', () => {
       jest.spyOn(LabelService, 'getLabels').mockRejectedValueOnce(expected);
 
       await supertest(app).get('/api/v1/labels/');
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+
       const { statusCode, body } = await supertest(app).get('/api/v1/labels/');
 
       const responseBody = body as IQueryResult;

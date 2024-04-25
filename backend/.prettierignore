@@ -1,0 +1,22 @@
+# Commonly ignored Node.js files
+node_modules
+npm-debug.log
+.npm
+
+build
+dist
+
+# Next.js Generated Files
+public/static/documents
+
+# Jest
+coverage
+.swc
+junit.xml
+
+# Cache Files
+.eslintjscache
+.prettiercache
+
+# TypeScript
+tsconfig.tsbuildinfo

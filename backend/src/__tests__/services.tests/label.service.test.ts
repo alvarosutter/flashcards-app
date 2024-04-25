@@ -1,8 +1,15 @@
 import * as LabelDatabase from '../../database/label.database';
-import { labelData } from '../helper.tests';
-import { createLabel, deleteLabel, getLabel, getLabelCards, getLabels, patchLabel } from '../../services/label.service';
+import {
+  createLabel,
+  deleteLabel,
+  getLabel,
+  getLabelCards,
+  getLabels,
+  patchLabel,
+} from '../../services/label.service';
+import type IQueryResult from '../../types/queryResult';
 import { mapLabelCards } from '../../utils/mapCards.utils';
-import IQueryResult from '../../types/queryResult';
+import { labelData } from '../helper.tests';
 
 describe('Create Label', () => {
   describe('Given all is working correctly', () => {
