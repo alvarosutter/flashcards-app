@@ -18,6 +18,7 @@ function useLocalStorage(key: string, initialValue: string | number | boolean | 
 
   const remove = useCallback(() => {
     localStorage.removeItem(key);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return { value, setValue, remove };

@@ -1,7 +1,8 @@
 import { styled, useTheme } from 'styled-components';
-import { ISelectProps } from '../../../types';
+
 import SelectStyle from './SelectStyle';
 import Select from '../../../components/ui/Select';
+import type { ISelectProps } from '../../../types';
 
 const Wrapper = styled.div`
   display: flex;

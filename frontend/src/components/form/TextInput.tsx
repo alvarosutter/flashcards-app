@@ -1,4 +1,5 @@
-import { forwardRef, InputHTMLAttributes, Ref } from 'react';
+import type { InputHTMLAttributes, Ref } from 'react';
+import { forwardRef } from 'react';
 import styled from 'styled-components';
 
 const InputWrapper = styled.div`
@@ -36,12 +37,37 @@ interface ITextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
 }
 
-const TextInput = forwardRef(({ label, name, ...restProps }: ITextInputProps, ref: Ref<HTMLInputElement>) => (
-  <InputWrapper>
-    <Label htmlFor={name}>{label}</Label>
-    <Text id={name} {...restProps} ref={ref} />
-  </InputWrapper>
-));
+const TextInput = forwardRef(
+  (
+    {
+      label,
+      name,
+      type = 'text',
+      maxLength = 25,
+      required = false,
+      autoFocus = false,
+      defaultValue,
+      value,
+      readOnly = false,
+    }: ITextInputProps,
+    ref: Ref<HTMLInputElement>,
+  ) => (
+    <InputWrapper>
+      <Label htmlFor={name}>{label}</Label>
+      <Text
+        id={name}
+        ref={ref}
+        type={type}
+        maxLength={maxLength}
+        defaultValue={defaultValue}
+        required={required}
+        autoFocus={autoFocus}
+        readOnly={readOnly}
+        value={value}
+      />
+    </InputWrapper>
+  ),
+);
 TextInput.displayName = 'TextInput';
 
 export default TextInput;

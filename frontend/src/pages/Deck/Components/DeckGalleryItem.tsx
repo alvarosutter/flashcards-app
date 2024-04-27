@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { Deck } from '../../../types';
+
 import { DeleteButton, EditButton } from '../../../components/item';
+import type { Deck } from '../../../types';
 
 const Box = styled.div`
   display: flex;
@@ -67,7 +68,12 @@ interface DeckGalleryItemProps {
   setSelectedDeck: (deck: Deck) => void;
 }
 
-function DeckGalleryItem({ deck, setEditDeck, setDeleteDeck, setSelectedDeck }: DeckGalleryItemProps) {
+function DeckGalleryItem({
+  deck,
+  setEditDeck,
+  setDeleteDeck,
+  setSelectedDeck,
+}: DeckGalleryItemProps) {
   const { name, cards } = deck;
   return (
     <Box
@@ -87,7 +93,10 @@ function DeckGalleryItem({ deck, setEditDeck, setDeleteDeck, setSelectedDeck }: 
         <Name>{name}</Name>
       </NameBox>
       <InfoBox>
-        <DeckInfo>cards: {cards.length}</DeckInfo>
+        <DeckInfo>
+          cards:
+          {cards.length}
+        </DeckInfo>
         <EditButton
           width="13"
           height="13"

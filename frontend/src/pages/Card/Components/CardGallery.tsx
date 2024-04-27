@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { Card } from '../../../types';
+
 import CardGalleryItem from './CardGalleryItem';
+import type { Card } from '../../../types';
 
 const Gallery = styled.div`
   flex: 1;
@@ -12,7 +13,7 @@ const Gallery = styled.div`
   padding: 5px 5px;
 `;
 interface CardGalleryProps {
-  cards: Card[];
+  cards: Array<Card>;
   setSelectedCard: (card: Card) => void;
 }
 

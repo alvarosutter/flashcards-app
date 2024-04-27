@@ -1,12 +1,13 @@
-import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { deleteCard } from '../../../services/FlashcardsApi/card.services';
+import { useState } from 'react';
+
 import { DeleteForm } from '../../../components/form';
-import { Card, Deck } from '../../../types';
+import { deleteCard } from '../../../services/FlashcardsApi/card.services';
+import type { Card, Deck } from '../../../types';
 
 interface DeleteCardFormProps {
   card: Card;
-  decks: Deck[];
+  decks: Array<Deck>;
   onSubmitForm: () => void;
   onCancel: () => void;
 }

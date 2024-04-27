@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 import LabelGalleryItem from './LabelGalleryItem';
-import { Label } from '../../../types';
+import type { Label } from '../../../types';
 
 const Gallery = styled.div`
   flex: 1;
@@ -13,13 +13,18 @@ const Gallery = styled.div`
   padding: 5px 5px;
 `;
 interface LabelGalleryProps {
-  labels: Label[];
+  labels: Array<Label>;
   setEditLabel: (label: Label) => void;
   setDeleteLabel: (label: Label) => void;
   setSelectedLabel: (label: Label) => void;
 }
 
-function LabelGallery({ labels, setEditLabel, setDeleteLabel, setSelectedLabel }: LabelGalleryProps) {
+function LabelGallery({
+  labels,
+  setEditLabel,
+  setDeleteLabel,
+  setSelectedLabel,
+}: LabelGalleryProps) {
   return (
     <Gallery>
       {labels.map((label) => (

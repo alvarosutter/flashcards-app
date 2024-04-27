@@ -1,5 +1,6 @@
 import axios from 'axios';
-import { ResJson } from '../../types';
+
+import type { ResJson } from '../../types';
 
 export async function get(url: string): Promise<ResJson> {
   try {

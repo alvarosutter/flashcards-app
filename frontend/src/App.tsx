@@ -1,12 +1,13 @@
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
 import { FontStyles, GlobalStyle, Layout } from './components/layout';
 import useDarkMode from './hooks/useDarkMode';
-import { darkTheme, lightTheme } from './theme';
 import DeckPage from './pages/Deck/DeckPage';
 import LabelPage from './pages/Label/LabelPage';
 import NotFoundPage from './pages/NotFound/NotFoundPage';
+import { darkTheme, lightTheme } from './theme';
 
 function App() {
   const [darkMode, setMode] = useDarkMode();

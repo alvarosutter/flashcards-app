@@ -30,7 +30,7 @@ interface IFilterButtonProps {
 function FilterButton({ value, name, onClick }: IFilterButtonProps) {
   return (
     <StyledButton onClick={() => onClick(!value)} title={`${value ? 'Hide' : 'Show'} ${name}`}>
-      {value ? 'Hide' : 'Show'} {name}
+      {`${value ? 'Hide' : 'Show'} ${name}`}
     </StyledButton>
   );
 }

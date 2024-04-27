@@ -1,6 +1,6 @@
 import { get, patch, post, remove } from './services';
+import type { Label, Card } from '../../types';
 import URL from '../../utils/url';
-import { Label, Card } from '../../types';
 
 const url = `${URL}/labels`;
 
@@ -13,11 +13,11 @@ export async function createLabel(body: object): Promise<Label> {
   throw new Error(response.message);
 }
 
-export async function getLabels(): Promise<Label[]> {
+export async function getLabels(): Promise<Array<Label>> {
   const response = await get(url);
 
   if (response.status === 'success') {
-    return response.data as Label[];
+    return response.data as Array<Label>;
   }
   throw new Error(response.message);
 }
@@ -31,11 +31,11 @@ export async function getLabel(id: string): Promise<Label> {
   throw new Error(response.message);
 }
 
-export async function getLabelCards(id: string): Promise<Card[]> {
+export async function getLabelCards(id: string): Promise<Array<Card>> {
   const response = await get(`${url}/${id}/cards`);
 
   if (response.status === 'success') {
-    return response.data as Card[];
+    return response.data as Array<Card>;
   }
   throw new Error(response.message);
 }

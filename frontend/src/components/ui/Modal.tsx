@@ -1,4 +1,5 @@
-import React, { useEffect } from 'react';
+import type { ReactNode } from 'react';
+import { useEffect } from 'react';
 import styled from 'styled-components';
 
 const ModalOverlay = styled.div`
@@ -67,7 +68,7 @@ const Divider = styled.div`
 `;
 
 interface ModalProps {
-  children: React.ReactNode;
+  children: ReactNode;
   title: string;
   isOpen: boolean;
   onCancel: () => void;
@@ -89,6 +90,7 @@ function Modal({ children, title, isOpen, onCancel }: ModalProps) {
     return () => {
       document.removeEventListener('keydown', handler);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   return (

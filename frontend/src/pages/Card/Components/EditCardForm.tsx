@@ -1,10 +1,18 @@
-import { useRef, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
-import { patchCard } from '../../../services/FlashcardsApi/card.services';
-import { Form, ActionButton, FormError, TextAreaInput, TextInput, CancelButton } from '../../../components/form';
-import { Card, Deck, Label, SelectOption } from '../../../types';
+
 import LabelsSelect from './LabelsSelect';
+import {
+  Form,
+  ActionButton,
+  FormError,
+  TextAreaInput,
+  TextInput,
+  CancelButton,
+} from '../../../components/form';
+import { patchCard } from '../../../services/FlashcardsApi/card.services';
+import type { Card, Deck, Label, SelectOption } from '../../../types';
 import mapToSelectOptions from '../../../utils/mapToSelectOptions';
 
 const ButtonContainer = styled.div`
@@ -20,8 +28,8 @@ const ButtonContainer = styled.div`
 interface EditCardFormProps {
   card: Card;
   onSubmitForm: () => void;
-  labels: Label[];
-  decks: Deck[];
+  labels: Array<Label>;
+  decks: Array<Deck>;
   onCancel: () => void;
 }
 
@@ -31,12 +39,13 @@ function EditCardForm({ card, onSubmitForm, labels, decks, onCancel }: EditCardF
   const selectLabels = mapToSelectOptions(labels);
   const nameInputRef = useRef<HTMLInputElement>(null);
   const contentInputRef = useRef<HTMLTextAreaElement>(null);
-  let selectedLabels: string[] = card.labels.map((label) => label.name);
+  let selectedLabels: Array<string> = card.labels.map((label) => label.name);
 
   const queryClient = useQueryClient();
 
   const { mutateAsync: patchCardMutation } = useMutation({
-    mutationFn: (body: { name: string; content: string; labels: string[] }) => patchCard(card.id, body),
+    mutationFn: (body: { name: string; content: string; labels: Array<string> }) =>
+      patchCard(card.id, body),
     onSuccess: async (editedCard) => {
       await queryClient.setQueryData(['deck-cards', cardDeck.name], [editedCard]);
       await queryClient.invalidateQueries({ queryKey: ['deck-cards', cardDeck.name], exact: true });
@@ -60,13 +69,21 @@ function EditCardForm({ card, onSubmitForm, labels, decks, onCancel }: EditCardF
     onSubmitForm();
   };
 
-  const handleSelectOnChange = (option: readonly SelectOption[] | SelectOption | null) => {
-    selectedLabels = [...(option as SelectOption[]).map((o) => o.label)];
+  const handleSelectOnChange = (option: ReadonlyArray<SelectOption> | SelectOption | null) => {
+    selectedLabels = [...(option as Array<SelectOption>).map((o) => o.label)];
   };
 
   return (
     <Form onSubmit={submitHandler} onBlur={() => setFormError(undefined)}>
-      <div style={{ display: 'flex', flexDirection: 'row', flexWrap: 'wrap', margin: '0', padding: '0' }}>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          flexWrap: 'wrap',
+          margin: '0',
+          padding: '0',
+        }}
+      >
         <div>
           <TextInput
             label="Title"

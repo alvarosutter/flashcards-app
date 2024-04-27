@@ -1,6 +1,6 @@
 import { get, patch, post, remove } from './services';
+import type { Card, Label } from '../../types';
 import URL from '../../utils/url';
-import { Card, Label } from '../../types';
 
 const url = `${URL}/cards`;
 
@@ -13,11 +13,11 @@ export async function createCard(body: object): Promise<Card> {
   throw new Error(response.message);
 }
 
-export async function getCards(): Promise<Card[]> {
+export async function getCards(): Promise<Array<Card>> {
   const response = await get(url);
 
   if (response.status === 'success') {
-    return response.data as Card[];
+    return response.data as Array<Card>;
   }
   throw new Error(response.message);
 }
@@ -31,11 +31,11 @@ export async function getCard(id: string): Promise<Card> {
   throw new Error(response.message);
 }
 
-export async function getCardLabels(id: string): Promise<Label[]> {
+export async function getCardLabels(id: string): Promise<Array<Label>> {
   const response = await get(`${url}/${id}/labels`);
 
   if (response.status === 'success') {
-    return response.data as Label[];
+    return response.data as Array<Label>;
   }
   throw new Error(response.message);
 }

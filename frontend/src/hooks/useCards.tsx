@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+
 import { getDeckCards } from '../services/FlashcardsApi/deck.services';
 import { getLabelCards } from '../services/FlashcardsApi/label.services';
 

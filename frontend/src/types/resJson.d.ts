@@ -1,6 +1,6 @@
-import { Deck } from './deck';
-import { Label } from './label';
-import { Card } from './card';
+import type { Card } from './card';
+import type { Deck } from './deck';
+import type { Label } from './label';
 
 export type ResJsonFail = {
   status: 'failure';

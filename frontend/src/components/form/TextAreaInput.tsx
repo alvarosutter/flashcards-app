@@ -1,4 +1,5 @@
-import { forwardRef, Ref, TextareaHTMLAttributes } from 'react';
+import type { Ref, TextareaHTMLAttributes } from 'react';
+import { forwardRef } from 'react';
 import styled from 'styled-components';
 
 const InputWrapper = styled.div`
@@ -38,10 +39,20 @@ interface ITextAreaInputProps extends TextareaHTMLAttributes<HTMLTextAreaElement
 }
 
 const TextAreaInput = forwardRef(
-  ({ label, name, ...restProps }: ITextAreaInputProps, ref: Ref<HTMLTextAreaElement>) => (
+  (
+    { label, name, defaultValue = '', rows = 4, cols = 60, required = false }: ITextAreaInputProps,
+    ref: Ref<HTMLTextAreaElement>,
+  ) => (
     <InputWrapper>
       <Label htmlFor={name}>{label}</Label>
-      <TextArea id={name} {...restProps} ref={ref} />
+      <TextArea
+        id={name}
+        defaultValue={defaultValue}
+        rows={rows}
+        cols={cols}
+        required={required}
+        ref={ref}
+      />
     </InputWrapper>
   ),
 );

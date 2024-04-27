@@ -1,4 +1,4 @@
-import { SelectOption } from './selectOption';
+import type { SelectOption } from './selectOption';
 
 export type SortOption = {
   value: SelectOption;

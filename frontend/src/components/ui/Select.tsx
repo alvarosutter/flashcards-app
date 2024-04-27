@@ -1,6 +1,8 @@
-import Select, { GroupBase, StylesConfig } from 'react-select';
+import type { GroupBase, StylesConfig } from 'react-select';
+import Select from 'react-select';
 import styled, { useTheme } from 'styled-components';
-import { SelectOption, ISelectProps } from '../../types';
+
+import type { SelectOption, ISelectProps } from '../../types';
 
 const Label = styled.p`
   color: ${({ theme }) => theme.colors.primaryText};

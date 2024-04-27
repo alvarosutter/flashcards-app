@@ -1,5 +1,6 @@
-import React from 'react';
+import type { ReactNode } from 'react';
 import styled from 'styled-components';
+
 import Footer from './Footer';
 import Header from './Header';
 import Logo from './Logo';
@@ -14,7 +15,7 @@ const Main = styled.main`
   padding: 10px 10px;
 `;
 interface ILayoutProps {
-  children: React.ReactNode | React.ReactNode[];
+  children: ReactNode | Array<ReactNode>;
   setMode: (darkMode: boolean) => void;
   darkMode: boolean;
 }

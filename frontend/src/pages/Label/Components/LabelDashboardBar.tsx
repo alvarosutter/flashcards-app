@@ -1,15 +1,22 @@
 import { DashboardBar, FilterButton, SortSelect } from '../../../components/dashboard';
-import { SelectOption } from '../../../types';
+import type { SelectOption } from '../../../types';
 
 interface ILabelDashboardBarProps {
   addItem: () => void;
-  options: SelectOption[];
+  options: Array<SelectOption>;
   defaultValue: SelectOption;
-  onChange: (option: SelectOption | readonly SelectOption[] | null) => void;
+  onChange: (option: SelectOption | ReadonlyArray<SelectOption> | null) => void;
   value: boolean;
   onClick: (value: boolean) => void;
 }
-function LabelDashboardBar({ addItem, options, defaultValue, onChange, value, onClick }: ILabelDashboardBarProps) {
+function LabelDashboardBar({
+  addItem,
+  options,
+  defaultValue,
+  onChange,
+  value,
+  onClick,
+}: ILabelDashboardBarProps) {
   return (
     <DashboardBar title="Labels" addItem={addItem}>
       <SortSelect options={options} defaultValue={defaultValue} onChange={onChange} />

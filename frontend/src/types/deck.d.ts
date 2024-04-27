@@ -1,13 +1,13 @@
-import { Base } from './base';
-import { Card } from './card';
+import type { Base } from './base';
+import type { Card } from './card';
 
 export type Deck = Base & {
   archived: boolean;
-  cards: Card[];
+  cards: Array<Card>;
 };
 
 export type DecksArray = {
-  array: Deck[];
-  set: React.Dispatch<React.SetStateAction<Deck[]>>;
+  array: Array<Deck>;
+  set: React.Dispatch<React.SetStateAction<Array<Deck>>>;
   sort: (callback: (a: Deck, b: Deck) => number) => void;
 };

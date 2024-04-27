@@ -1,3 +1,4 @@
+import type { ReactNode } from 'react';
 import styled from 'styled-components';
 
 const HeaderStyle = styled.header`
@@ -20,7 +21,7 @@ const HeaderStyle = styled.header`
 `;
 
 interface IHeaderProps {
-  children: React.ReactNode | React.ReactNode[];
+  children: ReactNode | Array<ReactNode>;
 }
 
 function Header({ children }: IHeaderProps) {

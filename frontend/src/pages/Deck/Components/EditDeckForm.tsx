@@ -1,9 +1,17 @@
-import { useState, useRef } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState, useRef } from 'react';
 import styled from 'styled-components';
-import { ActionButton, CancelButton, CheckboxInput, Form, FormError, TextInput } from '../../../components/form';
+
+import {
+  ActionButton,
+  CancelButton,
+  CheckboxInput,
+  Form,
+  FormError,
+  TextInput,
+} from '../../../components/form';
 import { patchDeck } from '../../../services/FlashcardsApi/deck.services';
-import { Deck } from '../../../types';
+import type { Deck } from '../../../types';
 
 const ButtonContainer = styled.div`
   display: flex;

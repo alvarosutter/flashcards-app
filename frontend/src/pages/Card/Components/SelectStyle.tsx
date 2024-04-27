@@ -1,6 +1,7 @@
-import { StylesConfig } from 'react-select';
+import type { StylesConfig } from 'react-select';
 import { useTheme } from 'styled-components';
-import { SelectOption } from '../../../types';
+
+import type { SelectOption } from '../../../types';
 
 function SelectStyle() {
   const theme = useTheme();

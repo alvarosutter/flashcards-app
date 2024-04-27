@@ -18,9 +18,9 @@ const Button = styled.button`
   }
 `;
 
-function TrashButton({ onClick, ...restProps }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+function TrashButton({ onClick, style }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <Button onClick={onClick} {...restProps}>
+    <Button onClick={onClick} style={style}>
       &times;
     </Button>
   );

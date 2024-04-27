@@ -13,10 +13,16 @@ const Button = styled.button`
   }
 `;
 
-function GoBackButton({ title, onClick, ...restProps }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
+function GoBackButton({ title, onClick }: React.ButtonHTMLAttributes<HTMLButtonElement>) {
   return (
-    <Button title={title} onClick={onClick} {...restProps}>
-      <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+    <Button onClick={onClick} aria-label={title}>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="20"
+        height="20"
+        fill="currentColor"
+        viewBox="0 0 16 16"
+      >
         <path
           fillRule="evenodd"
           // eslint-disable-next-line max-len

@@ -1,8 +1,9 @@
-import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
+
 import { DeleteForm } from '../../../components/form';
 import { deleteLabel } from '../../../services/FlashcardsApi/label.services';
-import { Label } from '../../../types';
+import type { Label } from '../../../types';
 
 interface DeleteLabelFormProps {
   label: Label;

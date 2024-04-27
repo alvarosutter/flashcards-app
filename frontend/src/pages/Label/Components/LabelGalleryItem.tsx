@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+
 import { DeleteButton, EditButton } from '../../../components/item';
-import { Label } from '../../../types';
+import type { Label } from '../../../types';
 
 const Box = styled.div`
   display: flex;
@@ -68,7 +69,12 @@ interface LabelGalleryItemProps {
   setSelectedLabel: (label: Label) => void;
 }
 
-function LabelGalleryItem({ label, setEditLabel, setDeleteLabel, setSelectedLabel }: LabelGalleryItemProps) {
+function LabelGalleryItem({
+  label,
+  setEditLabel,
+  setDeleteLabel,
+  setSelectedLabel,
+}: LabelGalleryItemProps) {
   const { name, cards } = label;
   return (
     <Box
@@ -88,7 +94,10 @@ function LabelGalleryItem({ label, setEditLabel, setDeleteLabel, setSelectedLabe
         <Name>{name}</Name>
       </NameBox>
       <InfoBox>
-        <LabelInfo>cards: {cards.length}</LabelInfo>
+        <LabelInfo>
+          cards:
+          {cards.length}
+        </LabelInfo>
         <EditButton
           width="12"
           height="12"

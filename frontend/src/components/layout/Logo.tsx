@@ -19,7 +19,8 @@ const LogoHighlight = styled.span`
 function Logo() {
   return (
     <LogoStyle>
-      FLASH<LogoHighlight>CARDS</LogoHighlight>
+      FLASH
+      <LogoHighlight>CARDS</LogoHighlight>
     </LogoStyle>
   );
 }

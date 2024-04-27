@@ -1,30 +1,40 @@
-import { useEffect, useState } from 'react';
-import { useLocalStorage, useDecks } from '../../hooks';
-import { SortOption, FilterValue, Deck, SelectOption } from '../../types';
-import { sortDefaultOption, sortOptions } from '../../utils/sortOptions';
-import { Loader, Modal, QueryError } from '../../components/ui';
+import { useCallback, useEffect, useState } from 'react';
+
+import AddDeckForm from './Components/AddDeckForm';
 import DeckDashboardBar from './Components/DeckDashboardBar';
 import DeckGallery from './Components/DeckGallery';
-import AddDeckForm from './Components/AddDeckForm';
-import EditDeckForm from './Components/EditDeckForm';
 import DeleteDeckForm from './Components/DeleteDeckForm';
+import EditDeckForm from './Components/EditDeckForm';
+import { Loader, Modal, QueryError } from '../../components/ui';
+import { useLocalStorage, useDecks } from '../../hooks';
+import type { SortOption, FilterValue, Deck, SelectOption } from '../../types';
+import { sortDefaultOption, sortOptions } from '../../utils/sortOptions';
 import Cards from '../Card/Cards';
 
 function DeckPage() {
-  const { value: sortValue, setValue: setSortValue } = useLocalStorage('deck-sort', sortDefaultOption) as SortOption;
-  const { value: showArchived, setValue: setShowArchived } = useLocalStorage('show-archived', true) as FilterValue;
+  const { value: sortValue, setValue: setSortValue } = useLocalStorage(
+    'deck-sort',
+    sortDefaultOption,
+  ) as SortOption;
+  const { value: showArchived, setValue: setShowArchived } = useLocalStorage(
+    'show-archived',
+    true,
+  ) as FilterValue;
   const { decks, status, error: queryError } = useDecks();
   const [addDeckVisible, setAddDeckVisible] = useState(false);
   const [editDeck, setEditDeck] = useState<Deck | null>(null);
   const [deleteDeck, setDeleteDeck] = useState<Deck | null>(null);
   const [selectedDeck, setSelectedDeck] = useState<Deck | null>(null);
 
-  function sortDecks(sortOption: SelectOption) {
-    const option = sortOptions.filter((o) => o.value === sortOption?.value);
-    decks.sort(option[0].func);
-  }
+  const sortDecks = useCallback(
+    (sortOption: SelectOption) => {
+      const option = sortOptions.filter((o) => o.value === sortOption?.value);
+      decks.sort(option[0].func);
+    },
+    [decks],
+  );
 
-  useEffect(() => sortDecks(sortValue), [decks]);
+  useEffect(() => sortDecks(sortValue), [decks, sortDecks, sortValue]);
 
   if (status === 'pending') return <Loader />;
   if (status === 'error') return <QueryError message={queryError.message} />;

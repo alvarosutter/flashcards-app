@@ -1,4 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
+
 import { getLabels } from '../services/FlashcardsApi/label.services';
 
 function useLabels() {

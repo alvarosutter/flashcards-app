@@ -1,4 +1,4 @@
-import { Card, Deck, Label } from '../types';
+import type { Card, Deck, Label } from '../types';
 
 export function isDeck(obj: Deck | Card | Label) {
   return 'archived' in obj;

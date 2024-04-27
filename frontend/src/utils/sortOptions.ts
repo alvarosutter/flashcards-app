@@ -1,4 +1,4 @@
-import { Deck, Card, Label } from '../types';
+import type { Deck, Card, Label } from '../types';
 
 const sortOptions = [
   {
@@ -16,16 +16,12 @@ const sortOptions = [
   {
     label: 'A to Z',
     value: 'AtoZ',
-    func: (a: Deck | Card | Label, b: Deck | Card | Label) => {
-      return a.name.localeCompare(b.name);
-    },
+    func: (a: Deck | Card | Label, b: Deck | Card | Label) => a.name.localeCompare(b.name),
   },
   {
     label: 'Z to A',
     value: 'ZtoA',
-    func: (a: Deck | Card | Label, b: Deck | Card | Label) => {
-      return b.name.localeCompare(a.name);
-    },
+    func: (a: Deck | Card | Label, b: Deck | Card | Label) => b.name.localeCompare(a.name),
   },
 ];
 

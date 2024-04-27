@@ -1,4 +1,4 @@
-import { ISelectProps } from '../../types';
+import type { ISelectProps } from '../../types';
 import Select from '../ui/Select';
 
 function SortSelect({ options, defaultValue, onChange }: ISelectProps) {

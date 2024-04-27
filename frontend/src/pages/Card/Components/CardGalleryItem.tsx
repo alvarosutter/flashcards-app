@@ -1,5 +1,6 @@
 import styled from 'styled-components';
-import { Card } from '../../../types';
+
+import type { Card } from '../../../types';
 
 const Box = styled.div`
   display: flex;

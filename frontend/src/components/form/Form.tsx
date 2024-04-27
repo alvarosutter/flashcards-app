@@ -1,4 +1,4 @@
-import { FormHTMLAttributes } from 'react';
+import type { FormHTMLAttributes, ReactNode } from 'react';
 import styled from 'styled-components';
 
 const FormStyle = styled.form`
@@ -11,10 +11,11 @@ const FormStyle = styled.form`
 `;
 
 interface IFormProps extends FormHTMLAttributes<HTMLFormElement> {
-  children: React.ReactNode | React.ReactNode[];
+  children: ReactNode | Array<ReactNode>;
 }
 
 function Form({ children, ...restProps }: IFormProps) {
+  // eslint-disable-next-line react/jsx-props-no-spreading
   return <FormStyle {...restProps}>{children}</FormStyle>;
 }
 

@@ -1,0 +1,43 @@
+{
+  "extends": [
+    "prettier",
+    "airbnb",
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended-type-checked"
+  ],
+  "plugins": ["react-refresh", "react", "@typescript-eslint", "prettier"],
+  "parserOptions": {
+    "project": ["**/tsconfig.json", "**/tsconfig.node.json"]
+  },
+  "rules": {
+    "prettier/prettier": "error",
+    "no-console": "warn",
+    "@typescript-eslint/array-type": ["error", { "default": "generic" }],
+    "import/order": [
+      "error",
+      {
+        "groups": ["builtin", "external", "internal", ["sibling", "parent"], "index", "unknown"],
+        "newlines-between": "always",
+        "alphabetize": {
+          "order": "asc",
+          "caseInsensitive": true
+        }
+      }
+    ],
+    "@typescript-eslint/consistent-type-imports": "error",
+    "object-curly-newline": "off",
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        "checksVoidReturn": false
+      }
+    ],
+    "implicit-arrow-linebreak": "off",
+    "max-len": ["error", { "code": 120 }],
+    "react/require-default-props": "off"
+  }
+}

@@ -1,6 +1,7 @@
 import styled from 'styled-components';
-import { Deck } from '../../../types';
+
 import DeckGalleryItem from './DeckGalleryItem';
+import type { Deck } from '../../../types';
 
 const Gallery = styled.div`
   flex: 1;
@@ -13,7 +14,7 @@ const Gallery = styled.div`
 `;
 
 interface DeckGalleryProps {
-  decks: Deck[];
+  decks: Array<Deck>;
   setEditDeck: (deck: Deck) => void;
   setDeleteDeck: (deck: Deck) => void;
   setSelectedDeck: (deck: Deck) => void;

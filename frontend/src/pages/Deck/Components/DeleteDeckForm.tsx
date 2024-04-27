@@ -1,8 +1,9 @@
-import { useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Deck } from '../../../types';
-import { deleteDeck } from '../../../services/FlashcardsApi/deck.services';
+import { useState } from 'react';
+
 import { DeleteForm } from '../../../components/form';
+import { deleteDeck } from '../../../services/FlashcardsApi/deck.services';
+import type { Deck } from '../../../types';
 
 interface DeleteDeckFormProps {
   deck: Deck;

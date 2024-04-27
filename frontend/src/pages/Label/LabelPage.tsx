@@ -1,32 +1,39 @@
-import { useEffect, useState } from 'react';
-import { useLocalStorage, useLabels } from '../../hooks';
-import { SortOption, FilterValue, Label, SelectOption } from '../../types';
-import { sortDefaultOption, sortOptions } from '../../utils/sortOptions';
-import { Loader, Modal, QueryError } from '../../components/ui';
+import { useCallback, useEffect, useState } from 'react';
+
+import AddLabelForm from './Components/AddLabelForm';
+import DeleteLabelForm from './Components/DeleteLabelForm';
+import EditLabelForm from './Components/EditLabelForm';
 import LabelDashboardBar from './Components/LabelDashboardBar';
 import LabelGallery from './Components/LabelGallery';
-import AddLabelForm from './Components/AddLabelForm';
-import EditLabelForm from './Components/EditLabelForm';
-import DeleteLabelForm from './Components/DeleteLabelForm';
+import { Loader, Modal, QueryError } from '../../components/ui';
+import { useLocalStorage, useLabels } from '../../hooks';
+import type { SortOption, FilterValue, Label, SelectOption } from '../../types';
+import { sortDefaultOption, sortOptions } from '../../utils/sortOptions';
 import Cards from '../Card/Cards';
 
 function LabelPage() {
   const { value: sortValue, setValue: setSortValue } = useLocalStorage('label-sort', {
     ...sortDefaultOption,
   }) as SortOption;
-  const { value: showEmpty, setValue: setShowEmpty } = useLocalStorage('show-empty', true) as FilterValue;
+  const { value: showEmpty, setValue: setShowEmpty } = useLocalStorage(
+    'show-empty',
+    true,
+  ) as FilterValue;
   const { labels, status, error: queryError } = useLabels();
   const [addLabelVisible, setAddLabelVisible] = useState(false);
   const [editLabel, setEditLabel] = useState<Label | null>(null);
   const [deleteLabel, setDeleteLabel] = useState<Label | null>(null);
   const [selectedLabel, setSelectedLabel] = useState<Label | null>(null);
 
-  function sortLabels(sortOption: SelectOption) {
-    const option = sortOptions.filter((o) => o.value === sortOption?.value);
-    labels.sort(option[0].func);
-  }
+  const sortLabels = useCallback(
+    (sortOption: SelectOption) => {
+      const option = sortOptions.filter((o) => o.value === sortOption?.value);
+      labels.sort(option[0].func);
+    },
+    [labels],
+  );
 
-  useEffect(() => sortLabels(sortValue), [labels]);
+  useEffect(() => sortLabels(sortValue), [labels, sortLabels, sortValue]);
 
   if (status === 'pending') return <Loader />;
   if (status === 'error') return <QueryError message={queryError.message} />;

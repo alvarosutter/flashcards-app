@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+
 import AddButton from './AddButton';
 
 const Container = styled.div`
@@ -32,7 +33,7 @@ const Divider = styled.div`
 interface IDashboardBarProps {
   title?: string;
   addItem?: () => void;
-  children: React.ReactNode | React.ReactNode[];
+  children: React.ReactNode | Array<React.ReactNode>;
 }
 
 function DashboardBar({ title = '', children, addItem = undefined }: IDashboardBarProps) {
@@ -41,7 +42,9 @@ function DashboardBar({ title = '', children, addItem = undefined }: IDashboardB
       <Container>
         {title && <Title>{title}</Title>}
         {children}
-        {addItem && <AddButton title={`Add ${title?.slice(0, -1) || 'Card'}`} onClick={() => addItem()} />}
+        {addItem && (
+          <AddButton title={`Add ${title?.slice(0, -1) || 'Card'}`} onClick={() => addItem()} />
+        )}
       </Container>
       <Divider />
     </>

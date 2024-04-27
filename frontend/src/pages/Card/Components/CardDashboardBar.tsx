@@ -1,6 +1,7 @@
 import { styled } from 'styled-components';
+
 import { DashboardBar, GoBackButton, SortSelect } from '../../../components/dashboard';
-import { SelectOption } from '../../../types';
+import type { SelectOption } from '../../../types';
 
 const Title = styled.p`
   font-family: ${({ theme }) => theme.fonts.headersFont}, sans-serif;
@@ -13,9 +14,9 @@ const Title = styled.p`
 interface ICardDashboardBarProps {
   title: string;
   addItem: (() => void) | undefined;
-  sortOptions: SelectOption[];
+  sortOptions: Array<SelectOption>;
   sortDefaultValue: SelectOption;
-  onChangeSort: (option: SelectOption | readonly SelectOption[] | null) => void;
+  onChangeSort: (option: SelectOption | ReadonlyArray<SelectOption> | null) => void;
   goBack: () => void;
 }
 

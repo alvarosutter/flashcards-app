@@ -1,9 +1,10 @@
-import { useRef, useState } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useRef, useState } from 'react';
 import styled from 'styled-components';
+
 import { ActionButton, CancelButton, Form, FormError, TextInput } from '../../../components/form';
 import { patchLabel } from '../../../services/FlashcardsApi/label.services';
-import { Label } from '../../../types';
+import type { Label } from '../../../types';
 
 const ButtonContainer = styled.div`
   display: flex;

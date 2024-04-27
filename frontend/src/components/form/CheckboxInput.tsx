@@ -1,4 +1,5 @@
-import { forwardRef, InputHTMLAttributes, Ref } from 'react';
+import type { InputHTMLAttributes, Ref } from 'react';
+import { forwardRef } from 'react';
 import styled from 'styled-components';
 
 const InputWrapper = styled.div`
@@ -35,12 +36,17 @@ interface ICheckboxProps extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
 }
 
-const CheckboxInput = forwardRef(({ label, name, ...restProps }: ICheckboxProps, ref: Ref<HTMLInputElement>) => (
-  <InputWrapper>
-    <Label htmlFor={name}>{label}</Label>
-    <Checkbox id={name} {...restProps} ref={ref} />
-  </InputWrapper>
-));
+const CheckboxInput = forwardRef(
+  (
+    { label, name, type = 'checkbox', defaultChecked = false }: ICheckboxProps,
+    ref: Ref<HTMLInputElement>,
+  ) => (
+    <InputWrapper>
+      <Label htmlFor={name}>{label}</Label>
+      <Checkbox id={name} type={type} ref={ref} defaultChecked={defaultChecked} />
+    </InputWrapper>
+  ),
+);
 CheckboxInput.displayName = 'CheckboxInput';
 
 export default CheckboxInput;

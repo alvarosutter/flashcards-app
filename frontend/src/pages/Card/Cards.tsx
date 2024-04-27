@@ -1,16 +1,17 @@
-import { useEffect, useState } from 'react';
-import Modal from '../../components/ui/Modal';
+import { useCallback, useEffect, useState } from 'react';
+
 import AddCardForm from './Components/AddCardForm';
+import CardDashboardBar from './Components/CardDashboardBar';
 import CardGallery from './Components/CardGallery';
 import CardSlider from './Components/CardSlider';
+import DeleteCardForm from './Components/DeleteCardForm';
 import EditCardForm from './Components/EditCardForm';
+import { Loader, QueryError } from '../../components/ui';
+import Modal from '../../components/ui/Modal';
 import { useCards, useDecks, useLabels, useLocalStorage } from '../../hooks';
-import { Card, Deck, Label, SelectOption, SortOption } from '../../types';
-import CardDashboardBar from './Components/CardDashboardBar';
+import type { Card, Deck, Label, SelectOption, SortOption } from '../../types';
 import { sortOptions, sortDefaultOption } from '../../utils/sortOptions';
 import { isDeck } from '../../utils/typeGuards';
-import { Loader, QueryError } from '../../components/ui';
-import DeleteCardForm from './Components/DeleteCardForm';
 
 interface CardsProps {
   item: Deck | Label;
@@ -18,9 +19,16 @@ interface CardsProps {
 }
 
 function Cards({ item, goBack }: CardsProps) {
-  const { value: sortValue, setValue: setSortValue } = useLocalStorage('card-sort', sortDefaultOption) as SortOption;
+  const { value: sortValue, setValue: setSortValue } = useLocalStorage(
+    'card-sort',
+    sortDefaultOption,
+  ) as SortOption;
   const type = isDeck(item) ? 'deck' : 'label';
-  const { cards, status: cardsStatus, error: cardsQueryError } = useCards({ id: item.id, type, name: item.name });
+  const {
+    cards,
+    status: cardsStatus,
+    error: cardsQueryError,
+  } = useCards({ id: item.id, type, name: item.name });
   const { labels, status: labelsStatus, error: labelsQueryError } = useLabels();
   const { decks, status: decksStatus, error: decksQueryError } = useDecks();
   const [addCardVisible, setAddCardVisible] = useState(false);
@@ -28,18 +36,28 @@ function Cards({ item, goBack }: CardsProps) {
   const [deleteCard, setDeleteCard] = useState<Card | null>(null);
   const [selectedCard, setSelectedCard] = useState<Card | null>(null);
 
-  function sortCards(sortOption: SelectOption) {
-    const option = sortOptions.filter((o) => o.value === sortOption?.value);
-    cards.sort(option[0].func);
+  const sortCards = useCallback(
+    (sortOption: SelectOption) => {
+      const option = sortOptions.filter((o) => o.value === sortOption?.value);
+      cards.sort(option[0].func);
+    },
+    [cards],
+  );
+
+  useEffect(() => sortCards(sortValue), [cards, sortCards, sortValue]);
+
+  if (cardsStatus === 'pending' || labelsStatus === 'pending' || decksStatus === 'pending') {
+    return <Loader />;
   }
 
-  useEffect(() => sortCards(sortValue), [cards]);
-
-  if (cardsStatus === 'pending' || labelsStatus === 'pending' || decksStatus === 'pending') return <Loader />;
   if (cardsStatus === 'error' || labelsStatus === 'error' || decksStatus === 'error') {
     return (
       <QueryError
-        message={(cardsQueryError?.message && labelsQueryError?.message && decksQueryError?.message) ?? 'Unknown Error'}
+        message={
+          // eslint-disable-next-line operator-linebreak
+          (cardsQueryError?.message && labelsQueryError?.message && decksQueryError?.message) ??
+          'Unknown Error'
+        }
       />
     );
   }
